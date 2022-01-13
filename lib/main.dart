@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:gotravelclub/controller/sessionController.dart';
 import 'package:gotravelclub/shared_preferences/shared_preferences_singlenton.dart';
 import 'controller/drawerController.dart';
 import 'routes/routes.dart';
@@ -9,6 +10,7 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
 
   Get.put<MyDrawerController>(MyDrawerController());
+  Get.put<SessionController>(SessionController());
   await PreferenceUtils.init();
   await dotenv.load(fileName: ".env");
   runApp(MyApp());

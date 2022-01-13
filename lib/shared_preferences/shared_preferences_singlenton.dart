@@ -3,8 +3,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferenceUtils {
   static SharedPreferences? _prefsInstance;
-  static Future<SharedPreferences> get _instance async => _prefsInstance ??= await SharedPreferences.getInstance();
 
+  static Future<SharedPreferences> get _instance async =>
+      _prefsInstance ??= await SharedPreferences.getInstance();
 
   // call this method from iniState() function of mainApp().
   static Future<SharedPreferences?> init() async {
@@ -28,5 +29,15 @@ class PreferenceUtils {
   static Future<bool> setBool(String key, bool value) async {
     var prefs = await _instance;
     return prefs?.setBool(key, value) ?? Future.value(false);
+  }
+
+  static void remove(String key) async {
+    var prefs = await _instance;
+    prefs.remove(key);
+  }
+
+  static void clear() async {
+    var prefs = await _instance;
+    prefs.clear();
   }
 }

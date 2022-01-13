@@ -1,22 +1,22 @@
 import 'package:gotravelclub/models/request/rol.dart';
 
-class User {
+class Session {
   String? username;
-  String? password;
+  String? token;
 
-  User({
+  Session({
     this.username,
-    this.password,
+    this.token,
   });
 
-  User.fromJsonMap(Map<String, dynamic> json) {
+  Session.fromJsonMap(Map<String, dynamic> json) {
     username = json['username'];
-    password = json['password'];
+    token = json['token'];
   }
 
   Map<String, dynamic> toJson() =>{
     'username':this.username,
-    'password':this.password,
+    'token':this.token,
   };
 
 }

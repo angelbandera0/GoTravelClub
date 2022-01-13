@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:dio/dio.dart';
 
-class AuthInterceptor extends Interceptor {
+class ApiInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     print('REQUEST[${options.method}] => PATH: ${options.path}');
