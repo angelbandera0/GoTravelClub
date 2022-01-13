@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomInputAge extends StatelessWidget {
   final TextEditingController textEditingController;
@@ -22,24 +23,31 @@ class CustomInputAge extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
-                  color: Colors.black.withOpacity(0.5),
-                  offset: Offset(0, 2),
-                  blurRadius: 3)
+                  color: Colors.black.withOpacity(0.3),
+                  offset: Offset(0, 1),
+                  blurRadius: 5)
             ]),
         child: TextField(
           autocorrect: false,
           keyboardType: this.textInputType,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           onChanged:(value){
+            if(int.parse(value)>17){
+              this.textEditingController.text="17";
+            }
             this.function();
         } ,
           decoration: InputDecoration(
              // prefixIcon: Icon(this.icon),
-
+            contentPadding: EdgeInsets.symmetric(vertical: 15),
               focusedBorder: InputBorder.none,
               border: InputBorder.none,
           //    hintText: this.placeholder
+
           ),
           controller: this.textEditingController,
+
         ));
   }
+
 }

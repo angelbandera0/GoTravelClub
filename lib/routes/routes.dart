@@ -27,7 +27,7 @@ final List<GetPage<dynamic>> appRoutes=[
   ),
   GetPage(
       name: '/alojamiento',
-      page: () => Alojamiento(title: "My Home"),
+      page: () => Alojamiento(),
   //    transition: Transition.noTransition
   ),
   GetPage(

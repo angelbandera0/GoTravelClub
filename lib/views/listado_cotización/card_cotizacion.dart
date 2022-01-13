@@ -172,7 +172,7 @@ import 'package:gotravelclub/widgets/custom_textarea.dart';
                                  ]),
                              child: CustomTextArea( readOnly: true,textEditingController: TextEditingController(),)
                            ),
-                           CustomButton(text: "Validar Pagos", onPress: (){}, color: Color(0xff319141))
+                           CustomButton(text: "Validar Pagos", onPress: (){}, color: Color(0xff56E2C6))
                          ],
                        ),
                      ),

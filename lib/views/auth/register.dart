@@ -92,8 +92,8 @@ class __FormState extends State<_Form> {
             ),
             SizedBox(height: 15,),
             CustomButton(text: 'Registrar',color: Color(0xff621771), onPress: (){
-              User u= User(name: "Angel",password: "12345678",email: "angelbandera0@gmail.com");
-              us.postUser(u.toJson());
+              //User u= User(name: "Angel",password: "12345678",email: "angelbandera0@gmail.com");
+              //us.postUser(u.toJson());
             },)
           ],
         ));

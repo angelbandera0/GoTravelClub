@@ -1,54 +1,23 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gotravelclub/controller/cotizaci%C3%B3nController.dart';
 import 'package:gotravelclub/views/custom/titleWithDivider.dart';
 import 'package:gotravelclub/views/listado_cotizaci%C3%B3n/card_cotizacion.dart';
 import 'package:gotravelclub/widgets/appBar.dart';
 import 'package:gotravelclub/widgets/custom_button.dart';
+import 'package:gotravelclub/widgets/zoom_drawer_constructor.dart';
 
 class Listado extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle flatButtonStyle = TextButton.styleFrom(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(4.0)),
-      ),
-    );
-    return Scaffold(
-      appBar: PreferredSize(
-        child: Container(
-          child: Container(
-            margin: EdgeInsets.fromLTRB(20, 35, 20, 0),
+    return GetBuilder<CotizacionController>(
+        id: "cotizacion",
+        init: CotizacionController(),
+        builder: (_) {
+          return ZoomDrawerConstructor(mainScreen: MainCotizacion());
+        });
 
-            //color: Colors.blue,
-
-            child: Column(
-              children: [
-                AppBarr(),
-              ],
-            ),
-          ),
-        ),
-        preferredSize: Size(Get.width, 70),
-      ),
-      body: Container(
-        padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: ExpandableTheme(
-            data: const ExpandableThemeData(
-              iconColor: Colors.blue,
-              useInkWell: true,
-            ),
-            child: ListView(
-              physics: const BouncingScrollPhysics(),
-              children: <Widget>[
-                CardCotizacion(color: Color(0xff621771), title: "Alojamiento (A04032021-45)", icon: Icons.home),
-                CardCotizacion(color: Colors.pinkAccent, title: "Tours (T056325691-45)", icon: Icons.public),
-              ],
-            )),
-      ),
-    );
   }
 }
 
@@ -333,5 +302,54 @@ class Card3 extends StatelessWidget {
         ),
       ),
     ));
+  }
+}
+
+class MainCotizacion extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final ButtonStyle flatButtonStyle = TextButton.styleFrom(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      ),
+    );
+    return GetBuilder<CotizacionController>(
+        builder: (_) {
+          return Scaffold(
+            appBar: PreferredSize(
+              child: Container(
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(20, 35, 20, 0),
+
+                  //color: Colors.blue,
+
+                  child: Column(
+                    children: [
+                      AppBarr(),
+                    ],
+                  ),
+                ),
+              ),
+              preferredSize: Size(Get.width, 70),
+            ),
+            body: Container(
+              padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+              // Center is a layout widget. It takes a single child and positions it
+              // in the middle of the parent.
+              child: ExpandableTheme(
+                  data: const ExpandableThemeData(
+                    iconColor: Colors.blue,
+                    useInkWell: true,
+                  ),
+                  child: ListView(
+                    physics: const BouncingScrollPhysics(),
+                    children: <Widget>[
+                      CardCotizacion(color: Color(0xff621771), title: "Alojamiento (A04032021-45)", icon: Icons.home),
+                      CardCotizacion(color: Colors.pinkAccent, title: "Tours (T056325691-45)", icon: Icons.public),
+                    ],
+                  )),
+            ),
+          );
+        });
   }
 }

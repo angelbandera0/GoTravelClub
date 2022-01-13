@@ -28,8 +28,8 @@ class CustomInput1 extends StatelessWidget {
             borderRadius: BorderRadius.circular(30),
             boxShadow: [
               BoxShadow(
-                  color: Colors.black.withOpacity(0.5),
-                  offset: Offset(0, 2),
+                  color: Colors.black.withOpacity(0.3),
+                  offset: Offset(0, 1),
                   blurRadius: 5)
             ]),
         child: TextField(
@@ -39,7 +39,7 @@ class CustomInput1 extends StatelessWidget {
         } ,
           decoration: InputDecoration(
               prefixIcon: Icon(this.icon),
-
+              contentPadding: EdgeInsets.symmetric(vertical: 15),
               focusedBorder: InputBorder.none,
               border: InputBorder.none,
               hintText: this.placeholder),controller: this.textEditingController,

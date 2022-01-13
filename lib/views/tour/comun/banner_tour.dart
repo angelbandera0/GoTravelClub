@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gotravelclub/controller/detallesTourController.dart';
+import 'package:gotravelclub/widgets/appBarDetalles.dart';
 
 class BannerTour extends StatelessWidget {
   @override
@@ -86,29 +87,7 @@ class BannerTour extends StatelessWidget {
                     }).toList(),
                   ),
                 ),
-                Padding(
-                    padding:
-                        const EdgeInsets.only(left: 10.0, right: 10, top: 30),
-                    child: ClipOval(
-                      child: Material(
-                        color: Color(0xff319141), // Button color
-                        child: InkWell(
-                          splashColor: Color(0xff621771),
-                          // Splash color
-                          onTap: () {
-                            Get.back();
-                          },
-                          child: SizedBox(
-                              width: 50,
-                              height: 50,
-                              child: Icon(
-                                Icons.arrow_back,
-                                size: 25,
-                                color: Colors.white,
-                              )),
-                        ),
-                      ),
-                    ))
+                AppBarDetalles()
               ],
             ),
           );

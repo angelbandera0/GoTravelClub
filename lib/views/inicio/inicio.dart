@@ -2,12 +2,37 @@ import 'dart:ui';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
+import 'package:gotravelclub/controller/drawerController.dart';
 import 'package:gotravelclub/views/custom/titleWithDivider.dart';
 import 'package:gotravelclub/views/inicio/local/opcion.dart';
 import 'package:gotravelclub/widgets/appBar.dart';
+import 'package:gotravelclub/widgets/drawer.dart';
 
 class Inicio extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<MyDrawerController>(
+      builder: (_) => ZoomDrawer(
+        controller: _.zoomDrawerController,
+        menuScreen: MenuScreen(),
+        mainScreen: MainScreen(),
+        borderRadius: 24.0,
+        showShadow: true,
+        angle: 0.0,
+        //isRtl: true,
+        backgroundColor: Colors.grey,
+        slideWidth: MediaQuery.of(context).size.width * 0.5,
+      ),
+    );
+  }
+}
+
+
+class MainScreen extends GetView<MyDrawerController> {
+  const MainScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,25 +120,55 @@ class Inicio extends StatelessWidget {
                 child: TitleWithDivider(title: "Opciones"),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Opcion(label: "Alojamientos", icon: Icons.home, color: Color(0xff621771).withOpacity(0.7), url: "/alojamiento"),
-                    Opcion(label: "Tours", icon: Icons.public, color:Color(0xff621771).withOpacity(0.7), url: "/tour"),
-                    Opcion(label: "Escapadas", icon: Icons.place, color: Color(0xff621771).withOpacity(0.7), url: "/escapada"),
+                    Opcion(
+                        label: "Alojamientos",
+                        icon: Icons.home,
+                        color: Color(0xff621771).withOpacity(0.7),
+                        url: "/alojamiento"),
+                    Opcion(
+                        label: "Tours",
+                        icon: Icons.public,
+                        color: Color(0xff621771).withOpacity(0.7),
+                        url: "/tour"),
+                    Opcion(
+                        label: "Escapadas",
+                        icon: Icons.place,
+                        color: Color(0xff621771).withOpacity(0.7),
+                        url: "/escapada"),
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Opcion(label: "Vuelos", icon: Icons.flight, color: Color(0xff621771).withOpacity(0.7), url: "/vuelo"),
-                    Opcion(label: "Cotizaciones", icon: Icons.money, color: Color(0xff621771).withOpacity(0.7), url: "/cotizaciones"),
-                    Container(width: Get.width * 0.25,
-                      height: Get.width * 0.25,color: Colors.white,)
+                    Opcion(
+                        label: "Vuelos",
+                        icon: Icons.flight,
+                        color: Color(0xff621771).withOpacity(0.7),
+                        url: "/vuelo"),
+                    Opcion(
+                        label: "Cotizaciones",
+                        icon: Icons.money,
+                        color: Color(0xff621771).withOpacity(0.7),
+                        url: "/cotizaciones"),
+                    GestureDetector(
+                      onTap: () {
+                        controller.toggleDrawer();
+                      },
+                      child: Container(
+                        width: Get.width * 0.25,
+                        height: Get.width * 0.25,
+                        color: Colors.red,
+                      ),
+                    )
                   ],
                 ),
               ),

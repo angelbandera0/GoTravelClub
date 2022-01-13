@@ -1,7 +1,10 @@
 import 'dart:io';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gotravelclub/dio/dio_client.dart';
+import 'package:gotravelclub/models/request/user.dart';
 import 'package:gotravelclub/services/auth_service.dart';
 import 'package:gotravelclub/widgets/custom_button.dart';
 import 'package:gotravelclub/widgets/custom_input.dart';
@@ -9,31 +12,57 @@ import 'package:gotravelclub/widgets/label.dart';
 import 'package:gotravelclub/widgets/logo.dart';
 
 class Login extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffF2F2F2),
       body: SafeArea(
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Container(
-            height: Get.height * 0.9,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Logo(),
-                _Form(),
-                //Labels(),
-                Container(
-                  margin: EdgeInsets.only(bottom: 0),
-                  child: Text(
-                    "Términos y condiciones de uso",
-                    style: TextStyle(fontWeight: FontWeight.w200),
-                  ),
-                )
-              ],
+        child: Stack(
+          children: [
+            CarouselSlider(
+              options: CarouselOptions(
+                height: Get.height+30,
+                autoPlay: true,
+                viewportFraction: 1.0,
+                enlargeCenterPage: false,
+                // autoPlay: false,
+              ),
+              items: ["back1.png","back2.png","back3.png","back4.png"]
+                  .map((item) => Container(
+                width: Get.width,
+                child: Image.asset(
+                      "assets/auth/${item}",
+                      fit: BoxFit.cover,
+                      height: Get.height,
+                    ),
+              ))
+                  .toList(),
             ),
-          ),
+            Container(width: Get.width,height: Get.height,color: Colors.black.withOpacity(0.2),),
+            SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Container(
+                height: Get.height * 0.9,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    //Logo(),
+                    SizedBox(height: Get.height*0.1),
+                    _Form(),
+                    //Labels(),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 0),
+                      child: Text(
+                        "Términos y condiciones de uso",
+                        style: TextStyle(fontWeight: FontWeight.w200),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -46,13 +75,14 @@ class _Form extends StatefulWidget {
 }
 
 class __FormState extends State<_Form> {
-  final emailCtrl = TextEditingController();
+  AuthService auth = AuthService(new DioClient().init());
+  final userCtrl = TextEditingController();
   final passCtrl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(top: 20),
+        //margin: EdgeInsets.only(top: 20),
         padding: EdgeInsets.symmetric(horizontal: 50),
         child: Column(
           children: <Widget>[
@@ -60,7 +90,7 @@ class __FormState extends State<_Form> {
               icon: Icons.person_outline,
               placeholder: "Usuario",
               isPassword: false,
-              textEditingController: emailCtrl,
+              textEditingController: userCtrl,
               textInputType: TextInputType.text,
               function: (){},
             ),
@@ -77,14 +107,12 @@ class __FormState extends State<_Form> {
             ),
             CustomButton(
               text: 'Ingresar',
-              color: Color(0xff621771),
+              color: Color(0xff52E2C6),
               onPress: () {
-                Get.offAndToNamed("/inicio");
-                /*AuthService auth = AuthService();
-               auth.login({
-                  "email": emailCtrl.value.text,
-                  "password": passCtrl.value.text
-                }).then((value) => Get.toNamed("/home"));*/
+                //Get.offAndToNamed("/alojamiento");
+                User u=User(username: userCtrl.text,password: passCtrl.text);
+                auth.login(u).then((value) => print(value));
+
               },
             )
           ],

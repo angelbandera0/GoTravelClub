@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
+import 'package:gotravelclub/controller/drawerController.dart';
 
 class AppBarr extends StatelessWidget {
+  late MyDrawerController myDrawerController;
+
+  AppBarr({Key? key}) : super(key: key){
+    myDrawerController=Get.find<MyDrawerController>();
+  }
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -15,12 +22,13 @@ class AppBarr extends StatelessWidget {
         ),
         IconButton(
             icon: Icon(
-              Icons.apps,
+              Icons.menu,
               size: 28,
               color: Color(0xff621771),
             ),
             onPressed: () {
-              Get.toNamed("/inicio");
+              ZoomDrawer.of(context)!.close();
+              myDrawerController.toggleDrawer();
             }),
       ],
     );

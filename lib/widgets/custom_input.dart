@@ -28,18 +28,19 @@ class CustomInput extends StatelessWidget {
             borderRadius: BorderRadius.circular(30),
             boxShadow: [
               BoxShadow(
-                  color: Colors.black.withOpacity(0.5),
-                  offset: Offset(0, 2),
+                  color: Colors.black.withOpacity(0.3),
+                  offset: Offset(0, 1),
                   blurRadius: 5)
             ]),
         child: TextField(
           autocorrect: false,
+          textAlign: TextAlign.start,
           keyboardType: this.textInputType,obscureText: this.isPassword,onChanged:(value){
             this.function();
         } ,
           decoration: InputDecoration(
-              prefixIcon: Icon(this.icon),
-
+              prefixIcon: Icon(this.icon),hintStyle: TextStyle(),
+              contentPadding: EdgeInsets.symmetric(vertical: 15),
               focusedBorder: InputBorder.none,
               border: InputBorder.none,
               hintText: this.placeholder),controller: this.textEditingController,

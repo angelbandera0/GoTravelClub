@@ -28,7 +28,7 @@ class Ida extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 3),
                 child: Material(
-                  elevation: 6,
+                  elevation: 4,
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   child: Container(
                     width: Get.width * 0.9,
@@ -191,7 +191,7 @@ class Ida extends StatelessWidget {
                 padding:
                 const EdgeInsets.symmetric(vertical: 10.0, horizontal: 3),
                 child: Material(
-                  elevation: 6,
+                  elevation: 4,
                   child: DropdownSearch<String>(
                     mode: Mode.BOTTOM_SHEET,
                     items: [
@@ -213,7 +213,7 @@ class Ida extends StatelessWidget {
               CustomButton(
                 text: "Enviar",
                 onPress: () {},
-                color: Color(0xff319141),
+                color: Color(0xff56E2C6),
               ),
               SizedBox(
                 height: 20,

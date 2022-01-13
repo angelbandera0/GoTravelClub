@@ -30,7 +30,7 @@ class CuadroFecha extends StatelessWidget {
         id: id,
         builder: (controller) {
           return Material(
-            elevation: 6,
+            elevation: 4,
             borderRadius: BorderRadius.all(Radius.circular(10)),
             child: new Center(
               child: new Ink(
@@ -49,7 +49,7 @@ class CuadroFecha extends StatelessWidget {
                       print('change $date');
                     }, onConfirm: (date) {
                       print('confirm $date');
-                      fecha = DateFormat.yMd().format(date);
+                      fecha = DateFormat("dd/MM/yyyy").format(date);
                       print(fecha);
                       cuadroFechaController.setFecha(fecha);
                       this.function();

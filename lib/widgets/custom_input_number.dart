@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 class CustomInputNumber extends StatelessWidget {
   final IconData icon;
   final String placeholder;
@@ -18,6 +19,7 @@ class CustomInputNumber extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var maskFormatter = new MaskTextInputFormatter(mask: '##', filter: { "#": RegExp(r'[0-9]') });
     return Container(
         padding: EdgeInsets.only(top: 0, left: 5, bottom: 0, right: 20),
         margin: EdgeInsets.only(bottom: 20),
@@ -26,19 +28,20 @@ class CustomInputNumber extends StatelessWidget {
             borderRadius: BorderRadius.circular(30),
             boxShadow: [
               BoxShadow(
-                  color: Colors.black.withOpacity(0.5),
-                  offset: Offset(0, 2),
+                  color: Colors.black.withOpacity(0.3),
+                  offset: Offset(0, 1),
                   blurRadius: 5)
             ]),
         child: TextField(
           autocorrect: false,
           keyboardType: this.textInputType,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           onChanged:(value){
             this.function();
         } ,
           decoration: InputDecoration(
               prefixIcon: Icon(this.icon),
-
+              contentPadding: EdgeInsets.symmetric(vertical: 15),
               focusedBorder: InputBorder.none,
               border: InputBorder.none,
               hintText: this.placeholder),controller: this.textEditingController,
