@@ -1,14 +1,15 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CuadroLargo extends StatelessWidget {
-  final String url;
+  String url;
   final String nombre;
   final String ubicacion;
   final String urlDetails;
 
-  const CuadroLargo(
+  CuadroLargo(
       {Key? key,
       required this.url,
       required this.nombre,
@@ -17,8 +18,12 @@ class CuadroLargo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(this.url);
+    if (this.url[0] == "/") {
+      this.url = (this.url.substring(1, this.url.length));
+    }
     return Padding(
-      padding: const EdgeInsets.all(4.0),
+      padding: const EdgeInsets.only(top: 5.0,left: 4,bottom: 10,right: 4),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(20)),
         elevation: 4,
@@ -47,11 +52,26 @@ class CuadroLargo extends StatelessWidget {
                         borderRadius: BorderRadius.all(
                             Radius.circular(20)
                             ),
-                        child: Image.asset(
-                          this.url,
-                          width: 150,
-                          height: 135,
-                          fit: BoxFit.cover,
+                        child: CachedNetworkImage(
+                          imageUrl:
+                          "https://www.gotravelclub.com.ec/${this.url}",
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                                //colorFilter: ColorFilter.mode(Colors.red, BlendMode.colorBurn)
+                              ),
+                            ),
+                          ),
+                          placeholder: (context, url) => Center(
+                            child: Container(
+                                width: 50,
+                                height: 50,
+                                child: CircularProgressIndicator()),
+                          ),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
                         ),
                       )),
                   SizedBox(

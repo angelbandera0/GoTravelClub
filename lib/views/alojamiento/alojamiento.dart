@@ -6,8 +6,13 @@ import 'package:get/get.dart';
 import 'package:gotravelclub/controller/alojamientoController.dart';
 import 'package:gotravelclub/controller/drawerController.dart';
 import 'package:gotravelclub/helper/link_router_bottom_bar.dart';
+import 'package:gotravelclub/views/alojamiento/listas/listasAlojamiento.dart';
+import 'package:gotravelclub/views/alojamiento/listas/popularesAlojamiento.dart';
 import 'package:gotravelclub/views/custom/cuadro_corto.dart';
 import 'package:gotravelclub/views/custom/cuadro_largo.dart';
+import 'package:gotravelclub/views/custom/shimmerCuadroCC.dart';
+import 'package:gotravelclub/views/custom/shimmerCuadroLargo.dart';
+import 'package:gotravelclub/views/custom/shimmerLC.dart';
 import 'package:gotravelclub/widgets/appBar.dart';
 import 'package:gotravelclub/widgets/custom_input.dart';
 import 'package:gotravelclub/widgets/custom_input1.dart';
@@ -16,7 +21,6 @@ import 'package:gotravelclub/widgets/option.dart';
 import 'package:gotravelclub/widgets/zoom_drawer_constructor.dart';
 
 class Alojamiento extends StatelessWidget{
-
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AlojamientoController>(
@@ -30,10 +34,13 @@ class Alojamiento extends StatelessWidget{
 }
 
 class MainAlojamiento extends StatelessWidget {
+  Shimmer shimmer= Shimmer();
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AlojamientoController>(
         builder: (_) {
+          _.getAlojamientos();
           return Scaffold(
 
               appBar: PreferredSize(
@@ -94,74 +101,13 @@ class MainAlojamiento extends StatelessWidget {
                           SizedBox(
                             height: 10,
                           ),
-                          Container(
-                              height: 240,
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CuadroCorto(
-                                      url: "assets/muestra/alo1.png",
-                                      nombre: "Hotel La Primavera",
-                                      ubicacion: "Ecuador - Chimborazo - Riobamba",
-                                      urlDetails: "/alojamientoDetalles",
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    CuadroCorto(
-                                      url: "assets/muestra/alo2.png",
-                                      nombre: "Hotel El Molino",
-                                      ubicacion: "Ecuador - Chimborazo - Riobamba",
-                                      urlDetails: "/alojamientoDetalles",
-                                    ),
-
-                                    //CuadroCorto(),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    CuadroCorto(
-                                      url: "assets/muestra/alo3.png",
-                                      nombre: "Hotel La Andaluza",
-                                      ubicacion: "Ecuador - Chimborazo - Riobamba",
-                                      urlDetails: "/alojamientoDetalles",
-                                    ),
-
-                                    //CuadroCorto(),
-                                  ],
-                                ),
-                              )),
+                          //populares
+                          PopularesAlojamiento(),
                           SizedBox(
-                            height: 10,
+                            height: 0,
                           ),
-                          CuadroLargo(
-                            url: "assets/muestra/alo1.png",
-                            nombre: "Hotel La Primavera",
-                            ubicacion: "Ecuador - Chimborazo - Riobamba",
-                            urlDetails: "/alojamientoDetalles",
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          CuadroLargo(
-                            url: "assets/muestra/alo2.png",
-                            nombre: "Hotel El Molino",
-                            ubicacion: "Ecuador - Chimborazo - Riobamba",
-                            urlDetails: "/alojamientoDetalles",
-                          ),
-
-                          //CuadroCorto(),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          CuadroLargo(
-                            url: "assets/muestra/alo3.png",
-                            nombre: "Hotel La Andaluza",
-                            ubicacion: "Ecuador - Chimborazo - Riobamba",
-                            urlDetails: "/alojamientoDetalles",
-                          ),
+                          //alojamientos
+                          ListaAlojamiento(),
                         ],
                       ),
                     ),

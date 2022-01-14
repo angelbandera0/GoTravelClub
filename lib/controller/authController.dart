@@ -28,7 +28,7 @@ class AuthController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    _isLoading==false;
+    _isLoading=false;
     _notificacion= new Notificacion();
     sessionController = Get.find<SessionController>();
 

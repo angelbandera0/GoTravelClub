@@ -2,6 +2,7 @@ import 'dart:async';
 import "package:dio/dio.dart";
 import 'package:gotravelclub/dio/api_interceptor.dart';
 import 'package:gotravelclub/helper/enviroment.dart';
+import 'package:gotravelclub/shared_preferences/shared_preferences_singlenton.dart';
 
 class DioClient{
   Dio init() {
