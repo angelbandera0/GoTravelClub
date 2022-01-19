@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gotravelclub/dio/dio_client.dart';
 import 'package:gotravelclub/helper/notification.dart';
-import 'package:gotravelclub/models/request/alojamiento.dart';
-import 'package:gotravelclub/models/response/alojamientoResponse.dart';
-import 'package:gotravelclub/services/alojamiento_service.dart';
+import 'package:gotravelclub/models/request/tour.dart';
+import 'package:gotravelclub/models/response/tourResponse.dart';
+import 'package:gotravelclub/services/tour_service.dart';
 import 'package:gotravelclub/views/custom/cuadro_corto.dart';
 import 'package:gotravelclub/views/custom/cuadro_largo.dart';
 
-class AlojamientoController extends GetxController {
-  AlojamientoService alojamientoService =
-      AlojamientoService(DioClient().init());
+class TourController extends GetxController {
+  TourService tourService =
+  TourService(DioClient().init());
   late Notificacion _notificacion;
   int page=0;
-  List<Alojamiento> populares = [];
-  List<Alojamiento> alojamientos_list = [];
+  List<Tour> populares = [];
+  List<Tour> tours_list = [];
   List<Widget> w_populares = [];
-  List<Widget> w_alojamientos = [];
+  List<Widget> w_tours = [];
   bool isShimmer=true;
   late bool _isLoading;
   late bool end;
@@ -29,7 +29,7 @@ class AlojamientoController extends GetxController {
     _isLoading=false;
     end=false;
     _notificacion = new Notificacion();
-    getAlojamientos();
+    getTours();
   }
   @override
   void onReady() {
@@ -43,17 +43,17 @@ class AlojamientoController extends GetxController {
     update(["loading","loadingAppBar"]);
   }
 
-  void getAlojamientos() async {
-    AlojamientoResponse alojamientoResponse =
-        await alojamientoService.getAlojamientos(page);
-    populares = alojamientoResponse.popular!;
-    alojamientos_list = alojamientoResponse.data!;
-    end=alojamientoResponse.end!;
+  void getTours() async {
+    TourResponse tourResponse =
+        await tourService.getTours(page);
+    populares = tourResponse.popular!;
+    tours_list = tourResponse.data!;
+    end=tourResponse.end!;
    // print("object");
     createListCortos();
     createListLargos();
     isShimmer=false;
-    update(["listaAlojamiento","popularesAlojamiento"]);
+    update(["listaTour","popularesTour"]);
   }
 
   void createListCortos() {
@@ -62,20 +62,20 @@ class AlojamientoController extends GetxController {
           url: element.imagen1!,
           nombre: element.name!,
           ubicacion: "${element.country} - ${element.state} - ${element.city}",
-          urlDetails: "/alojamientoDetalles",
+          urlDetails: "/tourDetalles",
         object: element,
       ));
     });
   }
 
   void createListLargos() {
-    w_alojamientos=[];
-    alojamientos_list.forEach((element) {
-      w_alojamientos.add(CuadroLargo(
+    w_tours=[];
+    tours_list.forEach((element) {
+      w_tours.add(CuadroLargo(
           url: element.imagen1!,
           nombre: element.name!,
           ubicacion: "${element.country} - ${element.state} - ${element.city}",
-          urlDetails: "/alojamientoDetalles",
+          urlDetails: "/tourDetalles",
         object: element,
       ));
     });
@@ -85,32 +85,32 @@ class AlojamientoController extends GetxController {
     if(!end) {
       toggleLoading();
       page++;
-      AlojamientoResponse alojamientoResponse = await alojamientoService
-          .getAlojamientos(page);
-      List<Alojamiento> aux = List.from(alojamientos_list)
-        ..addAll(alojamientoResponse.data!);
-      alojamientos_list = aux;
-      print(alojamientos_list.length);
+      TourResponse tourResponse = await tourService
+          .getTours(page);
+      List<Tour> aux = List.from(tours_list)
+        ..addAll(tourResponse.data!);
+      tours_list = aux;
+      print(tours_list.length);
       createListLargos();
-      update(["listaAlojamiento"]);
+      update(["listaTour"]);
       toggleLoading();
     }
     else{
-      _notificacion.notificar(body: "No hay más alojamientos por cargar", type: "error");
+      _notificacion.notificar(body: "No hay más tours por cargar", type: "error");
     }
   }
 
   void search(String s) async{
     toggleLoading();
     if(s!="") {
-      AlojamientoResponse alojamientoResponse= await alojamientoService.findAlojamientos(s);
-      alojamientos_list = alojamientoResponse.data!;
+      TourResponse tourResponse= await tourService.findTours(s);
+      tours_list = tourResponse.data!;
       createListLargos();
       toggleLoading();
-      update(["listaAlojamiento"]);
+      update(["listaTour"]);
     }else{
       toggleLoading();
-      getAlojamientos();
+      getTours();
     }
 
     }

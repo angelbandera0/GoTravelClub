@@ -108,6 +108,7 @@ class MainEscapada extends StatelessWidget {
                                   nombre: "Cordilleras del Indio",
                                   ubicacion: "Ecuador - Chimborazo - Riobamba",
                                   urlDetails: "/escapadaDetalles",
+                                  object: "",
                                 ),
                                 SizedBox(
                                   width: 10,
@@ -117,6 +118,8 @@ class MainEscapada extends StatelessWidget {
                                   nombre: "Montañas Del Sol",
                                   ubicacion: "Ecuador - Chimborazo - Riobamba",
                                   urlDetails: "/escapadaDetalles",
+                                  object: "",
+
                                 ),
 
                                 //CuadroCorto(),

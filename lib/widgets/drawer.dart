@@ -1,19 +1,24 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gotravelclub/controller/drawerController.dart';
+import 'package:gotravelclub/controller/sessionController.dart';
 
 class MenuScreen extends StatelessWidget {
   final widthBox = SizedBox(
     width: 16.0,
   );
+  late SessionController _sessionController;
   static List<MenuItem> mainMenu = [
-    MenuItem("Alojamientos", Icons.home, 0,"/alojamiento"),
-    MenuItem("Cotizaciones", Icons.money, 1,"/cotizaciones"),
-    MenuItem("Escapadas", Icons.place, 2,"/escapada"),
-    MenuItem("Tours", Icons.public, 3,"/tour"),
-    MenuItem("Vuelos", Icons.flight, 4,"/vuelo"),
+    MenuItem("Alojamientos", Icons.home, 0, "/alojamiento"),
+    MenuItem("Cotizaciones", Icons.money, 1, "/cotizaciones"),
+    MenuItem("Escapadas", Icons.place, 2, "/escapada"),
+    MenuItem("Tours", Icons.public, 3, "/tour"),
+    MenuItem("Vuelos", Icons.flight, 4, "/vuelo"),
   ];
+
+  MenuScreen() {
+    _sessionController = Get.find<SessionController>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +28,13 @@ class MenuScreen extends StatelessWidget {
           return Scaffold(
             backgroundColor: Color(0xff621771).withOpacity(0.3),
             body: Container(
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height,
+              height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Color(0xff621771).withOpacity(0.3), Color(0xff621771)..withOpacity(0.3)],
+                  colors: [
+                    Color(0xff621771).withOpacity(0.3),
+                    Color(0xff621771)..withOpacity(0.3)
+                  ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -77,7 +82,7 @@ class MenuScreen extends StatelessWidget {
                       MenuItemWidget(
                         item: mainMenu[0],
                         widthBox: widthBox,
-                        selected: _.current==0,
+                        selected: _.current == 0,
                         callback: _.setCurrent,
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 16),
@@ -85,7 +90,7 @@ class MenuScreen extends StatelessWidget {
                       MenuItemWidget(
                         item: mainMenu[1],
                         widthBox: widthBox,
-                        selected: _.current==1,
+                        selected: _.current == 1,
                         callback: _.setCurrent,
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 16),
@@ -93,7 +98,7 @@ class MenuScreen extends StatelessWidget {
                       MenuItemWidget(
                         item: mainMenu[2],
                         widthBox: widthBox,
-                        selected: _.current==2,
+                        selected: _.current == 2,
                         callback: _.setCurrent,
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 16),
@@ -101,7 +106,7 @@ class MenuScreen extends StatelessWidget {
                       MenuItemWidget(
                         item: mainMenu[3],
                         widthBox: widthBox,
-                        selected: _.current==3,
+                        selected: _.current == 3,
                         callback: _.setCurrent,
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 16),
@@ -109,21 +114,22 @@ class MenuScreen extends StatelessWidget {
                       MenuItemWidget(
                         item: mainMenu[4],
                         widthBox: widthBox,
-                        selected: _.current==4,
+                        selected: _.current == 4,
                         callback: _.setCurrent,
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 16),
                       ),
                       // Spacer(),
                       Padding(
-                        padding: const EdgeInsets.only(
-                            left: 24, right: 24, top: 30),
+                        padding:
+                            const EdgeInsets.only(left: 24, right: 24, top: 30),
                         child: OutlinedButton(
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Text(
                               "Cerrar Sesión",
-                              style: TextStyle(fontSize: 18,
+                              style: TextStyle(
+                                  fontSize: 18,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             ),
@@ -134,7 +140,10 @@ class MenuScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(16.0)),
                             textStyle: TextStyle(color: Colors.white),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed("/login");
+                            _sessionController.logoutSession();
+                          },
                         ),
                       ),
                       // Spacer(),
@@ -170,10 +179,8 @@ class MenuItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 60,
-
       child: TextButton(
-        onPressed: () =>
-            callback!(item!.index,item!.route),
+        onPressed: () => callback!(item!.index, item!.route),
         style: TextButton.styleFrom(
           primary: Colors.white,
           backgroundColor: selected! ? Color(0x44000000) : null,
@@ -213,4 +220,3 @@ class MenuItem {
 
   const MenuItem(this.title, this.icon, this.index, this.route);
 }
-

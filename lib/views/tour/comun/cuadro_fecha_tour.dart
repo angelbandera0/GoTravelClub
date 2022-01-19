@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:get/get.dart';
 import 'package:gotravelclub/controller/cuadroFechaController.dart';
+import 'package:gotravelclub/controller/detallesTourController.dart';
 import 'package:gotravelclub/controller/vueloController.dart';
 import 'package:intl/intl.dart';
 
-class CuadroFecha extends StatelessWidget {
+class CuadroFechaTour extends StatelessWidget {
   final String id;
   final String label;
   final Function function;
@@ -13,24 +14,25 @@ class CuadroFecha extends StatelessWidget {
   String fecha = "---- -- --";
   late CuadroFechaController cuadroFechaController;
 
-  CuadroFecha(
+  CuadroFechaTour(
       {Key? key,
       required this.label,
       required this.function,
       required this.width,
       required this.id})
       : super(key: key) {
-    Get.create(() => CuadroFechaController());
+    Get.put<CuadroFechaController>(CuadroFechaController());
     cuadroFechaController = Get.find<CuadroFechaController>();
+    //print("fjzhgfjzgjf $cuadroFechaController");
   }
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<VueloController>(
+    return GetBuilder<DetallesTourController>(
         id: id,
         builder: (controller) {
           return Material(
-            elevation: 4,
+            elevation: 6,
             borderRadius: BorderRadius.all(Radius.circular(10)),
             child: new Center(
               child: new Ink(
@@ -51,6 +53,12 @@ class CuadroFecha extends StatelessWidget {
                       print('confirm $date');
                       fecha = DateFormat("dd-MM-yyyy").format(date);
                       print(fecha);
+                      if(id=="fechaIda"){
+                        controller.setDateBegining(fecha);
+                      }
+                      else{
+                        controller.setDateEnd(fecha);
+                      }
                       cuadroFechaController.setFecha(fecha);
                       this.function();
                     }, currentTime: DateTime.now(), locale: LocaleType.es);

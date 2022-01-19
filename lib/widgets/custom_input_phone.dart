@@ -19,7 +19,7 @@ class CustomInputPhone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var maskFormatter = new MaskTextInputFormatter(mask: '(+###) ###-###-###', filter: { "#": RegExp(r'[0-9]') });
+    var maskFormatter = new MaskTextInputFormatter(mask: '(+###) ##-###-####', filter: { "#": RegExp(r'[0-9]') });
     return Container(
         padding: EdgeInsets.only(top: 5, left: 5, bottom: 5, right: 20),
         margin: EdgeInsets.only(bottom: 20),

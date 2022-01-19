@@ -5,13 +5,14 @@ class CustomTextArea extends StatelessWidget {
   final bool readOnly;
   final TextEditingController textEditingController;
   final String placeholder;
+  late Function? function;
 
-  const CustomTextArea(
+  CustomTextArea(
       {Key? key,
       this.minLines = 3,
       this.readOnly = false,
       required this.textEditingController,
-      this.placeholder = ""})
+      this.placeholder = "", this.function})
       : super(key: key);
 
   @override
@@ -22,6 +23,9 @@ class CustomTextArea extends StatelessWidget {
       keyboardType: TextInputType.multiline,
       controller: this.textEditingController,
       maxLines: null,
+      onChanged:(value){
+        this.function!();
+      } ,
       decoration: InputDecoration(
         focusedBorder: InputBorder.none,
         border: InputBorder.none,
