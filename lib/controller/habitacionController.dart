@@ -7,6 +7,9 @@ class HabitacionController extends GetxController {
   List<TextEditingController> _listaControllers = [];
   List<Widget> camposEdades = [];
   late DetallesAlojamientoController dac;
+  late int indexH;
+
+  setIndexH(int index)=>indexH=index;
 
   @override
   void onInit() {
@@ -33,7 +36,8 @@ class HabitacionController extends GetxController {
                   width: Get.width * 0.20,
                   child: CustomInputAge(
                     function: () {
-                      print(_listaControllers[i].text);
+                      dac.addEdad(indexH, i, _listaControllers[i].text);
+                      //print(_listaControllers[i].text);
                     },
                     textInputType: TextInputType.number,
                     textEditingController: tec,

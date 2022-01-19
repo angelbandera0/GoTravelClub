@@ -21,8 +21,7 @@ class CuadroFechaAlojamiento extends StatelessWidget {
       required this.width,
       required this.id})
       : super(key: key) {
-    print("sjdljasldjlasjdljaslj");
-    Get.create(() => CuadroFechaController());
+    Get.put<CuadroFechaController>(CuadroFechaController());
     cuadroFechaController = Get.find<CuadroFechaController>();
     //print("fjzhgfjzgjf $cuadroFechaController");
   }
@@ -52,8 +51,14 @@ class CuadroFechaAlojamiento extends StatelessWidget {
                       print('change $date');
                     }, onConfirm: (date) {
                       print('confirm $date');
-                      fecha = DateFormat.yMd().format(date);
+                      fecha = DateFormat("dd-MM-yyyy").format(date);
                       print(fecha);
+                      if(id=="fechaIda"){
+                        controller.setDateBegining(fecha);
+                      }
+                      else{
+                        controller.setDateEnd(fecha);
+                      }
                       cuadroFechaController.setFecha(fecha);
                       this.function();
                     }, currentTime: DateTime.now(), locale: LocaleType.es);

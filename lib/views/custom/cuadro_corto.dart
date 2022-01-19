@@ -8,6 +8,7 @@ class CuadroCorto extends StatelessWidget {
   final String nombre;
   final String ubicacion;
   final String urlDetails;
+  final dynamic object;
   String urlBase = "https://www.gotravelclub.com.ec";
 
   CuadroCorto(
@@ -15,7 +16,7 @@ class CuadroCorto extends StatelessWidget {
       required this.url,
       required this.nombre,
       required this.ubicacion,
-      required this.urlDetails})
+      required this.urlDetails,required this.object})
       : super(key: key);
 
   @override
@@ -38,7 +39,7 @@ class CuadroCorto extends StatelessWidget {
               splashColor: Color(0xff611771).withOpacity(0.5),
               borderRadius: BorderRadius.all(Radius.circular(20)),
               onTap: () {
-                Get.toNamed(this.urlDetails);
+                Get.toNamed(this.urlDetails,arguments: object);
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

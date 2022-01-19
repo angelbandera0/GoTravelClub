@@ -8,17 +8,17 @@ class CuadroLargo extends StatelessWidget {
   final String nombre;
   final String ubicacion;
   final String urlDetails;
-
+  final dynamic object;
   CuadroLargo(
       {Key? key,
       required this.url,
       required this.nombre,
-      required this.ubicacion, required this.urlDetails})
+      required this.ubicacion, required this.urlDetails,
+        this.object})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print(this.url);
     if (this.url[0] == "/") {
       this.url = (this.url.substring(1, this.url.length));
     }
@@ -37,7 +37,7 @@ class CuadroLargo extends StatelessWidget {
               splashColor: Color(0xff611771).withOpacity(0.5),
               borderRadius: BorderRadius.all(Radius.circular(20)),
               onTap: () {
-                Get.toNamed(this.urlDetails);
+                Get.toNamed(this.urlDetails,arguments: object);
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

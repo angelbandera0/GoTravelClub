@@ -14,13 +14,17 @@ import 'package:gotravelclub/views/custom/shimmerCuadroCC.dart';
 import 'package:gotravelclub/views/custom/shimmerCuadroLargo.dart';
 import 'package:gotravelclub/views/custom/shimmerLC.dart';
 import 'package:gotravelclub/widgets/appBar.dart';
+import 'package:gotravelclub/widgets/custom_button.dart';
 import 'package:gotravelclub/widgets/custom_input.dart';
 import 'package:gotravelclub/widgets/custom_input1.dart';
 import 'package:gotravelclub/widgets/drawer.dart';
+import 'package:gotravelclub/widgets/loading.dart';
+import 'package:gotravelclub/widgets/loading_appbar.dart';
 import 'package:gotravelclub/widgets/option.dart';
 import 'package:gotravelclub/widgets/zoom_drawer_constructor.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 
-class Alojamiento extends StatelessWidget{
+class Alojamiento extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AlojamientoController>(
@@ -29,24 +33,31 @@ class Alojamiento extends StatelessWidget{
         builder: (_) {
           return ZoomDrawerConstructor(mainScreen: MainAlojamiento());
         });
-
   }
 }
 
 class MainAlojamiento extends StatelessWidget {
-  Shimmer shimmer= Shimmer();
+  Shimmer shimmer = Shimmer();
+  TextEditingController searchCtrl=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<AlojamientoController>(
-        builder: (_) {
-          _.getAlojamientos();
-          return Scaffold(
-
+    return GetBuilder<AlojamientoController>(builder: (_) {
+      _.getAlojamientos();
+      return Stack(
+        children: [
+          Scaffold(
               appBar: PreferredSize(
                 child: Stack(
                   children: [
-                    ClipRRect(child: Image.asset("assets/fondo/fondo.png",width: Get.width,height: 130,fit: BoxFit.cover,),),
+                    ClipRRect(
+                      child: Image.asset(
+                        "assets/fondo/fondo.png",
+                        width: Get.width,
+                        height: 130,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                     Container(
                       child: Container(
                         margin: EdgeInsets.fromLTRB(20, 35, 20, 0),
@@ -63,21 +74,35 @@ class MainAlojamiento extends StatelessWidget {
                               icon: Icons.search,
                               placeholder: "Buscar",
                               isPassword: true,
-                              textEditingController: TextEditingController(),
+                              textEditingController: searchCtrl,
                               textInputType: TextInputType.text,
-                              function: () {},
+                              function: () {
+                                EasyDebounce.debounce(
+                                    'my-debouncer',                 // <-- An ID for this particular debouncer
+                                    Duration(milliseconds: 1000),    // <-- The debounce duration
+                                        () => _.search(searchCtrl.text)                // <-- The target method
+                                );
+                              },
                             ),
                           ],
                         ),
                       ),
                     ),
+                    //LoadingAppBarAlojamiento(),
                   ],
                 ),
                 preferredSize: Size(Get.width, 130),
               ),
               body: Stack(
                 children: [
-                  ClipRRect(child: Image.asset("assets/fondo/fondo.png",width: Get.width,height: Get.height,fit: BoxFit.cover,),),
+                  ClipRRect(
+                    child: Image.asset(
+                      "assets/fondo/fondo.png",
+                      width: Get.width,
+                      height: Get.height,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 0, horizontal: 30),
                     // Center is a layout widget. It takes a single child and positions it
@@ -89,7 +114,7 @@ class MainAlojamiento extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.only(top:20.0),
+                            padding: const EdgeInsets.only(top: 20.0),
                             child: Text(
                               "Populares",
                               style: TextStyle(
@@ -104,10 +129,23 @@ class MainAlojamiento extends StatelessWidget {
                           //populares
                           PopularesAlojamiento(),
                           SizedBox(
-                            height: 0,
+                            height: 20,
                           ),
                           //alojamientos
                           ListaAlojamiento(),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                            child: CustomButton(
+                              text: "Cargar Más",
+                              onPress: () {
+                                _.loadMore();
+                              },
+                              color: Color(0xff56E2C6),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -126,8 +164,35 @@ class MainAlojamiento extends StatelessWidget {
                 onTap: (int i) {
                   LinkRouterBottomBar(i).link();
                 },
-              ));
+              )),
+          LoadingAlojamiento(),
+
+        ],
+      );
+    });
+  }
+}
+
+class LoadingAlojamiento extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<AlojamientoController>(
+        id: "loading",
+        builder: (_) {
+          return (_.isLoading) ? Loading() : Container();
         });
   }
 }
+
+class LoadingAppBarAlojamiento extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<AlojamientoController>(
+        id: "loadingAppBar",
+        builder: (_) {
+          return (_.isLoading) ? LoadingAppbar() : Container();
+        });
+  }
+}
+
 
