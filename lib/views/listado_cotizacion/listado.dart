@@ -15,7 +15,7 @@ class Listado extends StatelessWidget {
         id: "cotizacion",
         init: CotizacionController(),
         builder: (_) {
-
+          _.getAllCotizacions();
           return ZoomDrawerConstructor(mainScreen: MainCotizacion());
         });
 

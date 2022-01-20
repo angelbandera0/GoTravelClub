@@ -18,7 +18,7 @@ class CotizacionController extends GetxController{
     // TODO: implement onInit
     super.onInit();
     _isLoading=false;
-    getAllCotizacions();
+    //getAllCotizacions();
   }
 
   void toggleLoading() {
@@ -27,8 +27,9 @@ class CotizacionController extends GetxController{
   }
 
   void getAllCotizacions()async{
+    _isLoading=false;
     toggleLoading();
-
+  listadoCotizacionWidget=[];
     CotizacionResponse cotizacionResponse= await cotizacionService.getCotizacion();
     listInfo=cotizacionResponse.info!;
     print(listInfo.length);
@@ -55,7 +56,12 @@ class CotizacionController extends GetxController{
         icon=Icons.flight;
 
       }*/
-      listadoCotizacionWidget.add(CardCotizacion(color: c, title: "${title} (${element.title})", icon: icon,info:element));
+      if(element.type!=4) {
+        listadoCotizacionWidget.add(CardCotizacion(color: c,
+            title: "${title} (${element.title})",
+            icon: icon,
+            info: element));
+      }
     });
     update(["listadoCotizaciones"]);
     toggleLoading();

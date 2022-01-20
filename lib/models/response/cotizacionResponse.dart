@@ -118,11 +118,29 @@ class Info {
 }
 
 class Infopayment {
-  Infopayment();
+  String? date_payment;
+  String? payment_state;
+  String? amount;
+  String? currency_code;
+  String? short_description;
 
-  factory Infopayment.fromJson(Map<String, dynamic> json) => Infopayment();
+  factory Infopayment.fromJson(Map<String, dynamic> json) => Infopayment(
+      date_payment:json["date_payment"],
+      payment_state:json["payment_state"],
+      amount:json["amount"],
+      currency_code:json["currency_code"],
+      short_description:json["short_description"],
+  );
 
-  Map<String, dynamic> toJson() => {};
+  Infopayment({this.date_payment, this.payment_state, this.amount, this.currency_code, this.short_description});
+
+  Map<String, dynamic> toJson() => {
+    "date_payment":date_payment,
+    "payment_state":payment_state,
+    "amount":amount,
+    "currency_code":currency_code,
+    "short_description":short_description,
+  };
 }
 
 class Room {

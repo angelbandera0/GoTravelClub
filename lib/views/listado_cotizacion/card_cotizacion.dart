@@ -1,5 +1,6 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:gotravelclub/controller/cotizacionController.dart';
 import 'package:gotravelclub/models/response/cotizacionResponse.dart';
@@ -7,6 +8,7 @@ import 'package:gotravelclub/views/custom/titleWithDivider.dart';
 import 'package:gotravelclub/widgets/custom_button.dart';
 import 'package:gotravelclub/widgets/custom_textarea.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CardCotizacion extends StatelessWidget {
   final Color color;
@@ -25,12 +27,12 @@ class CardCotizacion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController taCtrl=TextEditingController();
-    taCtrl.text=info.observation!;
+    TextEditingController taCtrl = TextEditingController();
+    taCtrl.text = info.observation!;
     return GetBuilder<CotizacionController>(
         id: "card_cotizacion",
         builder: (_) {
-          alojamientos=[];
+          alojamientos = [];
           for (int i = 0; i < info.rooms!.length; i++) {
             alojamientos.add(_alojamiento(i + 1, info.rooms![i].countAdults!,
                 info.rooms![i].agesMinors!));
@@ -113,6 +115,16 @@ class CardCotizacion extends StatelessWidget {
                               ),
                             ),
                             TitleWithDivider(
+                              title: "Estado",
+                              fontSize: 14,
+                              key: key,
+                              color: Colors.grey,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10.0),
+                              child: Text("${info.status}"),
+                            ),
+                            TitleWithDivider(
                               title: "Nombre",
                               fontSize: 14,
                               key: key,
@@ -178,8 +190,7 @@ class CardCotizacion extends StatelessWidget {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 10.0),
-                              child: Text(
-                                  "${info.observation}"),
+                              child: Text("${info.observation}"),
                             ),
                             TitleWithDivider(
                               title: "Respuesta",
@@ -187,28 +198,159 @@ class CardCotizacion extends StatelessWidget {
                               key: key,
                               color: Colors.grey,
                             ),
-                            Container(
-                                padding: EdgeInsets.only(
-                                    top: 0, left: 5, bottom: 5, right: 20),
-                                margin: EdgeInsets.only(bottom: 20),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.black.withOpacity(0.3),
-                                          offset: Offset(0, 0),
-                                          blurRadius: 1)
-                                    ]),
-                                child: CustomTextArea(
-                                  readOnly: true,
-                                  textEditingController:
-                                      TextEditingController(),
-                                )),
-                            CustomButton(
-                                text: "Validar Pagos",
-                                onPress: () {},
-                                color: Color(0xff56E2C6))
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Html(
+                                data: info.response,
+                                // Styling with CSS (not real CSS)
+                              ),
+                            ),
+                            (info.isPayment!)?Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  TitleWithDivider(
+                                    title: "Información del pago",
+                                    fontSize: 14,
+                                    key: key,
+                                    color: Colors.grey,
+                                  ),
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text("Fecha",style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold)),
+                                                  Text("${info.infopayment!.date_payment}")
+                                                ],
+                                              ),
+                                        SizedBox(
+                                          width: 40,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text("Monto",style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold)),
+                                            Text("${info.infopayment!.amount}")
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          width: 40,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text("Moneda",style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold)),
+                                            Text("${info.infopayment!.currency_code}")
+                                          ],
+                                        ),
+                                            ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ):Container(),
+                            SizedBox(height: 10,),
+                            (info.status == "Validado")
+                                ? Container(
+                                    width: Get.width,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20)),
+                                        border: Border(
+                                          top: BorderSide(
+                                              color: Color(0xff56E2C6),
+                                              width: 3),
+                                          right: BorderSide(
+                                              color: Color(0xff56E2C6),
+                                              width: 3),
+                                          left: BorderSide(
+                                              color: Color(0xff56E2C6),
+                                              width: 3),
+                                          bottom: BorderSide(
+                                              color: Color(0xff56E2C6),
+                                              width: 3),
+                                        )),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Icon(
+                                          Icons.info,
+                                          size: 30,
+                                          color: Color(0xff56E2C6),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          "En espera del pago de la cotización.",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                : Container(),
+
+                            (info.status == "Pagado")
+                                ? Container(
+                              width: Get.width,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(20)),
+                                  border: Border(
+                                    top: BorderSide(
+                                        color: Color(0xff56E2C6),
+                                        width: 3),
+                                    right: BorderSide(
+                                        color: Color(0xff56E2C6),
+                                        width: 3),
+                                    left: BorderSide(
+                                        color: Color(0xff56E2C6),
+                                        width: 3),
+                                    bottom: BorderSide(
+                                        color: Color(0xff56E2C6),
+                                        width: 3),
+                                  )),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Icon(
+                                    Icons.info,
+                                    size: 30,
+                                    color: Color(0xff56E2C6),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    "La cotización está siendo procesada.",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                            )
+                                : Container(),
+                            (info.status == "Pendiente" && info.response != "")
+                                ? CustomButton(
+                                    text: "Validar Pagos",
+                                    onPress: () {
+                                      _launchURL();
+                                    },
+                                    color: Color(0xff56E2C6))
+                                : Container()
                           ],
                         ),
                       ),
@@ -219,6 +361,12 @@ class CardCotizacion extends StatelessWidget {
             ),
           ));
         });
+  }
+
+  _launchURL() async {
+    var url =
+        'https://www.gotravelclub.com.ec/validate_quote/?pk=${info.pk}&type=${(info.type == 1) ? "accommodation" : "tour"}';
+    if (!await launch(url)) throw 'Could not launch $url';
   }
 
   Widget _buildFecha(String label, String fecha) {
