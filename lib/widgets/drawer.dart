@@ -11,9 +11,8 @@ class MenuScreen extends StatelessWidget {
   static List<MenuItem> mainMenu = [
     MenuItem("Alojamientos", Icons.home, 0, "/alojamiento"),
     MenuItem("Cotizaciones", Icons.money, 1, "/cotizaciones"),
-    MenuItem("Escapadas", Icons.place, 2, "/escapada"),
-    MenuItem("Tours", Icons.public, 3, "/tour"),
-    MenuItem("Vuelos", Icons.flight, 4, "/vuelo"),
+    MenuItem("Tours", Icons.public, 2, "/tour"),
+    MenuItem("Vuelos", Icons.flight, 3, "/vuelo"),
   ];
 
   MenuScreen() {
@@ -111,14 +110,7 @@ class MenuScreen extends StatelessWidget {
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 16),
                       ),
-                      MenuItemWidget(
-                        item: mainMenu[4],
-                        widthBox: widthBox,
-                        selected: _.current == 4,
-                        callback: _.setCurrent,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w800, fontSize: 16),
-                      ),
+
                       // Spacer(),
                       Padding(
                         padding:
@@ -141,7 +133,7 @@ class MenuScreen extends StatelessWidget {
                             textStyle: TextStyle(color: Colors.white),
                           ),
                           onPressed: () {
-                            Get.toNamed("/login");
+                            Get.offAllNamed("/login");
                             _sessionController.logoutSession();
                           },
                         ),

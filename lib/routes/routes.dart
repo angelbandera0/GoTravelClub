@@ -8,7 +8,7 @@ import 'package:gotravelclub/views/escapada/detalles_escapada.dart';
 import 'package:gotravelclub/views/escapada/escapada.dart';
 import 'package:gotravelclub/views/inicio/inicio.dart';
 import 'package:gotravelclub/views/introduction/intro.dart';
-import 'package:gotravelclub/views/listado_cotizaci%C3%B3n/listado.dart';
+import 'package:gotravelclub/views/listado_cotizacion/listado.dart';
 import 'package:gotravelclub/views/tour/detalles_tour.dart';
 import 'package:gotravelclub/views/tour/tour.dart';
 import 'package:gotravelclub/views/vuelo/vuelo.dart';

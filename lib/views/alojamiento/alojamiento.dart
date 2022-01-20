@@ -157,7 +157,6 @@ class MainAlojamiento extends StatelessWidget {
                 items: [
                   TabItem(icon: Icons.home, title: 'Alojamientos'),
                   TabItem(icon: Icons.public, title: 'Tours'),
-                  TabItem(icon: Icons.place, title: 'Escapadas'),
                   TabItem(icon: Icons.flight, title: 'Vuelos'),
                 ],
                 initialActiveIndex: 0, //optional, default as 0

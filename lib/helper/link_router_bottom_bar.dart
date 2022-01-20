@@ -17,10 +17,6 @@ class LinkRouterBottomBar{
         break;
       }
       case 2:{
-        Get.toNamed("/escapada");
-        break;
-      }
-      case 3:{
         Get.toNamed("/vuelo");
         break;
       }

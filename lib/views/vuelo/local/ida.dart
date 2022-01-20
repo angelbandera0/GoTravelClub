@@ -7,10 +7,12 @@ import 'package:gotravelclub/controller/vueloController.dart';
 import 'package:gotravelclub/views/custom/titleWithDivider.dart';
 import 'package:gotravelclub/views/vuelo/comun/cuadro_fecha.dart';
 import 'package:gotravelclub/views/vuelo/comun/listado_edades_menores.dart';
+import 'package:gotravelclub/views/vuelo/comun/selectAirportIda.dart';
 import 'package:gotravelclub/widgets/custom_button.dart';
 import 'package:gotravelclub/widgets/custom_input_number.dart';
 
 class Ida extends StatelessWidget {
+  TextEditingController _adultosCtrl = TextEditingController();
   TextEditingController _cantMenoresCtrl = TextEditingController();
   String _id="ida";
   String _idListMenores = "ListadoEdadesMenoresIda";
@@ -32,7 +34,7 @@ class Ida extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   child: Container(
                     width: Get.width * 0.9,
-                    height: Get.height * 0.15,
+                    height: Get.height * 0.20,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       color: Colors.white,
@@ -41,24 +43,7 @@ class Ida extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          padding: const EdgeInsets.all(20.0),
-                          width: Get.width * 0.26,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("JMC",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold)),
-                              AutoSizeText("José Martí International Airport",
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w300)),
-                            ],
-                          ),
-                        ),
+                        SelectAirportIda(id: "airportIdaI",width:Get.width * 0.26),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 30),
                           child: ClipRRect(
@@ -69,23 +54,8 @@ class Ida extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          padding: const EdgeInsets.all(20.0),
                           width: Get.width * 0.26,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("N/A",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold)),
-                              AutoSizeText("No hay regreso",
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w300)),
-                            ],
-                          ),
-                        ),
+                        )
                       ],
                     ),
                   ),
@@ -106,7 +76,7 @@ class Ida extends StatelessWidget {
                       function: () {
                         _.updateDate("fechaIda");
                       },
-                      width: Get.width * 0.816,
+                      width: Get.width * 0.80,
                       id: "fechaIda",
                     ),
                     //Fecha de Regreso
@@ -143,9 +113,11 @@ class Ida extends StatelessWidget {
                           child: CustomInputNumber(
                               icon: Icons.people_outlined,
                               placeholder: "",
-                              textEditingController: TextEditingController(),
+                              textEditingController: _adultosCtrl,
                               textInputType: TextInputType.number,
-                              function: () {})),
+                              function: () {
+                                _.setCantAdultos(_adultosCtrl.text);
+                              })),
                     ],
                   ),
                   Row(
@@ -182,7 +154,7 @@ class Ida extends StatelessWidget {
                     title: "Edades de los menores",
                     fontSize: 14,
                   ),
-                  ListadoEdadesMenores(id:_idListMenores),
+                  ListadoEdadesMenores(id: _idListMenores),
                 ],
               ),
               //Clase
@@ -195,14 +167,16 @@ class Ida extends StatelessWidget {
                   child: DropdownSearch<String>(
                     mode: Mode.BOTTOM_SHEET,
                     items: [
-                      "Económica",
+                      "Economico",
                       "Primera Clase",
                       'Premiun',
                       "Bussiness"
                     ],
                     label: "Clase",
                     hint: "Selecciona la clase a viajar.",
-                    onChanged: print,
+                    onChanged: (value){
+                      _.setClase(value!);
+                    },
                     selectedItem: "Económica",
                   ),
                 ),
@@ -212,7 +186,9 @@ class Ida extends StatelessWidget {
               ),
               CustomButton(
                 text: "Enviar",
-                onPress: () {},
+                onPress: () {
+                  _.sendCotizacion(_id);
+                },
                 color: Color(0xff56E2C6),
               ),
               SizedBox(

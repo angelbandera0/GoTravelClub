@@ -28,5 +28,6 @@ class SessionController extends GetxController {
     PreferenceUtils.remove("token");
     PreferenceUtils.remove("cedula");
     PreferenceUtils.remove("username");
+    print(PreferenceUtils.getString("token"));
   }
 }

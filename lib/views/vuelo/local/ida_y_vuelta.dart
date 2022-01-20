@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:get/get.dart';
@@ -7,12 +8,18 @@ import 'package:gotravelclub/controller/vueloController.dart';
 import 'package:gotravelclub/views/custom/titleWithDivider.dart';
 import 'package:gotravelclub/views/vuelo/comun/cuadro_fecha.dart';
 import 'package:gotravelclub/views/vuelo/comun/listado_edades_menores.dart';
+import 'package:gotravelclub/views/vuelo/comun/selectAirportIda.dart';
+import 'package:gotravelclub/views/vuelo/comun/selectAirportVuelta.dart';
 import 'package:gotravelclub/widgets/custom_button.dart';
+import 'package:gotravelclub/widgets/custom_input.dart';
 import 'package:gotravelclub/widgets/custom_input_age.dart';
 import 'package:gotravelclub/widgets/custom_input_number.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class IdaYVuelta extends StatelessWidget {
   TextEditingController _cantMenoresCtrl = TextEditingController();
+  TextEditingController _adultosCtrl = TextEditingController();
+  TextEditingController _airportVueltaCtrl = TextEditingController();
   String _id = "idavuelta";
   String _idListMenores = "ListadoEdadesMenoresIdaVuelta";
 
@@ -34,7 +41,7 @@ class IdaYVuelta extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   child: Container(
                     width: Get.width * 0.9,
-                    height: Get.height * 0.15,
+                    height: Get.height * 0.20,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       color: Colors.white,
@@ -43,24 +50,7 @@ class IdaYVuelta extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          padding: const EdgeInsets.all(20.0),
-                          width: Get.width * 0.26,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("JMC",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold)),
-                              AutoSizeText("José Martí International Airport",
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w300)),
-                            ],
-                          ),
-                        ),
+                        SelectAirportIda(id: "airportIdaIV",width: Get.width * 0.26,),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 30),
                           child: ClipRRect(
@@ -70,24 +60,7 @@ class IdaYVuelta extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Container(
-                          padding: const EdgeInsets.all(20.0),
-                          width: Get.width * 0.26,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("JMC",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold)),
-                              AutoSizeText("José Martí International Airport",
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w300)),
-                            ],
-                          ),
-                        ),
+                        SelectAirportVuelta(id: "airportVueltaIV"),
                       ],
                     ),
                   ),
@@ -152,9 +125,11 @@ class IdaYVuelta extends StatelessWidget {
                           child: CustomInputNumber(
                               icon: Icons.people_outlined,
                               placeholder: "",
-                              textEditingController: TextEditingController(),
+                              textEditingController: _adultosCtrl,
                               textInputType: TextInputType.number,
-                              function: () {})),
+                              function: () {
+                                _.setCantAdultos(_adultosCtrl.text);
+                              })),
                     ],
                   ),
                   Row(
@@ -191,7 +166,7 @@ class IdaYVuelta extends StatelessWidget {
                     title: "Edades de los menores",
                     fontSize: 14,
                   ),
-                  ListadoEdadesMenores(id:_idListMenores),
+                  ListadoEdadesMenores(id: _idListMenores),
                 ],
               ),
               //Clase
@@ -204,14 +179,16 @@ class IdaYVuelta extends StatelessWidget {
                   child: DropdownSearch<String>(
                     mode: Mode.BOTTOM_SHEET,
                     items: [
-                      "Económica",
+                      "Economico",
                       "Primera Clase",
                       'Premiun',
                       "Bussiness"
                     ],
                     label: "Clase",
                     hint: "Selecciona la clase a viajar.",
-                    onChanged: print,
+                    onChanged: (value){
+                      _.setClase(value!);
+                    },
                     selectedItem: "Económica",
                   ),
                 ),
@@ -221,7 +198,9 @@ class IdaYVuelta extends StatelessWidget {
               ),
               CustomButton(
                 text: "Enviar",
-                onPress: () {},
+                onPress: () {
+                  _.sendCotizacion(_id);
+                },
                 color: Color(0xff56E2C6),
               ),
               SizedBox(
@@ -232,3 +211,6 @@ class IdaYVuelta extends StatelessWidget {
         });
   }
 }
+
+
+

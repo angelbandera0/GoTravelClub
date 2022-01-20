@@ -51,6 +51,12 @@ class CuadroFecha extends StatelessWidget {
                       print('confirm $date');
                       fecha = DateFormat("dd-MM-yyyy").format(date);
                       print(fecha);
+                      if(id=="fechaIda"){
+                        controller.setDateBegining(fecha);
+                      }
+                      else{
+                        controller.setDateEnd(fecha);
+                      }
                       cuadroFechaController.setFecha(fecha);
                       this.function();
                     }, currentTime: DateTime.now(), locale: LocaleType.es);

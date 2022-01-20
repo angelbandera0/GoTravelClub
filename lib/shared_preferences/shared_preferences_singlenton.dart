@@ -18,8 +18,7 @@ class PreferenceUtils {
   }
 
   static Future<bool> setString(String key, String value) async {
-    var prefs = await _instance;
-    return prefs?.setString(key, value) ?? Future.value(false);
+    return _prefsInstance!.setString(key, value);
   }
 
   static bool getBool(String key, [bool? defValue]) {
@@ -27,17 +26,14 @@ class PreferenceUtils {
   }
 
   static Future<bool> setBool(String key, bool value) async {
-    var prefs = await _instance;
-    return prefs?.setBool(key, value) ?? Future.value(false);
+    return _prefsInstance!.setBool(key, value);
   }
 
   static void remove(String key) async {
-    var prefs = await _instance;
-    prefs.remove(key);
+    _prefsInstance!.remove(key);
   }
 
   static void clear() async {
-    var prefs = await _instance;
-    prefs.clear();
+    _prefsInstance!.clear();
   }
 }
