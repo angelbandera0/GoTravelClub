@@ -4,6 +4,7 @@ import 'package:gotravelclub/dio/dio_client.dart';
 import 'package:gotravelclub/models/response/cotizacionResponse.dart';
 import 'package:gotravelclub/services/cotizacion_service.dart';
 import 'package:gotravelclub/views/listado_cotizacion/card_cotizacion.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CotizacionController extends GetxController{
   CotizacionService cotizacionService =  CotizacionService(DioClient().init());
@@ -34,7 +35,6 @@ class CotizacionController extends GetxController{
     listInfo=cotizacionResponse.info!;
     print(listInfo.length);
 
-    buildListCotizaciones();
     Color c=Colors.transparent;
     String title="";
     late IconData icon;
@@ -68,8 +68,22 @@ class CotizacionController extends GetxController{
 
   }
 
-  void buildListCotizaciones(){
+  RefreshController refreshController =
+  RefreshController(initialRefresh: false);
 
-
+  void onRefresh() async{
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use refreshFailed()
+    getAllCotizacions();
+    refreshController.refreshCompleted();
   }
+
+  void onLoading() async{
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+    refreshController.loadComplete();
+  }
+
 }

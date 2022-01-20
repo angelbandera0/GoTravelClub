@@ -33,7 +33,7 @@ class Login extends StatelessWidget {
                       enlargeCenterPage: false,
                       // autoPlay: false,
                     ),
-                    items: ["back1.png", "back2.png", "back3.png", "back4.png"]
+                    items: ["back1.jpg", "back2.jpg", "back3.jpg", "back4.jpg","back5.jpg"]
                         .map((item) => Container(
                               width: Get.width,
                               child: Image.asset(

@@ -7,6 +7,7 @@ import 'package:gotravelclub/widgets/appBar.dart';
 import 'package:gotravelclub/widgets/custom_button.dart';
 import 'package:gotravelclub/widgets/loading.dart';
 import 'package:gotravelclub/widgets/zoom_drawer_constructor.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class Listado extends StatelessWidget {
   @override
@@ -15,7 +16,7 @@ class Listado extends StatelessWidget {
         id: "cotizacion",
         init: CotizacionController(),
         builder: (_) {
-          _.getAllCotizacions();
+
           return ZoomDrawerConstructor(mainScreen: MainCotizacion());
         });
 
@@ -34,6 +35,7 @@ class MainCotizacion extends StatelessWidget {
     return GetBuilder<CotizacionController>(
       id:"mainCotizacion",
         builder: (_) {
+          _.getAllCotizacions();
           return Stack(
             children: [
               Scaffold(
@@ -66,28 +68,37 @@ class MainCotizacion extends StatelessWidget {
                   ),
                   preferredSize: Size(Get.width, 70),
                 ),
-                body: Stack(
-                  children: [
-                    ClipRRect(
-                      child: Image.asset(
-                        "assets/fondo/fondo.png",
-                        width: Get.width,
-                        height: Get.height,
-                        fit: BoxFit.cover,
+                body: SmartRefresher(
+                  enablePullDown: true,
+                  enablePullUp: true,
+                  header: WaterDropHeader(),
+
+                  controller: _.refreshController,
+                  onRefresh: _.onRefresh,
+                  onLoading: _.onLoading,
+                  child:  Stack(
+                    children: [
+                      ClipRRect(
+                        child: Image.asset(
+                          "assets/fondo/fondo.png",
+                          width: Get.width,
+                          height: Get.height,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-                      // Center is a layout widget. It takes a single child and positions it
-                      // in the middle of the parent.
-                      child: ExpandableTheme(
-                          data: const ExpandableThemeData(
-                            iconColor: Colors.blue,
-                            useInkWell: true,
-                          ),
-                          child: ListCotizaciones()),
-                    ),
-                  ],
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                        // Center is a layout widget. It takes a single child and positions it
+                        // in the middle of the parent.
+                        child: ExpandableTheme(
+                            data: const ExpandableThemeData(
+                              iconColor: Colors.blue,
+                              useInkWell: true,
+                            ),
+                            child: ListCotizaciones()),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               LoadingCotizacion()
