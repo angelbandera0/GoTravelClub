@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:get/get.dart';
 import 'package:gotravelclub/controller/vueloController.dart';
+import 'package:gotravelclub/models/response/airportResponse.dart';
 import 'package:gotravelclub/views/custom/titleWithDivider.dart';
 import 'package:gotravelclub/views/vuelo/comun/cuadro_fecha.dart';
+import 'package:gotravelclub/views/vuelo/comun/dropDown.dart';
 import 'package:gotravelclub/views/vuelo/comun/listado_edades_menores.dart';
-import 'package:gotravelclub/views/vuelo/comun/selectAirportIda.dart';
-import 'package:gotravelclub/views/vuelo/comun/selectAirportVuelta.dart';
 import 'package:gotravelclub/widgets/custom_button.dart';
 import 'package:gotravelclub/widgets/custom_input.dart';
 import 'package:gotravelclub/widgets/custom_input_age.dart';
@@ -23,6 +23,10 @@ class IdaYVuelta extends StatelessWidget {
   String _id = "idavuelta";
   String _idListMenores = "ListadoEdadesMenoresIdaVuelta";
 
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<VueloController>(
@@ -32,9 +36,10 @@ class IdaYVuelta extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+
               TitleWithDivider(title: "Información del Vuelo"),
               //destinos de aeropuertos
-              Padding(
+              /*Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 3),
                 child: Material(
                   elevation: 4,
@@ -65,6 +70,18 @@ class IdaYVuelta extends StatelessWidget {
                     ),
                   ),
                 ),
+              ),*/
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                child: DropDown(id: "idaIV", label: "Aeropuerto de Ida", rotation: 1, function: _.setAeropuertoIda),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 3.0),
+
+                child: DropDown(id: "idaIV", label: "Aeropuerto de Regreso", rotation: 5.5, function: _.setAeropuertoVuelta),
               ),
               SizedBox(
                 height: 20,
@@ -176,6 +193,7 @@ class IdaYVuelta extends StatelessWidget {
                     const EdgeInsets.symmetric(vertical: 10.0, horizontal: 3),
                 child: Material(
                   elevation: 4,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                   child: DropdownSearch<String>(
                     mode: Mode.BOTTOM_SHEET,
                     items: [
@@ -184,12 +202,27 @@ class IdaYVuelta extends StatelessWidget {
                       'Premiun',
                       "Bussiness"
                     ],
-                    label: "Clase",
-                    hint: "Selecciona la clase a viajar.",
                     onChanged: (value){
                       _.setClase(value!);
                     },
-                    selectedItem: "Económica",
+                    dropdownSearchDecoration: InputDecoration(
+                      label: Padding(
+                        padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+                        child: Text("Clase"),
+                      ),
+                      contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+                      filled: true,
+                      fillColor: Colors.white,
+                      enabledBorder: const OutlineInputBorder(
+                        // width: 0.0 produces a thin "hairline" border
+                        borderSide:
+                        const BorderSide(color: Colors.transparent, width: 0.0),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    selectedItem: "Economico",
                   ),
                 ),
               ),

@@ -87,7 +87,7 @@ class BannerEscapada extends StatelessWidget {
                     }).toList(),
                   ),
                 ),
-                AppBarDetalles()
+                AppBarDetalles(routeBack: "/escapada",)
               ],
             ),
           );

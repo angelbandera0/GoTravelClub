@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:gotravelclub/controller/vueloController.dart';
 import 'package:gotravelclub/views/custom/titleWithDivider.dart';
 import 'package:gotravelclub/views/vuelo/comun/cuadro_fecha.dart';
+import 'package:gotravelclub/views/vuelo/comun/dropDown.dart';
 import 'package:gotravelclub/views/vuelo/comun/listado_edades_menores.dart';
-import 'package:gotravelclub/views/vuelo/comun/selectAirportIda.dart';
 import 'package:gotravelclub/widgets/custom_button.dart';
 import 'package:gotravelclub/widgets/custom_input_number.dart';
 
@@ -28,38 +28,8 @@ class Ida extends StatelessWidget {
               TitleWithDivider(title: "Información del Vuelo"),
               //destinos de aeropuertos
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 3),
-                child: Material(
-                  elevation: 4,
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  child: Container(
-                    width: Get.width * 0.9,
-                    height: Get.height * 0.20,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Colors.white,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SelectAirportIda(id: "airportIdaI",width:Get.width * 0.26),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 30),
-                          child: ClipRRect(
-                            child: Image.asset(
-                              "assets/intro/img_avion.png",
-                              alignment: Alignment.topCenter,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: Get.width * 0.26,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                child: DropDown(id: "idaI", label: "Aeropuerto de Ida", rotation: 1, function: _.setAeropuertoIda),
               ),
               SizedBox(
                 height: 20,
@@ -177,7 +147,7 @@ class Ida extends StatelessWidget {
                     onChanged: (value){
                       _.setClase(value!);
                     },
-                    selectedItem: "Económica",
+                    selectedItem: "Economico",
                   ),
                 ),
               ),

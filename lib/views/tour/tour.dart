@@ -74,7 +74,7 @@ class MainTour extends StatelessWidget {
                             CustomInput1(
                               icon: Icons.search,
                               placeholder: "Buscar",
-                              isPassword: true,
+                              isPassword: false,
                               textEditingController: searchCtrl,
                               textInputType: TextInputType.text,
                               function: () {
@@ -114,16 +114,7 @@ class MainTour extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20.0),
-                            child: Text(
-                              "Populares",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                  color: Color(0xff621771)),
-                            ),
-                          ),
+                          TitlePopularesTour(),
                           SizedBox(
                             height: 10,
                           ),
@@ -137,16 +128,7 @@ class MainTour extends StatelessWidget {
                           SizedBox(
                             height: 20,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                            child: CustomButton(
-                              text: "Cargar Más",
-                              onPress: () {
-                                _.loadMore();
-                              },
-                              color: Color(0xff56E2C6),
-                            ),
-                          ),
+                          ButtomLoadMoreTour()
                         ],
                       ),
                     ),
@@ -194,5 +176,46 @@ class LoadingAppBarTour extends StatelessWidget {
         });
   }
 }
+
+
+class TitlePopularesTour  extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<TourController>(
+        id: "titlePopularesTour",
+        builder: (_) {
+          return (!_.isInSearch) ? Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Text(
+              "Populares",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Color(0xff621771)),
+            ),
+          ) : Container();
+        });
+  }
+}
+class ButtomLoadMoreTour  extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<TourController>(
+        id: "ButtomLoadMoreTour",
+        builder: (_) {
+          return (!_.isInSearch) ? Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 0.0),
+            child: CustomButton(
+              text: "Cargar Más",
+              onPress: () {
+                _.loadMore();
+              },
+              color: Color(0xff56E2C6),
+            ),
+          ) : Container();
+        });
+  }
+}
+
 
 

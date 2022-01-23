@@ -4,8 +4,9 @@ import 'package:gotravelclub/controller/drawerController.dart';
 
 class AppBarDetalles extends StatelessWidget {
   late MyDrawerController myDrawerController;
+  final String routeBack;
 
-  AppBarDetalles({Key? key}) : super(key: key){
+  AppBarDetalles({Key? key, required this.routeBack}) : super(key: key){
     myDrawerController=Get.find<MyDrawerController>();
   }
   @override
@@ -23,7 +24,7 @@ class AppBarDetalles extends StatelessWidget {
                   splashColor: Color(0xff621771),
                   // Splash color
                   onTap: () {
-                    Get.back();
+                    Get.toNamed(routeBack);
                   },
                   child: SizedBox(
                       width: 50,

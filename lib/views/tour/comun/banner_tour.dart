@@ -125,7 +125,7 @@ class BannerTour extends StatelessWidget {
                     }).toList(),
                   ),
                 ),
-                AppBarDetalles()
+                AppBarDetalles(routeBack: "/tour",)
               ],
             ),
           );

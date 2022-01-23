@@ -10,6 +10,7 @@ class ListadoHabitacionesTour extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(Get.height * 0.44);
     return GetBuilder<DetallesTourController>(
         id: _id,
         builder: (_) {

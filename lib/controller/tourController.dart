@@ -13,6 +13,7 @@ class TourController extends GetxController {
   TourService(DioClient().init());
   late Notificacion _notificacion;
   int page=0;
+  bool isInSearch=false;
   List<Tour> populares = [];
   List<Tour> tours_list = [];
   List<Widget> w_populares = [];
@@ -57,6 +58,7 @@ class TourController extends GetxController {
   }
 
   void createListCortos() {
+    w_populares=[];
     populares.forEach((element) {
       w_populares.add(CuadroCorto(
           url: element.imagen1!,
@@ -103,14 +105,17 @@ class TourController extends GetxController {
   void search(String s) async{
     toggleLoading();
     if(s!="") {
+      isInSearch=true;
       TourResponse tourResponse= await tourService.findTours(s);
       tours_list = tourResponse.data!;
       createListLargos();
       toggleLoading();
-      update(["listaTour"]);
+      update(["listaTour","titlePopularesTour","ButtomLoadMoreTour","popularesTour"]);
     }else{
       toggleLoading();
+      isInSearch=false;
       getTours();
+      update(["titlePopularesTour","ButtomLoadMoreTour","popularesTour"]);
     }
 
     }

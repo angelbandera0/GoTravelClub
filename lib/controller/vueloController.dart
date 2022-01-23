@@ -16,14 +16,13 @@ import 'package:gotravelclub/widgets/custom_input_age.dart';
 
 class VueloController extends GetxController {
   VueloService _vueloService=VueloService(DioClient().init());
-  List<Airport> listadoAirports=[];
+  List<Airport> listadoAirportsIda=[];
+  List<Airport> listadoAirportsVuelta=[];
   bool isLoadingDrop=false;
   List<String> items =[];
   int _index = 0;
-  String aeropuertoIda="Pulse para escoger aeropuerto";
-  String aeropuertoIdaLabel="";
-  String aeropuertoVuelta="Pulse para escoger aeropuerto";
-  String aeropuertoVueltaLabel="";
+  String aeropuertoIda="";
+  String aeropuertoVuelta="";
   Widget _body = IdaYVuelta();
   List<TextEditingController> _listaControllers = [];
   late SessionController sc=SessionController();
@@ -33,7 +32,7 @@ class VueloController extends GetxController {
   List<Widget> camposEdades = [];
   late String dateBegining="";
   late String dateEnd="";
-  late String clase="";
+  late String clase="Economico";
   late String cantAdultos="";
   late bool _isLoading=false;
 
@@ -46,6 +45,8 @@ class VueloController extends GetxController {
   setDateEnd(String date) => dateEnd = date;
   setClase(String c) => clase = c;
   setCantAdultos(String c) => cantAdultos = c;
+  setAeropuertoIda(String s)=>aeropuertoIda=s;
+  setAeropuertoVuelta(String s)=>aeropuertoVuelta=s;
 
   void cambiarTab(int index) {
     _index = index;
@@ -62,7 +63,12 @@ class VueloController extends GetxController {
         }
 
     }
-
+    aeropuertoIda="";
+    aeropuertoVuelta="";
+    dateBegining="";
+    dateEnd="";
+    clase="Economico";
+    cantAdultos="";
     _clear();
     update(["vuelo"]);
   }
@@ -108,47 +114,13 @@ print(id);
   void _clear(){
     camposEdades = [];
     _listaControllers = [];
-    aeropuertoIda="Pulse para escoger aeropuerto";
-    aeropuertoIdaLabel="";
-    aeropuertoVuelta="Pulse para escoger aeropuerto";
-    aeropuertoVueltaLabel="";
-    dateBegining="";
-    dateEnd="";
-    clase="";
-    cantAdultos="";
   }
 
-  void getAirports(String s) async{
-    isLoadingDrop=true;
+  Future<List<Airport>> getAirports(String s) async{
 
     AirportResponse response=await _vueloService.getAirports(s);
-    listadoAirports=response.result!;
-    items=[];
-    listadoAirports.forEach((element) { 
-      items.add(element.name!);
-    });
-    isLoadingDrop=false;
-    print(listadoAirports.length);
-  }
-  void setNameAirport(String id,String value){
-    print(id);
-    print(value);
-    Airport a=new Airport();
-    listadoAirports.forEach((element) {
-      if (element.name==value) {
-        print("found!!!!!!!!!");
-        a=element;
-      }
-    });
-    if(id=="airportIdaIV" || id=="airportIdaI"){
-      aeropuertoIda=a.name!;
-      aeropuertoIdaLabel=a.country!;
-    }
-    else if(id=="airportVueltaIV"){
-      aeropuertoVuelta=a!.name!;
-      aeropuertoVueltaLabel=a!.country!;
-    }
-    update([id]);
+    print(response.result);
+    return response.result!;
   }
 
   void toggleLoading() {
@@ -157,22 +129,24 @@ print(id);
   }
 
   void sendCotizacion(String id) async{
-    toggleLoading();
 
-    Map<String, dynamic> map=initMapData((id=="idavuelta")?"out":"in");
-    QuoteResponse response=await _vueloService.sendCuota(map);
-    print(response.toJson());
-    if (response.state) {
-      _notificacion.notificar(
-          body: "Se ha enviado la cotizacion del vuelo correctamente de alojamiento correctamente.",
-          type: "success");
-      toggleLoading();
-    }
-    else {
-      _notificacion.notificar(
-          body: "Ha ocurrido un error al enviar los datos.", type: "error");
-      toggleLoading();
-    }
+if(validarDatos(id)) {
+  toggleLoading();
+  Map<String, dynamic> map = initMapData((id == "idavuelta") ? "out" : "in");
+  QuoteResponse response = await _vueloService.sendCuota(map);
+  print(response.toJson());
+  if (response.state) {
+    _notificacion.notificar(
+        body: "Se ha enviado la cotizacion del vuelo correctamente de alojamiento correctamente.",
+        type: "success");
+    toggleLoading();
+  }
+  else {
+    _notificacion.notificar(
+        body: "Ha ocurrido un error al enviar los datos.", type: "error");
+    toggleLoading();
+  }
+}
 
   }
   Map<String, dynamic> initMapData(String type) {
@@ -184,7 +158,7 @@ print(id);
     map['airportdestiny'] = (type=="out")?aeropuertoVuelta:"";
     map['date_begin'] = dateBegining;
     map['date_end'] = (type=="out")?dateEnd:"";
-    map['count_adults'] = "${cantAdultos}\n";
+    map['count_adults'] = "${cantAdultos}";
     map['clase'] = clase;
     List<int> list = [];
     _listaControllers.forEach((element) {
@@ -193,5 +167,39 @@ print(id);
     map['lst_edades'] = jsonEncode(list);
     print(map);
     return map;
+  }
+
+  bool validarDatos(String id){
+    if(id=="idavuelta"){
+      if(aeropuertoVuelta==""){
+        _notificacion.notificar(body: "Debe especificar el aeropuerto de regreso.", type: "error");
+        return false;
+      }
+      if(dateEnd==""){
+        _notificacion.notificar(body: "Debe especificar la fecha de regreso.", type: "error");
+        return false;
+      }
+    }
+    if(aeropuertoIda==""){
+      _notificacion.notificar(body: "Debe especificar el aeropuerto de ida.", type: "error");
+      return false;
+    }
+    if(dateBegining==""){
+      _notificacion.notificar(body: "Debe especificar la fecha de ida.", type: "error");
+      return false;
+    }
+    if(cantAdultos=="" || cantAdultos=="0"){
+      _notificacion.notificar(body: "Debe agregar al menos a un adulto.", type: "error");
+      return false;
+    }
+    for(int i=0;i<_listaControllers.length;i++){
+      TextEditingController element=_listaControllers[i];
+      if(element.text=="" || element.text==null){
+        _notificacion.notificar(body: "Debe rellenar los campos de las edades.", type: "error");
+        return false;
+      }
+    }
+
+    return true;
   }
 }

@@ -9,9 +9,8 @@ class PopularesTour extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<TourController>(
         id: "popularesTour",
-        init: TourController(),
         builder: (_) {
-          return Container(
+          return (!_.isInSearch)?Container(
               height: 240,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -20,7 +19,7 @@ class PopularesTour extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children:(_.isShimmer)?shimmer.listC: _.w_populares
                 ),
-              ));
+              )):Container();
         });
   }
 }

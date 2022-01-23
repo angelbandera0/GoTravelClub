@@ -9,7 +9,6 @@ class ListaTour extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<TourController>(
         id: "listaTour",
-        init: TourController(),
         builder: (_) {
           return Column(children:(_.isShimmer)?shimmer.listL:_.w_tours,);
         });

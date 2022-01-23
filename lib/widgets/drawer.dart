@@ -69,7 +69,7 @@ class MenuScreen extends StatelessWidget {
                         padding: const EdgeInsets.only(
                             bottom: 36.0, left: 24.0, right: 24.0, top: 0),
                         child: Text(
-                          "UserName",
+                          "${_sessionController.getSession().first_name}",
                           style: TextStyle(
                             fontSize: 22,
                             color: Colors.white,

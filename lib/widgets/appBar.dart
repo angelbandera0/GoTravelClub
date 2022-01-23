@@ -27,8 +27,9 @@ class AppBarr extends StatelessWidget {
               color: Color(0xff621771),
             ),
             onPressed: () {
-              ZoomDrawer.of(context)!.close();
-              myDrawerController.toggleDrawer();
+              //ZoomDrawer.of(context)!.close();
+              //myDrawerController.toggleDrawer();
+              Get.toNamed("/escapada");
             }),
       ],
     );

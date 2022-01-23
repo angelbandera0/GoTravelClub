@@ -8,6 +8,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CotizacionController extends GetxController{
   CotizacionService cotizacionService =  CotizacionService(DioClient().init());
+  RefreshController refreshController =  RefreshController(initialRefresh: false);
   List<Widget> listadoCotizacionWidget=[];
   List<Info> listInfo=[];
   late bool _isLoading;
@@ -19,6 +20,7 @@ class CotizacionController extends GetxController{
     // TODO: implement onInit
     super.onInit();
     _isLoading=false;
+    RefreshController(initialRefresh: false);
     //getAllCotizacions();
   }
 
@@ -29,6 +31,7 @@ class CotizacionController extends GetxController{
 
   void getAllCotizacions()async{
     _isLoading=false;
+    RefreshController(initialRefresh: false);
     toggleLoading();
   listadoCotizacionWidget=[];
     CotizacionResponse cotizacionResponse= await cotizacionService.getCotizacion();
@@ -68,8 +71,7 @@ class CotizacionController extends GetxController{
 
   }
 
-  RefreshController refreshController =
-  RefreshController(initialRefresh: false);
+
 
   void onRefresh() async{
     // monitor network fetch

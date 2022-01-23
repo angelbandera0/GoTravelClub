@@ -151,6 +151,8 @@ class DetallesTourController extends GetxController {
               body: "Se ha enviado la cuota del tour correctamente.",
               type: "success");
           toggleLoading();
+          Get.offNamed("/tour");
+
         }
         else {
           _notificacion.notificar(
