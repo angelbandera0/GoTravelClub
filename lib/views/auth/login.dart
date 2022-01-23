@@ -82,8 +82,6 @@ class Login extends StatelessWidget {
 
 class _Form extends StatelessWidget {
   final AuthController authController;
-  final userCtrl = TextEditingController();
-  final passCtrl = TextEditingController();
 
   _Form({Key? key, required this.authController}) : super(key: key);
 
@@ -98,17 +96,22 @@ class _Form extends StatelessWidget {
               icon: Icons.person_outline,
               placeholder: "Usuario",
               isPassword: false,
-              textEditingController: userCtrl,
+              textEditingController: authController.userCtrl,
               textInputType: TextInputType.text,
-              function: () {},
+              function: (value) {
+                authController.userCtrl.text=value;
+              },
             ),
             CustomInput(
               icon: Icons.lock_outline,
               placeholder: "Contraseña",
               isPassword: true,
-              textEditingController: passCtrl,
+              textEditingController: authController.passCtrl,
               textInputType: TextInputType.text,
-              function: () {},
+              function: (value) {
+                authController.passCtrl.text=value;
+
+              },
             ),
             SizedBox(
               height: 15,
@@ -117,7 +120,7 @@ class _Form extends StatelessWidget {
               text: 'Ingresar',
               color: Color(0xff52E2C6),
               onPress: () {
-                authController.login(userCtrl.text, passCtrl.text);
+                authController.login(authController.userCtrl.text, authController.passCtrl.text);
               },
             )
           ],

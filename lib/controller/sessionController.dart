@@ -15,19 +15,27 @@ class SessionController extends GetxController {
     PreferenceUtils.setString("username", s.username!);
     PreferenceUtils.setString("token", s.token!);
     PreferenceUtils.setString("cedula", s.cedula!);
+    PreferenceUtils.setString("first_name", s.first_name!);
+    PreferenceUtils.setString("last_name", s.last_name!);
   }
 
   Session getSession() {
     return Session(
         token: PreferenceUtils.getString("token"),
         cedula: PreferenceUtils.getString("cedula"),
-        username: PreferenceUtils.getString("username"));
+        username: PreferenceUtils.getString("username"),
+        first_name: PreferenceUtils.getString("first_name"),
+        last_name: PreferenceUtils.getString("last_name"),
+
+    );
   }
 
   void logoutSession() {
     PreferenceUtils.remove("token");
     PreferenceUtils.remove("cedula");
     PreferenceUtils.remove("username");
+    PreferenceUtils.remove("first_name");
+    PreferenceUtils.remove("last_name");
     print(PreferenceUtils.getString("token"));
   }
 }

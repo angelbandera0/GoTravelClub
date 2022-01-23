@@ -11,6 +11,9 @@ class AuthResponse {
     this.token,
     this.role,
     this.cedula,
+    this.username,
+    this.first_name,
+    this.last_name
   });
 
   bool? status;
@@ -18,6 +21,9 @@ class AuthResponse {
   String? token;
   List<dynamic>? role;
   String? cedula;
+  String? username;
+  String? first_name;
+  String? last_name;
 
   factory AuthResponse.fromJson(Map<String, dynamic> json) => AuthResponse(
     status: json["status"],
@@ -25,6 +31,9 @@ class AuthResponse {
     token: json["token"],
     role: (json["role"]!=null)?List<dynamic>.from(json["role"].map((x) => x)):[],
     cedula: json["cedula"],
+    username: json["username"],
+    first_name: json["first_name"],
+    last_name: json["last_name"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -33,5 +42,8 @@ class AuthResponse {
     "token": token,
     "role": List<dynamic>.from(role!.map((x) => x)),
     "cedula": cedula,
+    "username": username,
+    "first_name": first_name,
+    "last_name": last_name,
   };
 }

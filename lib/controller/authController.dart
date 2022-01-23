@@ -13,27 +13,33 @@ import 'loadingController.dart';
 
 class AuthController extends GetxController {
   AuthService auth = AuthService(new DioClient().init());
+  TextEditingController _userCtrl = TextEditingController();
+  TextEditingController _passCtrl = TextEditingController();
+
   late Notificacion _notificacion;
   late SessionController sessionController;
   late bool _isLoading;
-  get isLoading=>_isLoading;
+
+  get isLoading => _isLoading;
+
+  get userCtrl => _userCtrl;
+
+  get passCtrl => _passCtrl;
 
   @override
   void onClose() {
     // TODO: implement onClose
     super.onClose();
-
   }
+
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    _isLoading=false;
-    _notificacion= new Notificacion();
+    _isLoading = false;
+    _notificacion = new Notificacion();
     sessionController = Get.find<SessionController>();
-
   }
-
 
   Future<Session> login(String username, String password) async {
     try {
@@ -41,28 +47,26 @@ class AuthController extends GetxController {
       User u = User(username: username, password: password);
       AuthResponse response = await auth.login(u);
       if (response.status!) {
-        sessionController
-            .storageSession(Session(username: username,
+        sessionController.storageSession(Session(
+            username: username,
             token: response.token,
-            cedula: response.cedula));
-        print(sessionController
-            .getSession()
-            .username);
-        print(sessionController
-            .getSession()
-            .token);
-        print(sessionController
-            .getSession()
-            .cedula);
+            cedula: response.cedula,
+            first_name: response.first_name,
+            last_name: response.last_name,
+        ));
+        print(sessionController.getSession().username);
+        print(sessionController.getSession().token);
+        print(sessionController.getSession().cedula);
         toggleLoading();
         Get.toNamed("/alojamiento");
       } else {
         toggleLoading();
+        passCtrl.text = "";
         _notificacion.notificar(body: response.message!, type: "error");
       }
-    }
-    catch(error){
+    } catch (error) {
       toggleLoading();
+      passCtrl.text = "";
       _notificacion.notificar(body: "Ha ocurrido un error.", type: "error");
     }
 
@@ -73,8 +77,8 @@ class AuthController extends GetxController {
     sessionController.logoutSession();
   }
 
-  void toggleLoading(){
-    _isLoading=!_isLoading;
+  void toggleLoading() {
+    _isLoading = !_isLoading;
     update(["loading"]);
   }
 }
