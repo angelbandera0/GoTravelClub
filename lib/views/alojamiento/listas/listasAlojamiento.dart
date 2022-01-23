@@ -9,7 +9,6 @@ class ListaAlojamiento extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<AlojamientoController>(
         id: "listaAlojamiento",
-        init: AlojamientoController(),
         builder: (_) {
           return Column(children:(_.isShimmer)?shimmer.listL:_.w_alojamientos,);
         });

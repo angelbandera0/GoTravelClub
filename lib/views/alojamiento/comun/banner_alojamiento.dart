@@ -125,7 +125,7 @@ class BannerAlojamiento extends StatelessWidget {
                     }).toList(),
                   ),
                 ),
-                AppBarDetalles()
+                AppBarDetalles(routeBack: "/alojamiento",)
               ],
             ),
           );

@@ -13,6 +13,7 @@ class AlojamientoController extends GetxController {
       AlojamientoService(DioClient().init());
   late Notificacion _notificacion;
   int page=0;
+  bool isInSearch=false;
   List<Alojamiento> populares = [];
   List<Alojamiento> alojamientos_list = [];
   List<Widget> w_populares = [];
@@ -57,6 +58,7 @@ class AlojamientoController extends GetxController {
   }
 
   void createListCortos() {
+    w_populares=[];
     populares.forEach((element) {
       w_populares.add(CuadroCorto(
           url: element.imagen1!,
@@ -103,14 +105,18 @@ class AlojamientoController extends GetxController {
   void search(String s) async{
     toggleLoading();
     if(s!="") {
+      isInSearch=true;
       AlojamientoResponse alojamientoResponse= await alojamientoService.findAlojamientos(s);
+      print(alojamientoResponse.data!.length);
       alojamientos_list = alojamientoResponse.data!;
       createListLargos();
       toggleLoading();
-      update(["listaAlojamiento"]);
+      update(["listaAlojamiento","titlePopularesAlojamiento","ButtomLoadMoreAlojamiento","popularesAlojamiento"]);
     }else{
       toggleLoading();
+      isInSearch=false;
       getAlojamientos();
+      update(["titlePopularesAlojamiento","ButtomLoadMoreAlojamiento","popularesAlojamiento"]);
     }
 
     }

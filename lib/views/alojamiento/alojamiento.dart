@@ -73,7 +73,7 @@ class MainAlojamiento extends StatelessWidget {
                             CustomInput1(
                               icon: Icons.search,
                               placeholder: "Buscar",
-                              isPassword: true,
+                              isPassword: false,
                               textEditingController: searchCtrl,
                               textInputType: TextInputType.text,
                               function: () {
@@ -113,16 +113,7 @@ class MainAlojamiento extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20.0),
-                            child: Text(
-                              "Populares",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                  color: Color(0xff621771)),
-                            ),
-                          ),
+                          TitlePopularesAlojamiento(),
                           SizedBox(
                             height: 10,
                           ),
@@ -136,16 +127,7 @@ class MainAlojamiento extends StatelessWidget {
                           SizedBox(
                             height: 20,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                            child: CustomButton(
-                              text: "Cargar Más",
-                              onPress: () {
-                                _.loadMore();
-                              },
-                              color: Color(0xff56E2C6),
-                            ),
-                          ),
+                          ButtomLoadMoreAlojamiento()
                         ],
                       ),
                     ),
@@ -194,4 +176,42 @@ class LoadingAppBarAlojamiento extends StatelessWidget {
   }
 }
 
+class TitlePopularesAlojamiento  extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<AlojamientoController>(
+        id: "titlePopularesAlojamiento",
+        builder: (_) {
+          return (!_.isInSearch) ? Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Text(
+              "Populares",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Color(0xff621771)),
+            ),
+          ) : Container();
+        });
+  }
+}
+class ButtomLoadMoreAlojamiento  extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<AlojamientoController>(
+        id: "ButtomLoadMoreAlojamiento",
+        builder: (_) {
+          return (!_.isInSearch) ? Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 0.0),
+            child: CustomButton(
+              text: "Cargar Más",
+              onPress: () {
+                _.loadMore();
+              },
+              color: Color(0xff56E2C6),
+            ),
+          ) : Container();
+        });
+  }
+}
 

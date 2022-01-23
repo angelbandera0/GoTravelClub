@@ -153,6 +153,7 @@ class DetallesAlojamientoController extends GetxController {
               body: "Se ha enviado la cuota de alojamiento correctamente.",
               type: "success");
           toggleLoading();
+          Get.offNamed("/alojamiento");
         }
         else {
           _notificacion.notificar(
