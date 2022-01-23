@@ -6,6 +6,7 @@ import 'package:gotravelclub/dio/dio_client.dart';
 import 'package:gotravelclub/helper/notification.dart';
 import 'package:gotravelclub/models/request/user.dart';
 import 'package:gotravelclub/models/response/authResponse.dart';
+import 'package:gotravelclub/models/response/quoteResponse.dart';
 import 'package:gotravelclub/models/session/session.dart';
 import 'package:gotravelclub/services/auth_service.dart';
 
@@ -48,15 +49,21 @@ class AuthController extends GetxController {
       AuthResponse response = await auth.login(u);
       if (response.status!) {
         sessionController.storageSession(Session(
-            username: username,
-            token: response.token,
-            cedula: response.cedula,
-            first_name: response.first_name,
-            last_name: response.last_name,
+          username: username,
+          token: response.token,
+          cedula: response.cedula,
+          first_name: response.first_name,
+          last_name: response.last_name,
         ));
-        print(sessionController.getSession().username);
-        print(sessionController.getSession().token);
-        print(sessionController.getSession().cedula);
+        print(sessionController
+            .getSession()
+            .username);
+        print(sessionController
+            .getSession()
+            .token);
+        print(sessionController
+            .getSession()
+            .cedula);
         toggleLoading();
         Get.toNamed("/alojamiento");
       } else {
@@ -75,6 +82,16 @@ class AuthController extends GetxController {
 
   void logout() {
     sessionController.logoutSession();
+  }
+
+  void setPasswordU(String pass) async {
+    toggleLoading();
+    var response = await auth.setPasswordUser(pass);
+    toggleLoading();
+    _notificacion.notificar(body: response["message"],
+        type: (response["message"] == "Contraseña cambiada correctamente")
+            ? "success"
+            : "error");
   }
 
   void toggleLoading() {

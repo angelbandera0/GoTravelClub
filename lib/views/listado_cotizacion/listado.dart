@@ -117,7 +117,15 @@ class ListCotizaciones extends StatelessWidget {
           return SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Column(
-            children: _.listadoCotizacionWidget,
+            children: (_.listadoCotizacionWidget.length!=0)?_.listadoCotizacionWidget:[Center(child:Padding(
+              padding: const EdgeInsets.fromLTRB(0, 200, 0, 0),
+              child: Column(
+                children:[
+                  Icon(Icons.list,size:80,color:Colors.grey),
+                  Text("No solicitudes de cotización",style:TextStyle(fontSize: 16,color:Colors.grey)),
+                ]
+              ),
+            ))],
           )
           );
         });

@@ -10,7 +10,7 @@ class PopularesAlojamiento extends StatelessWidget {
     return GetBuilder<AlojamientoController>(
         id: "popularesAlojamiento",
         builder: (_) {
-          return (!_.isInSearch)?Container(
+          return (!_.isInSearch)?(_.w_populares!=0)?Container(
               height: 240,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -19,7 +19,15 @@ class PopularesAlojamiento extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children:(_.isShimmer)?shimmer.listC: _.w_populares
                 ),
-              )):Container();
+              )):Center(child:Padding(
+            padding: const EdgeInsets.fromLTRB(0, 200, 0, 0),
+            child: Column(
+                children:[
+                  Icon(Icons.list,size:80,color:Colors.grey),
+                  Text("No hay alojamientos populares",style:TextStyle(fontSize: 16,color:Colors.grey)),
+                ]
+            ),
+          )):Container();
         });
   }
 }

@@ -31,7 +31,7 @@ class ListadoHabitacionesTour extends StatelessWidget {
               children: [
                 CarouselSlider(
                   options: CarouselOptions(
-                      height: Get.height * 0.44,
+                      height: 335,
                       autoPlay: false,
                       autoPlayInterval: Duration(seconds: 5),
                       autoPlayAnimationDuration: Duration(milliseconds: 800),

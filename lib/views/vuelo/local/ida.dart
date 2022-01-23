@@ -142,11 +142,27 @@ class Ida extends StatelessWidget {
                       'Premiun',
                       "Bussiness"
                     ],
-                    label: "Clase",
                     hint: "Selecciona la clase a viajar.",
                     onChanged: (value){
                       _.setClase(value!);
                     },
+                    dropdownSearchDecoration: InputDecoration(
+                      label: Padding(
+                        padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+                        child: Text("Clase"),
+                      ),
+                      contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+                      filled: true,
+                      fillColor: Colors.white,
+                      enabledBorder: const OutlineInputBorder(
+                        // width: 0.0 produces a thin "hairline" border
+                        borderSide:
+                        const BorderSide(color: Colors.transparent, width: 0.0),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
                     selectedItem: "Economico",
                   ),
                 ),

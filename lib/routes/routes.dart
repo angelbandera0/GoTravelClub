@@ -1,9 +1,11 @@
 
 import 'package:get/get.dart';
+import 'package:gotravelclub/views/about/about.dart';
 import 'package:gotravelclub/views/alojamiento/alojamiento.dart';
 import 'package:gotravelclub/views/alojamiento/detalles_alojamiento.dart';
 import 'package:gotravelclub/views/auth/login.dart';
 import 'package:gotravelclub/views/auth/register.dart';
+import 'package:gotravelclub/views/auth/setpassword.dart';
 import 'package:gotravelclub/views/escapada/detalles_escapada.dart';
 import 'package:gotravelclub/views/escapada/escapada.dart';
 import 'package:gotravelclub/views/inicio/inicio.dart';
@@ -18,6 +20,11 @@ final List<GetPage<dynamic>> appRoutes=[
   GetPage(
     name: '/intro',
     page: () => OnBoardingPage(),
+    //transition: Transition.noTransition
+  ),
+  GetPage(
+    name: '/about',
+    page: () => About(),
     //transition: Transition.noTransition
   ),
   GetPage(
@@ -63,6 +70,11 @@ final List<GetPage<dynamic>> appRoutes=[
   GetPage(
     name: '/login',
     page: () => Login(),
+    //transition: Transition.noTransition
+  ),
+  GetPage(
+    name: '/setpassword',
+    page: () => SetPassword(),
     //transition: Transition.noTransition
   ),
   GetPage(

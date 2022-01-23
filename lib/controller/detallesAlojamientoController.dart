@@ -150,7 +150,7 @@ class DetallesAlojamientoController extends GetxController {
             initMapData());
         if (response.state) {
           _notificacion.notificar(
-              body: "Se ha enviado la cuota de alojamiento correctamente.",
+              body: "Su cotización ha sido enviada exitosamente en breve uno de nuestros asesores le hará llegar la información solicitada.",
               type: "success");
           toggleLoading();
           Get.offNamed("/alojamiento");

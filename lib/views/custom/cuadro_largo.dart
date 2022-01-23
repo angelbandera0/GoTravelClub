@@ -29,7 +29,7 @@ class CuadroLargo extends StatelessWidget {
         elevation: 4,
         child: Ink(
             width: Get.width,
-            height: Get.height * 0.22,
+            height: 170,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
                 color: Colors.white),

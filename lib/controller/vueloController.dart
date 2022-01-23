@@ -137,7 +137,7 @@ if(validarDatos(id)) {
   print(response.toJson());
   if (response.state) {
     _notificacion.notificar(
-        body: "Se ha enviado la cotizacion del vuelo correctamente de alojamiento correctamente.",
+        body: "Su cotización ha sido enviada exitosamente en breve uno de nuestros asesores le hará llegar la información solicitada.",
         type: "success");
     toggleLoading();
   }

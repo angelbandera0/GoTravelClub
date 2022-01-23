@@ -10,9 +10,12 @@ class MenuScreen extends StatelessWidget {
   late SessionController _sessionController;
   static List<MenuItem> mainMenu = [
     MenuItem("Alojamientos", Icons.home, 0, "/alojamiento"),
-    MenuItem("Cotizaciones", Icons.money, 1, "/cotizaciones"),
-    MenuItem("Tours", Icons.public, 2, "/tour"),
-    MenuItem("Vuelos", Icons.flight, 3, "/vuelo"),
+    MenuItem("Tours", Icons.public, 1, "/tour"),
+    MenuItem("Vuelos", Icons.flight, 2, "/vuelo"),
+    MenuItem("Cotizaciones", Icons.money, 3, "/cotizaciones"),
+    MenuItem("Sobre nosotros", Icons.info, 4, "/about"),
+    MenuItem("Cambiar Contraseña", Icons.lock, 5, "/setpassword"),
+
   ];
 
   MenuScreen() {
@@ -52,10 +55,14 @@ class MenuScreen extends StatelessWidget {
                           width: 120,
                           height: 120,
                           child: Center(
-                            child: ClipOval(
-                              child: Image.asset(
-                                "assets/splash.png",
-                                width: 120,
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: ClipRRect(
+
+                                child: Image.asset(
+                                  "assets/splash.png",
+                                  width: 120,
+                                ),
                               ),
                             ),
                           ),
@@ -106,6 +113,22 @@ class MenuScreen extends StatelessWidget {
                         item: mainMenu[3],
                         widthBox: widthBox,
                         selected: _.current == 3,
+                        callback: _.setCurrent,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 16),
+                      ),
+                      MenuItemWidget(
+                        item: mainMenu[4],
+                        widthBox: widthBox,
+                        selected: _.current == 4,
+                        callback: _.setCurrent,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 16),
+                      ),
+                      MenuItemWidget(
+                        item: mainMenu[5],
+                        widthBox: widthBox,
+                        selected: _.current == 5,
                         callback: _.setCurrent,
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 16),

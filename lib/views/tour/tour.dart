@@ -203,7 +203,7 @@ class ButtomLoadMoreTour  extends StatelessWidget {
     return GetBuilder<TourController>(
         id: "ButtomLoadMoreTour",
         builder: (_) {
-          return (!_.isInSearch) ? Padding(
+          return (!_.isInSearch) ?(!_.end) ?Padding(
             padding: const EdgeInsets.symmetric(horizontal: 0.0),
             child: CustomButton(
               text: "Cargar Más",
@@ -212,7 +212,7 @@ class ButtomLoadMoreTour  extends StatelessWidget {
               },
               color: Color(0xff56E2C6),
             ),
-          ) : Container();
+          ):Container() : Container();
         });
   }
 }

@@ -24,6 +24,7 @@ class CuadroCorto extends StatelessWidget {
     if (this.url[0] == "/") {
       this.url = (this.url.substring(1, this.url.length));
     }
+    print(Get.height * 0.3);
     return Padding(
       padding: const EdgeInsets.only(top: 4.0,left: 4,bottom: 4,right: 10),
       child: Material(
@@ -31,7 +32,7 @@ class CuadroCorto extends StatelessWidget {
         elevation: 4,
         child: Ink(
             width: Get.width * 0.5,
-            height: Get.height * 0.3,
+            height: 230,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
                 color: Colors.white),
@@ -46,7 +47,7 @@ class CuadroCorto extends StatelessWidget {
                 children: [
                   Container(
                       width: Get.width * 0.5,
-                      height: Get.height * 0.18,
+                      height: 150,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(20),
