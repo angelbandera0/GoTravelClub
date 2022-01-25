@@ -66,6 +66,11 @@ class MainAbout extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
+                            Center(child: Text("Sobre Nosotros",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),textAlign: TextAlign.center,)),
+                            SizedBox(height: 10,),
+                            Text("Somos una compañía ecuatoriana, creada en la ciudad de Quito en el año 2014 con unos de los servicios turísticos más personalizados, seguros y completos del país. Con nosotros tienes la posibilidad de tener acceso a un sinnúmero de alojamientos, compañías aéreas y cruceros. Contamos con un equipo certificado y 100% capacitado.",textAlign: TextAlign.justify,style: TextStyle(fontSize: 16),),
+                            SizedBox(height: 40,),
+
                             Center(child: Text("Misión de la Agencia",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),textAlign: TextAlign.center,)),
                             SizedBox(height: 10,),
                             Text("Ofrecer a nuestros distinguidos clientes un servicio integral y exclusivo a través de productos turísticos que garanticen la máxima satisfacción en sus viajes. Adicionalmente promocionar las potencialidades turísticas del Ecuador dentro y fuera del país.",textAlign: TextAlign.justify,style: TextStyle(fontSize: 16),),

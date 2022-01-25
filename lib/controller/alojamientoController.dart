@@ -5,8 +5,10 @@ import 'package:gotravelclub/helper/notification.dart';
 import 'package:gotravelclub/models/request/alojamiento.dart';
 import 'package:gotravelclub/models/response/alojamientoResponse.dart';
 import 'package:gotravelclub/services/alojamiento_service.dart';
+import 'package:gotravelclub/shared_preferences/shared_preferences_singlenton.dart';
 import 'package:gotravelclub/views/custom/cuadro_corto.dart';
 import 'package:gotravelclub/views/custom/cuadro_largo.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AlojamientoController extends GetxController {
   AlojamientoService alojamientoService =
@@ -50,13 +52,41 @@ class AlojamientoController extends GetxController {
     populares = alojamientoResponse.popular!;
     alojamientos_list = alojamientoResponse.data!;
     end=alojamientoResponse.end!;
+    if(alojamientoResponse.config!.out!){
+      Get.offNamed("/mantenimiento");
+    }
+    var a=PreferenceUtils.getString("versionApp",alojamientoResponse.config!.versionApk!);
+    print(a);
+    print(alojamientoResponse.config!.versionApk!);
+    if(a!=alojamientoResponse.config!.versionApk!){
+      Get.defaultDialog(
+        title: "Mensage de notificación",
+        middleText: "Hay una nueva versión de la aplicación.¿Desea descargarla de nuestro sitio web?",
+        backgroundColor: Colors.white,
+        textConfirm: "Confirmar",
+        textCancel: "Cancelar",
+        cancelTextColor: Color(0xff56E2C6),
+        confirmTextColor: Colors.white,
+        buttonColor: Color(0xff56E2C6),
+        onConfirm: () {
+          _launchURL();
+          Navigator.pop(Get.context!);
+
+        },
+        titleStyle: TextStyle(color: Colors.black54),
+        middleTextStyle: TextStyle(color: Colors.black54),
+      );
+    }
    // print("object");
     createListCortos();
     createListLargos();
     isShimmer=false;
     update(["listaAlojamiento","popularesAlojamiento"]);
   }
-
+  _launchURL() async {
+    var url = "https://www.gotravelclub.com.ec/#target-aplicacion";
+    if (!await launch(url)) throw 'Could not launch $url';
+  }
   void createListCortos() {
     w_populares=[];
     populares.forEach((element) {

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 import 'package:gotravelclub/controller/alojamientoController.dart';
+import 'package:gotravelclub/controller/bottomController.dart';
 import 'package:gotravelclub/controller/drawerController.dart';
 import 'package:gotravelclub/helper/link_router_bottom_bar.dart';
 import 'package:gotravelclub/views/alojamiento/listas/listasAlojamiento.dart';
@@ -14,6 +15,7 @@ import 'package:gotravelclub/views/custom/shimmerCuadroCC.dart';
 import 'package:gotravelclub/views/custom/shimmerCuadroLargo.dart';
 import 'package:gotravelclub/views/custom/shimmerLC.dart';
 import 'package:gotravelclub/widgets/appBar.dart';
+import 'package:gotravelclub/widgets/bottomBar.dart';
 import 'package:gotravelclub/widgets/custom_button.dart';
 import 'package:gotravelclub/widgets/custom_input.dart';
 import 'package:gotravelclub/widgets/custom_input1.dart';
@@ -38,7 +40,7 @@ class Alojamiento extends StatelessWidget {
 
 class MainAlojamiento extends StatelessWidget {
   Shimmer shimmer = Shimmer();
-  TextEditingController searchCtrl=TextEditingController();
+  TextEditingController searchCtrl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,111 +48,100 @@ class MainAlojamiento extends StatelessWidget {
       _.getAlojamientos();
       return Stack(
         children: [
-          Scaffold(
-              appBar: PreferredSize(
-                child: Stack(
-                  children: [
-                    ClipRRect(
-                      child: Image.asset(
-                        "assets/fondo/fondo.png",
-                        width: Get.width,
-                        height: 130,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Container(
-                      child: Container(
-                        margin: EdgeInsets.fromLTRB(20, 35, 20, 0),
+      Scaffold(
+      appBar: PreferredSize(
+      child: Stack(
+      children: [
+      ClipRRect(
+      child: Image.asset(
+        "assets/fondo/fondo.png",
+        width: Get.width,
+        height: 130,
+        fit: BoxFit.cover,
+      ),
+      ),
+      Container(
+      child: Container(
+      margin: EdgeInsets.fromLTRB(20, 35, 20, 0),
 
-                        //color: Colors.blue,
+      //color: Colors.blue,
 
-                        child: Column(
-                          children: [
-                            AppBarr(),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            CustomInput1(
-                              icon: Icons.search,
-                              placeholder: "Buscar",
-                              isPassword: false,
-                              textEditingController: searchCtrl,
-                              textInputType: TextInputType.text,
-                              function: () {
-                                EasyDebounce.debounce(
-                                    'my-debouncer',                 // <-- An ID for this particular debouncer
-                                    Duration(milliseconds: 1000),    // <-- The debounce duration
-                                        () => _.search(searchCtrl.text)                // <-- The target method
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    //LoadingAppBarAlojamiento(),
-                  ],
-                ),
-                preferredSize: Size(Get.width, 130),
-              ),
-              body: Stack(
-                children: [
-                  ClipRRect(
-                    child: Image.asset(
-                      "assets/fondo/fondo.png",
-                      width: Get.width,
-                      height: Get.height,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 30),
-                    // Center is a layout widget. It takes a single child and positions it
-                    // in the middle of the parent.
-                    child: SingleChildScrollView(
-                      physics: BouncingScrollPhysics(),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          TitlePopularesAlojamiento(),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          //populares
-                          PopularesAlojamiento(),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          //alojamientos
-                          ListaAlojamiento(),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          ButtomLoadMoreAlojamiento()
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              bottomNavigationBar: ConvexAppBar(
-                backgroundColor: Color(0xff621771),
-                items: [
-                  TabItem(icon: Icons.home, title: 'Alojamientos'),
-                  TabItem(icon: Icons.public, title: 'Tours'),
-                  TabItem(icon: Icons.flight, title: 'Vuelos'),
-                ],
-                initialActiveIndex: 0, //optional, default as 0
-                onTap: (int i) {
-                  LinkRouterBottomBar(i).link();
-                },
-              )),
-          LoadingAlojamiento(),
-
-        ],
+      child: Column(
+      children: [
+      AppBarr(),
+      SizedBox(
+      height: 10,
+      ),
+      CustomInput1(
+      icon: Icons.search,
+      placeholder: "Buscar",
+      isPassword: false,
+      textEditingController: searchCtrl,
+      textInputType: TextInputType.text,
+      function: () {
+      EasyDebounce.debounce(
+      'my-debouncer', // <-- An ID for this particular debouncer
+      Duration(milliseconds: 1000), // <-- The debounce duration
+      () => _.search(searchCtrl.text) // <-- The target method
       );
-    });
+      },
+      ),
+      ],
+      ),
+      ),
+      ),
+      //LoadingAppBarAlojamiento(),
+      ],
+      ),
+      preferredSize: Size(Get.width, 130),
+      ),
+      body: Stack(
+      children: [
+      ClipRRect(
+      child: Image.asset(
+      "assets/fondo/fondo.png",
+      width: Get.width,
+      height: Get.height,
+      fit: BoxFit.cover,
+      ),
+      ),
+      Container(
+      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 30),
+      // Center is a layout widget. It takes a single child and positions it
+      // in the middle of the parent.
+      child: SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
+      child: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+      TitlePopularesAlojamiento(),
+      SizedBox(
+      height: 10,
+      ),
+      //populares
+      PopularesAlojamiento(),
+      SizedBox(
+      height: 20,
+      ),
+      //alojamientos
+      ListaAlojamiento(),
+      SizedBox(
+      height: 20,
+      ),
+      ButtomLoadMoreAlojamiento()
+      ],
+      ),
+      ),
+      ),
+      ],
+      ),
+      bottomNavigationBar: BottonBar(),),
+      LoadingAlojamiento(),
+
+      ],
+      );
+      });
   }
 }
 
@@ -176,7 +167,7 @@ class LoadingAppBarAlojamiento extends StatelessWidget {
   }
 }
 
-class TitlePopularesAlojamiento  extends StatelessWidget {
+class TitlePopularesAlojamiento extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AlojamientoController>(
@@ -195,13 +186,14 @@ class TitlePopularesAlojamiento  extends StatelessWidget {
         });
   }
 }
-class ButtomLoadMoreAlojamiento  extends StatelessWidget {
+
+class ButtomLoadMoreAlojamiento extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AlojamientoController>(
         id: "ButtomLoadMoreAlojamiento",
         builder: (_) {
-          return (!_.isInSearch) ?(!_.end)? Padding(
+          return (!_.isInSearch) ? (!_.end) ? Padding(
             padding: const EdgeInsets.symmetric(horizontal: 0.0),
             child: CustomButton(
               text: "Cargar Más",
@@ -210,8 +202,12 @@ class ButtomLoadMoreAlojamiento  extends StatelessWidget {
               },
               color: Color(0xff56E2C6),
             ),
-          ) : Container():Container();
+          ) : Container() : Container();
         });
   }
 }
+
+
+
+
 

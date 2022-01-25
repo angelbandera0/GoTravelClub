@@ -12,6 +12,7 @@ import 'package:gotravelclub/views/custom/shimmerCuadroCC.dart';
 import 'package:gotravelclub/views/custom/shimmerCuadroLargo.dart';
 import 'package:gotravelclub/views/custom/shimmerLC.dart';
 import 'package:gotravelclub/widgets/appBar.dart';
+import 'package:gotravelclub/widgets/bottomBar.dart';
 import 'package:gotravelclub/widgets/custom_button.dart';
 import 'package:gotravelclub/widgets/custom_input.dart';
 import 'package:gotravelclub/widgets/custom_input1.dart';
@@ -135,18 +136,7 @@ class MainTour extends StatelessWidget {
                   ),
                 ],
               ),
-              bottomNavigationBar: ConvexAppBar(
-                backgroundColor: Color(0xff621771),
-                items: [
-                  TabItem(icon: Icons.home, title: 'Alojamientos'),
-                  TabItem(icon: Icons.public, title: 'Tours'),
-                  TabItem(icon: Icons.flight, title: 'Vuelos'),
-                ],
-                initialActiveIndex: 1, //optional, default as 0
-                onTap: (int i) {
-                  LinkRouterBottomBar(i).link();
-                },
-              )),
+              bottomNavigationBar: BottonBar(),),
           LoadingTour(),
 
         ],

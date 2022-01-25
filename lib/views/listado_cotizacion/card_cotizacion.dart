@@ -299,7 +299,7 @@ class CardCotizacion extends StatelessWidget {
                                   )
                                 : Container(),
 
-                            (info.status == "Pagado")
+                            (info.status == "Pagado" && info.infopayment!.payment_state!="reembolsado")
                                 ? Container(
                               width: Get.width,
                               height: 50,
@@ -343,11 +343,72 @@ class CardCotizacion extends StatelessWidget {
                               ),
                             )
                                 : Container(),
+                            (info.status == "Pagado" && info.infopayment!.payment_state=="reembolsado")
+                                ? Container(
+                              width: Get.width,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(20)),
+                                  border: Border(
+                                    top: BorderSide(
+                                        color: Colors.red,
+                                        width: 3),
+                                    right: BorderSide(
+                                        color: Colors.red,
+                                        width: 3),
+                                    left: BorderSide(
+                                        color: Colors.red,
+                                        width: 3),
+                                    bottom: BorderSide(
+                                        color: Colors.red,
+                                        width: 3),
+                                  )),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Icon(
+                                    Icons.info,
+                                    size: 30,
+                                    color: Colors.red,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    "Su pago ha sido reembolsado.",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                            )
+                                : Container(),
                             (info.status == "Pendiente" && info.response != "")
                                 ? CustomButton(
                                     text: "Validar Pagos",
                                     onPress: () {
-                                      _launchURL();
+                                      //_launchURL();
+                                      Get.defaultDialog(
+                                        title: "Mensage de notificación",
+                                        middleText: "¿Está de acuerdo con el pago que debe efectuar.?",
+                                        backgroundColor: Colors.white,
+                                        textConfirm: "Confirmar",
+                                        textCancel: "Cancelar",
+                                        cancelTextColor: Color(0xff56E2C6),
+                                        confirmTextColor: Colors.white,
+                                        buttonColor: Color(0xff56E2C6),
+                                        onConfirm: () {
+                                          _launchURL();
+                                          Navigator.pop(context);
+
+                                        },
+                                        titleStyle: TextStyle(color: Colors.black54),
+                                        middleTextStyle: TextStyle(color: Colors.black54),
+                                      );
                                     },
                                     color: Color(0xff56E2C6))
                                 : Container()

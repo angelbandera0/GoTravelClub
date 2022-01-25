@@ -27,8 +27,8 @@ class DetallesAlojamientoController extends GetxController {
   late String fullname = "";
   late String email = "";
   late String phone = "";
-  late String dateBegining="";
-  late String dateEnd="";
+  late String dateBegining = "";
+  late String dateEnd = "";
   late Notificacion _notificacion;
   Alojamiento alojamiento = Get.arguments;
   late SessionController sc;
@@ -77,7 +77,7 @@ class DetallesAlojamientoController extends GetxController {
   void addHabitacion() {
     listadoHabitaciones
         .add(HabitacionAlojamiento(index: listadoHabitaciones.length));
-    listadoHabitacionesDatos.add(Habitacion());
+    listadoHabitacionesDatos.add(Habitacion(ages_minors: []));
     update(["listadoHabitacionesAlojamiento"]);
   }
 
@@ -122,50 +122,42 @@ class DetallesAlojamientoController extends GetxController {
   }
 
   setCantidadAdultos(int index, String cant) {
-    if(cant!=""){
+    if (cant != "") {
       listadoHabitacionesDatos[index].count_adults = int.parse(cant);
     }
   }
 
   setCantidadMenores(int index, String cant) {
-    if(cant!=""){
+    if (cant != "") {
       List<int> a = List.filled(int.parse(cant), -1);
       listadoHabitacionesDatos[index].ages_minors = a;
     }
-
   }
 
   addEdad(int indexH, int indexE, String edad) {
-    if(edad!=""){
+    if (edad != "") {
       listadoHabitacionesDatos[indexH].ages_minors![indexE] = int.parse(edad);
     }
-
   }
 
   void cotizacion() async {
-    try {
-      toggleLoading();
-      if(validarCampos()) {
-        QuoteResponse response = await alojamientoService.sendCuota(
-            initMapData());
-        if (response.state) {
-          _notificacion.notificar(
-              body: "Su cotización ha sido enviada exitosamente en breve uno de nuestros asesores le hará llegar la información solicitada.",
-              type: "success");
-          toggleLoading();
-          Get.offNamed("/alojamiento");
-        }
-        else {
-          _notificacion.notificar(
-              body: "Ha ocurrido un error al enviar los datos.", type: "error");
-          toggleLoading();
-        }
-      }
-      else{
+    toggleLoading();
+    if (validarCampos()) {
+      QuoteResponse response =
+          await alojamientoService.sendCuota(initMapData());
+      if (response.state) {
+        _notificacion.notificar(
+            body:
+                "Su cotización ha sido enviada exitosamente en breve uno de nuestros asesores le hará llegar la información solicitada.",
+            type: "success");
+        toggleLoading();
+        Get.offNamed("/alojamiento");
+      } else {
+        _notificacion.notificar(
+            body: "Ha ocurrido un error al enviar los datos.", type: "error");
         toggleLoading();
       }
-    } catch (e) {
-      _notificacion.notificar(body: "Ha ocurrido un error.", type: "error");
+    } else {
       toggleLoading();
     }
   }
@@ -190,65 +182,73 @@ class DetallesAlojamientoController extends GetxController {
     return map;
   }
 
-  bool validarCampos(){
-    if(fullname=="" || fullname==null){
+  bool validarCampos() {
+    if (fullname == "" || fullname == null) {
       _notificacion.notificar(
           body: "El campo del nombre se encuentra vacío.", type: "error");
       return false;
     }
-    if(email=="" || email==null){
+    if (email == "" || email == null) {
       _notificacion.notificar(
           body: "El campo del correo se encuentra vacío.", type: "error");
       return false;
     }
-    if(!EmailValidator.validate(email)){
+    if (!EmailValidator.validate(email)) {
       _notificacion.notificar(
           body: "El email insertado no es válido.", type: "error");
       return false;
     }
-    if(phone=="" || phone==null){
+    if (phone == "" || phone == null) {
       _notificacion.notificar(
           body: "El campo del teléfono se encuentra vacío.", type: "error");
       return false;
     }
-    if(dateBegining=="" || dateEnd==""){
+    if (dateBegining == "" || dateEnd == "") {
       _notificacion.notificar(
           body: "Se debe insertar una fecha válida.", type: "error");
       return false;
     }
-    if(listadoHabitacionesDatos.length==0){
+    var d1 = dateBegining.split("-");
+    var d2 = dateEnd.split("-");
+    var a = DateTime.utc(int.parse(d1[2]), int.parse(d1[1]), int.parse(d1[0]));
+    var b = DateTime.utc(int.parse(d2[2]), int.parse(d2[1]), int.parse(d2[0]));
+    if (b.compareTo(a) != 1) {
+      _notificacion.notificar(
+          body: "La fecha de ida debe ser menor que la de regreso.",
+          type: "error");
+      return false;
+    }
+    if (listadoHabitacionesDatos.length == 0) {
       _notificacion.notificar(
           body: "Debe agregar al menos una habitación.", type: "error");
       return false;
     }
-    if(!validarDatosHabitacion()){
+    if (!validarDatosHabitacion()) {
       _notificacion.notificar(
-          body: "Existen campos dentro de las habitaciones sin llenar.", type: "error");
+          body: "Existen campos dentro de las habitaciones sin llenar.",
+          type: "error");
       return false;
     }
     return true;
   }
 
-  bool validarDatosHabitacion(){
-    for(int i=0;i<listadoHabitacionesDatos.length;i++){
-      Habitacion element=listadoHabitacionesDatos[i];
-      if(element.count_adults==0 || element.count_adults==null){
+  bool validarDatosHabitacion() {
+    for (int i = 0; i < listadoHabitacionesDatos.length; i++) {
+      Habitacion element = listadoHabitacionesDatos[i];
+      if (element.count_adults == 0 || element.count_adults == null) {
         return false;
-      }
-      else{
-        if(element.ages_minors!.length==0){
-          return false;
-        }
-        else {
-          for (int j = 0; j < element.ages_minors!.length; j++){
-            if(element.ages_minors![j]==-1 || element.ages_minors![j]== 0 || element.ages_minors![j]== null){
+      } else {
+        if (element.ages_minors!.isNotEmpty) {
+          for (int j = 0; j < element.ages_minors!.length; j++) {
+            if (element.ages_minors![j] == -1 ||
+                element.ages_minors![j] == 0 ||
+                element.ages_minors![j] == null) {
 
               return false;
             }
           }
         }
-        }
-
+      }
     }
 
     return true;

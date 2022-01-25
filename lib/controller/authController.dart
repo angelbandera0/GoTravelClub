@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:gotravelclub/controller/drawerController.dart';
 import 'package:gotravelclub/controller/sessionController.dart';
 import 'package:gotravelclub/dio/dio_client.dart';
 import 'package:gotravelclub/helper/notification.dart';
@@ -16,6 +17,10 @@ class AuthController extends GetxController {
   AuthService auth = AuthService(new DioClient().init());
   TextEditingController _userCtrl = TextEditingController();
   TextEditingController _passCtrl = TextEditingController();
+  late MyDrawerController drawerController;
+
+
+
 
   late Notificacion _notificacion;
   late SessionController sessionController;
@@ -39,6 +44,7 @@ class AuthController extends GetxController {
     super.onInit();
     _isLoading = false;
     _notificacion = new Notificacion();
+    drawerController = Get.find<MyDrawerController>();
     sessionController = Get.find<SessionController>();
   }
 
@@ -65,7 +71,7 @@ class AuthController extends GetxController {
             .getSession()
             .cedula);
         toggleLoading();
-        Get.toNamed("/alojamiento");
+        Get.offNamed("/alojamiento");
       } else {
         toggleLoading();
         passCtrl.text = "";
@@ -84,14 +90,24 @@ class AuthController extends GetxController {
     sessionController.logoutSession();
   }
 
-  void setPasswordU(String pass) async {
-    toggleLoading();
-    var response = await auth.setPasswordUser(pass);
-    toggleLoading();
-    _notificacion.notificar(body: response["message"],
-        type: (response["message"] == "Contraseña cambiada correctamente")
-            ? "success"
-            : "error");
+  void setPasswordU(String pass,String pass1) async {
+    if(pass==pass1) {
+      toggleLoading();
+      var response = await auth.setPasswordUser(pass);
+      toggleLoading();
+      _notificacion.notificar(body: response["message"],
+          type: (response["message"] == "Contraseña cambiada correctamente")
+              ? "success"
+              : "error");
+      if(response["message"] == "Contraseña cambiada correctamente"){
+        drawerController.setCurrentIndex(0);
+        Get.offNamed("/alojamiento");
+      }
+    }
+    else{
+      _notificacion.notificar(body: "Las contraseñas no coinciden",
+          type: "error");
+    }
   }
 
   void toggleLoading() {

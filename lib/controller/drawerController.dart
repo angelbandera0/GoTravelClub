@@ -8,8 +8,9 @@ class MyDrawerController extends GetxController {
   setCurrent(int index,String route) {
     current = index;
   update(["drawer"]);
-  Get.offAndToNamed(route);
+  Get.offNamed(route);
   }
+  setCurrentIndex(int index)=>current=index;
 
   void toggleDrawer() {
     print("Toggle drawer");

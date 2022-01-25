@@ -27,6 +27,7 @@ class SetPassword extends StatelessWidget {
 
 class MainSetPassword extends StatelessWidget {
   TextEditingController passCtrl=TextEditingController();
+  TextEditingController pass1Ctrl=TextEditingController();
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AuthController>(
@@ -73,12 +74,26 @@ class MainSetPassword extends StatelessWidget {
                             children: <Widget>[
                               Text("Cambiar Contraseña",style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold,color: Colors.black54),),
                               SizedBox(height: 20,),
-                              CustomInput1(icon: Icons.lock, placeholder: "Ingrese la nueva contraseña", textEditingController: passCtrl, textInputType: TextInputType.text, isPassword: true, function: (){}),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                                child: CustomInput1(icon: Icons.lock, placeholder: "Ingrese la nueva contraseña", textEditingController: passCtrl, textInputType: TextInputType.text, isPassword: true, function: (){}),
+                              ),
                               SizedBox(height: 20,),
 
-                              CustomButton(text: "Cambiar Contraseña", onPress: (){
-                                _.setPasswordU(passCtrl.text);
-                              }, color: Color(0xff56E2C6),)
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 3.0),
+
+                                child: CustomInput1(icon: Icons.lock, placeholder: "Confirme la nueva contraseña", textEditingController: pass1Ctrl, textInputType: TextInputType.text, isPassword: true, function: (){}),
+                              ),
+                              SizedBox(height: 20,),
+
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 3.0),
+
+                                child: CustomButton(text: "Cambiar Contraseña", onPress: (){
+                                  _.setPasswordU(passCtrl.text,pass1Ctrl.text);
+                                }, color: Color(0xff56E2C6),),
+                              )
                             ],
                           ),
                         ),

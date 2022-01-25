@@ -14,7 +14,8 @@ class MenuScreen extends StatelessWidget {
     MenuItem("Vuelos", Icons.flight, 2, "/vuelo"),
     MenuItem("Cotizaciones", Icons.money, 3, "/cotizaciones"),
     MenuItem("Sobre nosotros", Icons.info, 4, "/about"),
-    MenuItem("Cambiar Contraseña", Icons.lock, 5, "/setpassword"),
+    MenuItem("Contáctenos", Icons.paste, 5, "/contact"),
+    MenuItem("Cambiar Contraseña", Icons.lock, 6, "/setpassword"),
 
   ];
 
@@ -129,6 +130,14 @@ class MenuScreen extends StatelessWidget {
                         item: mainMenu[5],
                         widthBox: widthBox,
                         selected: _.current == 5,
+                        callback: _.setCurrent,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 16),
+                      ),
+                      MenuItemWidget(
+                        item: mainMenu[6],
+                        widthBox: widthBox,
+                        selected: _.current == 6,
                         callback: _.setCurrent,
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 16),

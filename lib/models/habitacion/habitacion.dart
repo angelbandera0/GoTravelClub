@@ -1,6 +1,6 @@
 class Habitacion{
   late int? count_adults;
-  late List<int>? ages_minors;
+  late List<int>? ages_minors=[];
 
   Habitacion({
     this.count_adults,

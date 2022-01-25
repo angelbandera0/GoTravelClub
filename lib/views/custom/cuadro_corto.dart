@@ -24,7 +24,6 @@ class CuadroCorto extends StatelessWidget {
     if (this.url[0] == "/") {
       this.url = (this.url.substring(1, this.url.length));
     }
-    print(Get.height * 0.3);
     return Padding(
       padding: const EdgeInsets.only(top: 4.0,left: 4,bottom: 4,right: 10),
       child: Material(

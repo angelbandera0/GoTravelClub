@@ -7,6 +7,7 @@ import 'package:gotravelclub/controller/drawerController.dart';
 import 'package:gotravelclub/controller/vueloController.dart';
 import 'package:gotravelclub/helper/link_router_bottom_bar.dart';
 import 'package:gotravelclub/widgets/appBar.dart';
+import 'package:gotravelclub/widgets/bottomBar.dart';
 import 'package:gotravelclub/widgets/drawer.dart';
 import 'package:gotravelclub/widgets/loading.dart';
 import 'package:gotravelclub/widgets/zoom_drawer_constructor.dart';
@@ -96,18 +97,7 @@ class MainVuelo extends StatelessWidget {
                     ),
                   ],
                 ),
-                bottomNavigationBar: ConvexAppBar(
-                  backgroundColor: Color(0xff621771),
-                  items: [
-                    TabItem(icon: Icons.home, title: 'Alojamientos'),
-                    TabItem(icon: Icons.public, title: 'Tours'),
-                    TabItem(icon: Icons.flight, title: 'Vuelos'),
-                  ],
-                  initialActiveIndex: 2, //optional, default as 0
-                  onTap: (int i) {
-                    LinkRouterBottomBar(i).link();
-                  },
-                ),
+                bottomNavigationBar: BottonBar(),
               ),
               LoadingDetallesAlojamiento()
             ],
