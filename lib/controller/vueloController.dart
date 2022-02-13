@@ -7,6 +7,7 @@ import 'package:gotravelclub/helper/notification.dart';
 import 'package:gotravelclub/models/response/airportResponse.dart';
 import 'package:gotravelclub/models/response/quoteResponse.dart';
 import 'package:gotravelclub/services/vueloService.dart';
+import 'package:gotravelclub/shared_preferences/shared_preferences_singlenton.dart';
 import 'package:gotravelclub/views/vuelo/local/ida.dart';
 import 'package:gotravelclub/views/vuelo/local/ida_y_vuelta.dart';
 import 'package:gotravelclub/views/vuelo/local/multiples_destinos.dart';
@@ -27,7 +28,6 @@ class VueloController extends GetxController {
   List<TextEditingController> _listaControllers = [];
   late SessionController sc = SessionController();
   late Notificacion _notificacion = Notificacion();
-
 
   List<Widget> camposEdades = [];
   late String dateBegining = "";
@@ -137,17 +137,17 @@ class VueloController extends GetxController {
   void sendCotizacion(String id) async {
     if (validarDatos(id)) {
       toggleLoading();
-      Map<String, dynamic> map = initMapData(
-          (id == "idavuelta") ? "out" : "in");
+      Map<String, dynamic> map =
+          initMapData((id == "idavuelta") ? "in_out" : "out");
       QuoteResponse response = await _vueloService.sendCuota(map);
       print(response.toJson());
       if (response.state) {
         _notificacion.notificar(
-            body: "Su cotización ha sido enviada exitosamente en breve uno de nuestros asesores le hará llegar la información solicitada.",
+            body:
+                "Su cotización ha sido enviada exitosamente en breve uno de nuestros asesores le hará llegar la información solicitada.",
             type: "success");
         toggleLoading();
-      }
-      else {
+      } else {
         _notificacion.notificar(
             body: "Ha ocurrido un error al enviar los datos.", type: "error");
         toggleLoading();
@@ -158,15 +158,12 @@ class VueloController extends GetxController {
   Map<String, dynamic> initMapData(String type) {
     var map = new Map<String, dynamic>();
     map['type'] = type;
-    map['cedula'] = sc
-        .getSession()
-        .cedula
-        .toString();
-    map['registration_id'] = "";
+    map['cedula'] = sc.getSession().cedula.toString();
+    map['registration_id'] = PreferenceUtils.getString('token_phone');
     map['airportorigen'] = aeropuertoIda;
-    map['airportdestiny'] = (type == "out") ? aeropuertoVuelta : "";
+    map['airportdestiny'] = (type == "in_out") ? aeropuertoVuelta : "";
     map['date_begin'] = dateBegining;
-    map['date_end'] = (type == "out") ? dateEnd : "";
+    map['date_end'] = (type == "in_out") ? dateEnd : "";
     map['count_adults'] = "${cantAdultos}";
     map['clase'] = clase;
     List<int> list = [];
@@ -202,10 +199,10 @@ class VueloController extends GetxController {
       }
       var d1 = dateBegining.split("-");
       var d2 = dateEnd.split("-");
-      var a = DateTime.utc(
-          int.parse(d1[2]), int.parse(d1[1]), int.parse(d1[0]));
-      var b = DateTime.utc(
-          int.parse(d2[2]), int.parse(d2[1]), int.parse(d2[0]));
+      var a =
+          DateTime.utc(int.parse(d1[2]), int.parse(d1[1]), int.parse(d1[0]));
+      var b =
+          DateTime.utc(int.parse(d2[2]), int.parse(d2[1]), int.parse(d2[0]));
       if (b.compareTo(a) != 1) {
         _notificacion.notificar(
             body: "La fecha de ida debe ser menor que la de regreso.",
@@ -213,21 +210,20 @@ class VueloController extends GetxController {
         return false;
       }
     }
-      if (cantAdultos == "" || cantAdultos == "0") {
+    if (cantAdultos == "" || cantAdultos == "0") {
+      _notificacion.notificar(
+          body: "Debe agregar al menos a un adulto.", type: "error");
+      return false;
+    }
+    for (int i = 0; i < _listaControllers.length; i++) {
+      TextEditingController element = _listaControllers[i];
+      if (element.text == "" || element.text == null) {
         _notificacion.notificar(
-            body: "Debe agregar al menos a un adulto.", type: "error");
+            body: "Debe rellenar los campos de las edades.", type: "error");
         return false;
       }
-      for (int i = 0; i < _listaControllers.length; i++) {
-        TextEditingController element = _listaControllers[i];
-        if (element.text == "" || element.text == null) {
-          _notificacion.notificar(
-              body: "Debe rellenar los campos de las edades.", type: "error");
-          return false;
-        }
-      }
-
-      return true;
     }
-  }
 
+    return true;
+  }
+}

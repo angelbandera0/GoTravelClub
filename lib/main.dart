@@ -1,6 +1,9 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:gotravelclub/controller/bottomController.dart';
 import 'package:gotravelclub/controller/sessionController.dart';
@@ -10,7 +13,24 @@ import 'controller/drawerController.dart';
 import 'controller/routerController.dart';
 import 'routes/routes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-void main() async{
+
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+    'high_importance_channel', // id
+    'High Importance Notifications', // title
+    description:
+        'This channel is used for important notifications.', // description
+    importance: Importance.high,
+    playSound: true);
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print('A bg message just showed up :  ${message.messageId}');
+}
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   Get.put<MyDrawerController>(MyDrawerController());
@@ -19,33 +39,57 @@ void main() async{
   Get.put<RouterController>(RouterController());
   await PreferenceUtils.init();
   await dotenv.load(fileName: ".env");
+
+  await Firebase.initializeApp();
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runApp(MyApp());
+  PreferenceUtils.setString(
+      "token_phone", await FirebaseMessaging.instance.getToken() ?? "");
+
+  print("${PreferenceUtils.getString('token_phone')} tokenFirebaseMobile");
+  runApp(MyAppPage());
 }
 
-class MyApp extends StatelessWidget {
+class MyAppPage extends StatefulWidget {
+  MyAppPage({Key? key}) : super(key: key);
+
+  @override
+  MyApp createState() => MyApp();
+}
+
+class MyApp extends State<MyAppPage> {
   // This widget is the root of your application.
   late BottomController btc;
   late RouterController rt;
-  MyApp({Key? key}) : super(key: key){
-    btc=Get.find<BottomController>();
-    rt=Get.find<RouterController>();
+  int _counter = 0;
+  MyApp() {
+    btc = Get.find<BottomController>();
+    rt = Get.find<RouterController>();
   }
   @override
   Widget build(BuildContext context) {
-    print("Introduction Screen is: ${PreferenceUtils.getBool("introScreen",false)}");
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'GoTravelClub',
-        routingCallback: (routing) {
-          //print(routing!.current);
-          //print(routing!.route.toString());
+      routingCallback: (routing) {
+        //print(routing!.current);
+        //print(routing!.route.toString());
 
-         // rt.setPrevR(rt.currentR);
+        // rt.setPrevR(rt.currentR);
         //rt.setCurrentR(routing!.current);
         //btc.updatedBottom(routing!.current);
-        },
-      initialRoute: (false)?"/intro":"/login",
+      },
+      initialRoute: (false) ? "/intro" : "/login",
       theme: ThemeData(fontFamily: 'Corbel'),
       getPages: appRoutes,
       localizationsDelegates: [
@@ -56,14 +100,59 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: [
         const Locale('es'),
-
       ],
       localeResolutionCallback:
           (Locale? locale, Iterable<Locale>? supportedLocales) {
         //print("change language");
         return locale;
       },
-
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      FirebaseMessaging.instance.getToken().then((token) {
+        print(token);
+      });
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channelDescription: channel.description,
+                color: Colors.blue,
+                playSound: true,
+                icon: '@mipmap/ic_launcher',
+              ),
+            ));
+      }
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        showDialog(
+            context: context,
+            builder: (_) {
+              return AlertDialog(
+                title: Text(notification.title!),
+                content: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [Text(notification.body!)],
+                  ),
+                ),
+              );
+            });
+      }
+    });
   }
 }

@@ -93,20 +93,20 @@ class MainContact extends StatelessWidget {
                               child: Container(
                                 width: Get.width * 0.7,
                                 margin: EdgeInsets.only(
-                                    top: 40, left: 20, right: 20),
+                                    top: 30, left: 20, right: 20),
                                 child: Column(
                                   children: <Widget>[
-                                    Image(image: AssetImage('assets/logo.png')),
+                                    Image(image: AssetImage('assets/contact.png')),
                                   ],
                                 ),
                               ),
                             ),
 
-                            SizedBox(height: 30,),
+                            SizedBox(height: 20,),
                             Center(child: Text("Contáctanos",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),textAlign: TextAlign.center,)),
                             SizedBox(height: 10,),
                             Text("Av. de los Shyris N44-135 y Río Coca. Edificio Montecarlo X. Piso 8. Quito. Ecuador",textAlign: TextAlign.center,style: TextStyle(fontSize: 16),),
-                            SizedBox(height: 30,),
+                            SizedBox(height: 20,),
                             Center(
                               child: TextButton(
                                 onPressed: (){
@@ -115,7 +115,7 @@ class MainContact extends StatelessWidget {
                                 child: Text('(+593) 958928930',style: TextStyle(fontSize: 14),),
                               ),
                             ),
-                            SizedBox(height: 30,),
+                            SizedBox(height: 10,),
                             Padding(
                               padding: const EdgeInsets.all(20.0),
                               child: Row(

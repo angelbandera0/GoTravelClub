@@ -9,6 +9,8 @@ import 'package:gotravelclub/shared_preferences/shared_preferences_singlenton.da
 import 'package:gotravelclub/views/custom/cuadro_corto.dart';
 import 'package:gotravelclub/views/custom/cuadro_largo.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:new_version/new_version.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class AlojamientoController extends GetxController {
   AlojamientoService alojamientoService =
@@ -49,6 +51,7 @@ class AlojamientoController extends GetxController {
   void getAlojamientos() async {
     AlojamientoResponse alojamientoResponse =
         await alojamientoService.getAlojamientos(page);
+
     populares = alojamientoResponse.popular!;
     alojamientos_list = alojamientoResponse.data!;
     end=alojamientoResponse.end!;
@@ -56,9 +59,12 @@ class AlojamientoController extends GetxController {
       Get.offNamed("/mantenimiento");
     }
     var a=PreferenceUtils.getString("versionApp",alojamientoResponse.config!.versionApk!);
-    print(a);
-    print(alojamientoResponse.config!.versionApk!);
-    if(a!=alojamientoResponse.config!.versionApk!){
+
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String version = packageInfo.version;
+    String code = packageInfo.buildNumber;
+
+    if(version!=alojamientoResponse.config!.versionApk!){
       Get.defaultDialog(
         title: "Mensage de notificación",
         middleText: "Hay una nueva versión de la aplicación.¿Desea descargarla de nuestro sitio web?",

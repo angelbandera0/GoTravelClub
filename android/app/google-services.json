@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "602089107955",
+    "project_id": "gotravelclub-1a8b9",
+    "storage_bucket": "gotravelclub-1a8b9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602089107955:android:aed60af512511f5859a286",
+        "android_client_info": {
+          "package_name": "com.angelhdez.gotravelclub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "602089107955-10384m4kgmpao81gqskbm5l3gh7i2ine.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApoDJUQAQi4DlU_NUyAzMXo91OZcaIq6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "602089107955-10384m4kgmpao81gqskbm5l3gh7i2ine.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

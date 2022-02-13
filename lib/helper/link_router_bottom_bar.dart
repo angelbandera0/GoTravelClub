@@ -9,15 +9,15 @@ class LinkRouterBottomBar{
   void link(){
     switch(this.index){
       case 0:{
-        Get.toNamed("/alojamiento");
+        Get.offNamed("/alojamiento");
         break;
       }
       case 1:{
-        Get.toNamed("/tour");
+        Get.offNamed("/tour");
         break;
       }
       case 2:{
-        Get.toNamed("/vuelo");
+        Get.offNamed("/vuelo");
         break;
       }
     }

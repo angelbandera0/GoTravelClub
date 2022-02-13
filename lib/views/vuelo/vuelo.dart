@@ -43,7 +43,14 @@ class MainVuelo extends StatelessWidget {
                 appBar: PreferredSize(
                   child: Stack(
                     children: [
-                      ClipRRect(child: Image.asset("assets/fondo/fondo.png",width: Get.width,height: 136,fit: BoxFit.cover,),),
+                      ClipRRect(
+                        child: Image.asset(
+                          "assets/fondo/fondo.png",
+                          width: Get.width,
+                          height: 136,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                       Container(
                         child: Container(
                           margin: EdgeInsets.fromLTRB(20, 35, 20, 0),
@@ -57,7 +64,9 @@ class MainVuelo extends StatelessWidget {
                                 height: 10,
                               ),
                               Material(
-                                elevation: 4,borderRadius: BorderRadius.all(Radius.circular(30)),
+                                elevation: 4,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30)),
                                 child: ToggleSwitch(
                                   initialLabelIndex: _.index,
                                   minWidth: 150,
@@ -71,7 +80,7 @@ class MainVuelo extends StatelessWidget {
                                   labels: ['Ida y Vuelta', 'Solo Ida'],
                                   onToggle: (index) {
                                     print('switched to: $index');
-                                    _.cambiarTab(index);
+                                    _.cambiarTab(index!);
                                   },
                                 ),
                               ),
@@ -85,9 +94,17 @@ class MainVuelo extends StatelessWidget {
                 ),
                 body: Stack(
                   children: [
-                    ClipRRect(child: Image.asset("assets/fondo/fondo.png",width: Get.width,height: Get.height,fit: BoxFit.cover,),),
+                    ClipRRect(
+                      child: Image.asset(
+                        "assets/fondo/fondo.png",
+                        width: Get.width,
+                        height: Get.height,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 30),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 0, horizontal: 30),
                       // Center is a layout widget. It takes a single child and positions it
                       // in the middle of the parent.
                       child: SingleChildScrollView(
@@ -103,18 +120,16 @@ class MainVuelo extends StatelessWidget {
             ],
           );
         });
-
   }
 }
 
-class LoadingDetallesAlojamiento extends StatelessWidget{
+class LoadingDetallesAlojamiento extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<VueloController>(
         id: "loading",
         builder: (_) {
-          return (_.isLoading)?Loading():Container();
+          return (_.isLoading) ? Loading() : Container();
         });
   }
-
 }

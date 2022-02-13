@@ -14,6 +14,7 @@ import 'package:gotravelclub/models/request/alojamiento.dart';
 import 'package:gotravelclub/models/request/alojamientoRequest.dart';
 import 'package:gotravelclub/models/response/quoteResponse.dart';
 import 'package:gotravelclub/services/alojamiento_service.dart';
+import 'package:gotravelclub/shared_preferences/shared_preferences_singlenton.dart';
 import 'package:gotravelclub/views/alojamiento/comun/habitacion_alojamiento.dart';
 import 'package:gotravelclub/views/custom/textDetallesInfo.dart';
 import 'package:html/parser.dart';
@@ -166,7 +167,7 @@ class DetallesAlojamientoController extends GetxController {
     var map = new Map<String, dynamic>();
     map['pk'] = alojamiento.pk.toString();
     map['cedula'] = sc.getSession().cedula.toString();
-    map['registration_id'] = "";
+    map['registration_id'] = PreferenceUtils.getString('token_phone');
     map['fullname'] = fullname;
     map['email'] = email;
     map['phone'] = phone;
@@ -243,7 +244,6 @@ class DetallesAlojamientoController extends GetxController {
             if (element.ages_minors![j] == -1 ||
                 element.ages_minors![j] == 0 ||
                 element.ages_minors![j] == null) {
-
               return false;
             }
           }

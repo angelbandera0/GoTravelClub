@@ -13,21 +13,21 @@ import 'package:gotravelclub/models/habitacion/habitacion.dart';
 import 'package:gotravelclub/models/request/tour.dart';
 import 'package:gotravelclub/models/response/quoteResponse.dart';
 import 'package:gotravelclub/services/tour_service.dart';
+import 'package:gotravelclub/shared_preferences/shared_preferences_singlenton.dart';
 import 'package:gotravelclub/views/custom/textDetallesInfo.dart';
 import 'package:gotravelclub/views/tour/comun/habitacion_tour.dart';
 import 'package:html/parser.dart';
 
 class DetallesTourController extends GetxController {
-  TourService tourService =
-  TourService(DioClient().init());
+  TourService tourService = TourService(DioClient().init());
   int currentIndex = 0;
   int _currentDots = 0;
   late String observaciones = "";
   late String fullname = "";
   late String email = "";
   late String phone = "";
-  late String dateBegining="";
-  late String dateEnd="";
+  late String dateBegining = "";
+  late String dateEnd = "";
   late Notificacion _notificacion;
   Tour tour = Get.arguments;
   late SessionController sc;
@@ -74,8 +74,7 @@ class DetallesTourController extends GetxController {
   }
 
   void addHabitacion() {
-    listadoHabitaciones
-        .add(HabitacionTour(index: listadoHabitaciones.length));
+    listadoHabitaciones.add(HabitacionTour(index: listadoHabitaciones.length));
     listadoHabitacionesDatos.add(Habitacion(ages_minors: []));
     update(["listadoHabitacionesTour"]);
   }
@@ -120,56 +119,50 @@ class DetallesTourController extends GetxController {
   }
 
   setCantidadAdultos(int index, String cant) {
-    if(cant!=""){
+    if (cant != "") {
       listadoHabitacionesDatos[index].count_adults = int.parse(cant);
     }
   }
 
   setCantidadMenores(int index, String cant) {
-    if(cant!=""){
+    if (cant != "") {
       List<int> a = List.filled(int.parse(cant), -1);
       listadoHabitacionesDatos[index].ages_minors = a;
     }
-
   }
 
   addEdad(int indexH, int indexE, String edad) {
-    if(edad!=""){
+    if (edad != "") {
       listadoHabitacionesDatos[indexH].ages_minors![indexE] = int.parse(edad);
     }
-
   }
 
   void cotizacion() async {
     toggleLoading();
-      if(validarCampos()) {
-        QuoteResponse response = await tourService.sendCuota(
-            initMapData());
-        if (response.state) {
-          _notificacion.notificar(
-              body: "Su cotización ha sido enviada exitosamente en breve uno de nuestros asesores le hará llegar la información solicitada.",
-              type: "success");
-          toggleLoading();
-          Get.offNamed("/tour");
-
-        }
-        else {
-          _notificacion.notificar(
-              body: "Ha ocurrido un error al enviar los datos.", type: "error");
-          toggleLoading();
-        }
-      }
-      else{
+    if (validarCampos()) {
+      QuoteResponse response = await tourService.sendCuota(initMapData());
+      if (response.state) {
+        _notificacion.notificar(
+            body:
+                "Su cotización ha sido enviada exitosamente en breve uno de nuestros asesores le hará llegar la información solicitada.",
+            type: "success");
+        toggleLoading();
+        Get.offNamed("/tour");
+      } else {
+        _notificacion.notificar(
+            body: "Ha ocurrido un error al enviar los datos.", type: "error");
         toggleLoading();
       }
-
+    } else {
+      toggleLoading();
+    }
   }
 
   Map<String, dynamic> initMapData() {
     var map = new Map<String, dynamic>();
     map['pk'] = tour.pk.toString();
     map['cedula'] = sc.getSession().cedula.toString();
-    map['registration_id'] = "";
+    map['registration_id'] = PreferenceUtils.getString('token_phone');
     map['fullname'] = fullname;
     map['email'] = email;
     map['phone'] = phone;
@@ -246,7 +239,6 @@ class DetallesTourController extends GetxController {
             if (element.ages_minors![j] == -1 ||
                 element.ages_minors![j] == 0 ||
                 element.ages_minors![j] == null) {
-
               return false;
             }
           }
