@@ -7,6 +7,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:gotravelclub/controller/bottomController.dart';
 import 'package:gotravelclub/controller/sessionController.dart';
+import 'package:gotravelclub/helper/notification.dart';
 import 'package:gotravelclub/shared_preferences/shared_preferences_singlenton.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'controller/drawerController.dart';
@@ -112,11 +113,10 @@ class MyApp extends State<MyAppPage> {
   @override
   void initState() {
     super.initState();
+    Notificacion notificacion = Notificacion();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      FirebaseMessaging.instance.getToken().then((token) {
-        print(token);
-      });
       RemoteNotification? notification = message.notification;
+      notificacion.notificar(body: notification!.body!, type: "success");
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
         flutterLocalNotificationsPlugin.show(
@@ -138,6 +138,7 @@ class MyApp extends State<MyAppPage> {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
+      notificacion.notificar(body: notification!.body!, type: "success");
       if (notification != null && android != null) {
         showDialog(
             context: context,

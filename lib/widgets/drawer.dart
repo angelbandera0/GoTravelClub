@@ -16,7 +16,7 @@ class MenuScreen extends StatelessWidget {
     MenuItem("Sobre nosotros", Icons.info, 4, "/about"),
     MenuItem("Contáctenos", Icons.paste, 5, "/contact"),
     MenuItem("Cambiar Contraseña", Icons.lock, 6, "/setpassword"),
-
+    MenuItem("Desarrolladores", Icons.computer_outlined, 7, "/devs"),
   ];
 
   MenuScreen() {
@@ -59,7 +59,6 @@ class MenuScreen extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: ClipRRect(
-
                                 child: Image.asset(
                                   "assets/splash.png",
                                   width: 120,
@@ -138,6 +137,14 @@ class MenuScreen extends StatelessWidget {
                         item: mainMenu[6],
                         widthBox: widthBox,
                         selected: _.current == 6,
+                        callback: _.setCurrent,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 16),
+                      ),
+                      MenuItemWidget(
+                        item: mainMenu[7],
+                        widthBox: widthBox,
+                        selected: _.current == 7,
                         callback: _.setCurrent,
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 16),

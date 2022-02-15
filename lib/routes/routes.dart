@@ -1,10 +1,10 @@
-
 import 'package:get/get.dart';
 import 'package:gotravelclub/views/alojamiento/alojamiento.dart';
 import 'package:gotravelclub/views/alojamiento/detalles_alojamiento.dart';
 import 'package:gotravelclub/views/auth/login.dart';
 import 'package:gotravelclub/views/auth/register.dart';
 import 'package:gotravelclub/views/auth/setpassword.dart';
+import 'package:gotravelclub/views/dev/dev_info.dart';
 import 'package:gotravelclub/views/escapada/detalles_escapada.dart';
 import 'package:gotravelclub/views/escapada/escapada.dart';
 import 'package:gotravelclub/views/inicio/inicio.dart';
@@ -17,8 +17,7 @@ import 'package:gotravelclub/views/vuelo/vuelo.dart';
 import 'package:gotravelclub/views/about/about.dart';
 import 'package:gotravelclub/views/contactenos/contact.dart';
 
-
-final List<GetPage<dynamic>> appRoutes=[
+final List<GetPage<dynamic>> appRoutes = [
   GetPage(
     name: '/intro',
     page: () => OnBoardingPage(),
@@ -35,14 +34,19 @@ final List<GetPage<dynamic>> appRoutes=[
     //transition: Transition.noTransition
   ),
   GetPage(
+    name: '/devs',
+    page: () => DevInfo(),
+    //transition: Transition.noTransition
+  ),
+  GetPage(
     name: '/inicio',
     page: () => Inicio(),
     //    transition: Transition.noTransition
   ),
   GetPage(
-      name: '/alojamiento',
-      page: () => Alojamiento(),
-  //    transition: Transition.noTransition
+    name: '/alojamiento',
+    page: () => Alojamiento(),
+    //    transition: Transition.noTransition
   ),
   GetPage(
     name: '/alojamientoDetalles',
@@ -85,9 +89,9 @@ final List<GetPage<dynamic>> appRoutes=[
     //transition: Transition.noTransition
   ),
   GetPage(
-      name: '/register',
-      page: () => Register(),
-  //    transition: Transition.noTransition
+    name: '/register',
+    page: () => Register(),
+    //    transition: Transition.noTransition
   ),
   GetPage(
     name: '/cotizaciones',

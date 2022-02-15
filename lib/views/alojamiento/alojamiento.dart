@@ -48,100 +48,103 @@ class MainAlojamiento extends StatelessWidget {
       _.getAlojamientos();
       return Stack(
         children: [
-      Scaffold(
-      appBar: PreferredSize(
-      child: Stack(
-      children: [
-      ClipRRect(
-      child: Image.asset(
-        "assets/fondo/fondo.png",
-        width: Get.width,
-        height: 130,
-        fit: BoxFit.cover,
-      ),
-      ),
-      Container(
-      child: Container(
-      margin: EdgeInsets.fromLTRB(20, 35, 20, 0),
+          Scaffold(
+            appBar: PreferredSize(
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    child: Image.asset(
+                      "assets/fondo/fondo.png",
+                      width: Get.width,
+                      height: 130,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Container(
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(20, 35, 20, 0),
 
-      //color: Colors.blue,
+                      //color: Colors.blue,
 
-      child: Column(
-      children: [
-      AppBarr(),
-      SizedBox(
-      height: 10,
-      ),
-      CustomInput1(
-      icon: Icons.search,
-      placeholder: "Buscar",
-      isPassword: false,
-      textEditingController: searchCtrl,
-      textInputType: TextInputType.text,
-      function: () {
-      EasyDebounce.debounce(
-      'my-debouncer', // <-- An ID for this particular debouncer
-      Duration(milliseconds: 1000), // <-- The debounce duration
-      () => _.search(searchCtrl.text) // <-- The target method
+                      child: Column(
+                        children: [
+                          AppBarr(),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CustomInput1(
+                            icon: Icons.search,
+                            placeholder: "Buscar",
+                            isPassword: false,
+                            textEditingController: searchCtrl,
+                            textInputType: TextInputType.text,
+                            function: () {
+                              EasyDebounce.debounce(
+                                  'my-debouncer', // <-- An ID for this particular debouncer
+                                  Duration(
+                                      milliseconds:
+                                          1000), // <-- The debounce duration
+                                  () => _.search(
+                                      searchCtrl.text) // <-- The target method
+                                  );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  //LoadingAppBarAlojamiento(),
+                ],
+              ),
+              preferredSize: Size(Get.width, 130),
+            ),
+            body: Stack(
+              children: [
+                ClipRRect(
+                  child: Image.asset(
+                    "assets/fondo/fondo.png",
+                    width: Get.width,
+                    height: Get.height,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 30),
+                  // Center is a layout widget. It takes a single child and positions it
+                  // in the middle of the parent.
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        TitlePopularesAlojamiento(),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        //populares
+                        PopularesAlojamiento(),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        //alojamientos
+                        ListaAlojamiento(),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        ButtomLoadMoreAlojamiento()
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            bottomNavigationBar: BottonBar(),
+          ),
+          LoadingAlojamiento(),
+        ],
       );
-      },
-      ),
-      ],
-      ),
-      ),
-      ),
-      //LoadingAppBarAlojamiento(),
-      ],
-      ),
-      preferredSize: Size(Get.width, 130),
-      ),
-      body: Stack(
-      children: [
-      ClipRRect(
-      child: Image.asset(
-      "assets/fondo/fondo.png",
-      width: Get.width,
-      height: Get.height,
-      fit: BoxFit.cover,
-      ),
-      ),
-      Container(
-      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 30),
-      // Center is a layout widget. It takes a single child and positions it
-      // in the middle of the parent.
-      child: SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      child: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-      TitlePopularesAlojamiento(),
-      SizedBox(
-      height: 10,
-      ),
-      //populares
-      PopularesAlojamiento(),
-      SizedBox(
-      height: 20,
-      ),
-      //alojamientos
-      ListaAlojamiento(),
-      SizedBox(
-      height: 20,
-      ),
-      ButtomLoadMoreAlojamiento()
-      ],
-      ),
-      ),
-      ),
-      ],
-      ),
-      bottomNavigationBar: BottonBar(),),
-      LoadingAlojamiento(),
-
-      ],
-      );
-      });
+    });
   }
 }
 
@@ -173,16 +176,18 @@ class TitlePopularesAlojamiento extends StatelessWidget {
     return GetBuilder<AlojamientoController>(
         id: "titlePopularesAlojamiento",
         builder: (_) {
-          return (!_.isInSearch) ? Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: Text(
-              "Populares",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Color(0xff621771)),
-            ),
-          ) : Container();
+          return (!_.isInSearch)
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: Text(
+                    "Populares",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Color(0xff621771)),
+                  ),
+                )
+              : Container();
         });
   }
 }
@@ -193,21 +198,20 @@ class ButtomLoadMoreAlojamiento extends StatelessWidget {
     return GetBuilder<AlojamientoController>(
         id: "ButtomLoadMoreAlojamiento",
         builder: (_) {
-          return (!_.isInSearch) ? (!_.end) ? Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 0.0),
-            child: CustomButton(
-              text: "Cargar Más",
-              onPress: () {
-                _.loadMore();
-              },
-              color: Color(0xff56E2C6),
-            ),
-          ) : Container() : Container();
+          return (!_.isInSearch)
+              ? (!_.end)
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                      child: CustomButton(
+                        text: "Cargar Más",
+                        onPress: () {
+                          _.loadMore();
+                        },
+                        color: Color(0xff56E2C6),
+                      ),
+                    )
+                  : Container()
+              : Container();
         });
   }
 }
-
-
-
-
-

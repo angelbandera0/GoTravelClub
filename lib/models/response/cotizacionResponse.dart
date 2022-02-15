@@ -32,24 +32,26 @@ class CotizacionResponse {
 }
 
 class Info {
-  Info({
-    this.type,
-    this.pk,
-    this.status,
-    this.title,
-    this.name,
-    this.email,
-    this.phone,
-    this.dateFrom,
-    this.dateTo,
-    this.rooms,
-    this.observation,
-    this.isValidate,
-    this.ammount,
-    this.isPayment,
-    this.infopayment,
-    this.response,
-  });
+  Info(
+      {this.type,
+      this.pk,
+      this.status,
+      this.title,
+      this.name,
+      this.email,
+      this.phone,
+      this.dateFrom,
+      this.dateTo,
+      this.rooms,
+      this.observation,
+      this.isValidate,
+      this.ammount,
+      this.isPayment,
+      this.infopayment,
+      this.response,
+      this.airportorigen,
+      this.airportdestiny,
+      this.clase});
 
   int? type;
   int? pk;
@@ -58,6 +60,11 @@ class Info {
   String? name;
   String? email;
   String? phone;
+  //only fly
+  String? airportorigen;
+  String? airportdestiny;
+  String? clase;
+  //
   DateTime? dateFrom;
   DateTime? dateTo;
   List<Room>? rooms;
@@ -69,11 +76,11 @@ class Info {
   String? response;
 
   factory Info.fromJson(Map<String, dynamic> json) {
-    List<Room> rooms=[];
+    List<Room> rooms = [];
     if (json["type"] == 4) {
       //rooms.add(Room(countAdults: int.parse(json["count_adults"].toString().replaceAll("\\", "").replaceAll("n", "")),
       //agesMinors: json["ages_minors"]));
-
+      print(json["airportorigen"]);
     }
     return Info(
       type: json["type"],
@@ -84,14 +91,21 @@ class Info {
       email: json["email"],
       phone: json["phone"],
       dateFrom: DateTime.parse(json["dateFrom"]),
-      dateTo: DateTime.parse(json["dateTo"]),
-      rooms: (json["type"]==4)?[]:List<Room>.from(json["rooms"].map((x) => Room.fromJson(x))),
+      dateTo: (json["dateTo"] != "") ? DateTime.parse(json["dateTo"]) : null,
+      rooms: (json["type"] == 4)
+          ? [
+              Room(agesMinors: [4, 5, 5], countAdults: 3)
+            ]
+          : List<Room>.from(json["rooms"].map((x) => Room.fromJson(x))),
       observation: json["observation"],
       isValidate: json["is_validate"],
       ammount: json["ammount"],
       isPayment: json["is_payment"],
       infopayment: Infopayment.fromJson(json["infopayment"]),
       response: json["response"],
+      airportorigen: (json["type"] == 4) ? json["airportorigen"] : "",
+      airportdestiny: (json["type"] == 4) ? json["airportdestiny"] : "",
+      clase: (json["type"] == 4) ? json["clase"] : "",
     );
   }
 
@@ -125,22 +139,27 @@ class Infopayment {
   String? short_description;
 
   factory Infopayment.fromJson(Map<String, dynamic> json) => Infopayment(
-      date_payment:json["date_payment"],
-      payment_state:json["payment_state"],
-      amount:json["amount"],
-      currency_code:json["currency_code"],
-      short_description:json["short_description"],
-  );
+        date_payment: json["date_payment"],
+        payment_state: json["payment_state"],
+        amount: json["amount"],
+        currency_code: json["currency_code"],
+        short_description: json["short_description"],
+      );
 
-  Infopayment({this.date_payment, this.payment_state, this.amount, this.currency_code, this.short_description});
+  Infopayment(
+      {this.date_payment,
+      this.payment_state,
+      this.amount,
+      this.currency_code,
+      this.short_description});
 
   Map<String, dynamic> toJson() => {
-    "date_payment":date_payment,
-    "payment_state":payment_state,
-    "amount":amount,
-    "currency_code":currency_code,
-    "short_description":short_description,
-  };
+        "date_payment": date_payment,
+        "payment_state": payment_state,
+        "amount": amount,
+        "currency_code": currency_code,
+        "short_description": short_description,
+      };
 }
 
 class Room {

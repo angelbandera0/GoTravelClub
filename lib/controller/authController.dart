@@ -10,6 +10,7 @@ import 'package:gotravelclub/models/response/authResponse.dart';
 import 'package:gotravelclub/models/response/quoteResponse.dart';
 import 'package:gotravelclub/models/session/session.dart';
 import 'package:gotravelclub/services/auth_service.dart';
+import 'package:gotravelclub/shared_preferences/shared_preferences_singlenton.dart';
 
 import 'loadingController.dart';
 
@@ -18,9 +19,6 @@ class AuthController extends GetxController {
   TextEditingController _userCtrl = TextEditingController();
   TextEditingController _passCtrl = TextEditingController();
   late MyDrawerController drawerController;
-
-
-
 
   late Notificacion _notificacion;
   late SessionController sessionController;
@@ -51,7 +49,10 @@ class AuthController extends GetxController {
   Future<Session> login(String username, String password) async {
     try {
       toggleLoading();
-      User u = User(username: username, password: password);
+      User u = User(
+          username: username,
+          password: password,
+          registration_id: PreferenceUtils.getString('token_phone'));
       AuthResponse response = await auth.login(u);
       if (response.status!) {
         sessionController.storageSession(Session(
@@ -61,15 +62,9 @@ class AuthController extends GetxController {
           first_name: response.first_name,
           last_name: response.last_name,
         ));
-        print(sessionController
-            .getSession()
-            .username);
-        print(sessionController
-            .getSession()
-            .token);
-        print(sessionController
-            .getSession()
-            .cedula);
+        print(sessionController.getSession().username);
+        print(sessionController.getSession().token);
+        print(sessionController.getSession().cedula);
         toggleLoading();
         Get.offNamed("/alojamiento");
       } else {
@@ -90,23 +85,23 @@ class AuthController extends GetxController {
     sessionController.logoutSession();
   }
 
-  void setPasswordU(String pass,String pass1) async {
-    if(pass==pass1) {
+  void setPasswordU(String pass, String pass1) async {
+    if (pass == pass1) {
       toggleLoading();
       var response = await auth.setPasswordUser(pass);
       toggleLoading();
-      _notificacion.notificar(body: response["message"],
+      _notificacion.notificar(
+          body: response["message"],
           type: (response["message"] == "Contraseña cambiada correctamente")
               ? "success"
               : "error");
-      if(response["message"] == "Contraseña cambiada correctamente"){
+      if (response["message"] == "Contraseña cambiada correctamente") {
         drawerController.setCurrentIndex(0);
         Get.offNamed("/alojamiento");
       }
-    }
-    else{
-      _notificacion.notificar(body: "Las contraseñas no coinciden",
-          type: "error");
+    } else {
+      _notificacion.notificar(
+          body: "Las contraseñas no coinciden", type: "error");
     }
   }
 

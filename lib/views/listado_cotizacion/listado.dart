@@ -16,24 +16,31 @@ class Listado extends StatelessWidget {
         id: "cotizacion",
         init: CotizacionController(),
         builder: (_) {
-
           return ZoomDrawerConstructor(mainScreen: MainCotizacion());
         });
-
   }
 }
-
 
 class MainCotizacion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    RefreshController refreshController =
+        RefreshController(initialRefresh: false);
+    void onRefresh() async {
+      try {
+        refreshController.refreshCompleted();
+      } catch (e) {
+        refreshController.refreshFailed();
+      }
+    }
+
     final ButtonStyle flatButtonStyle = TextButton.styleFrom(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
       ),
     );
     return GetBuilder<CotizacionController>(
-      id:"mainCotizacion",
+        id: "mainCotizacion",
         builder: (_) {
           _.getAllCotizacions();
           return Stack(
@@ -41,7 +48,6 @@ class MainCotizacion extends StatelessWidget {
               Scaffold(
                 appBar: PreferredSize(
                   child: Stack(
-
                     children: [
                       ClipRRect(
                         child: Image.asset(
@@ -72,11 +78,10 @@ class MainCotizacion extends StatelessWidget {
                   enablePullDown: true,
                   enablePullUp: true,
                   header: WaterDropHeader(),
-
-                  controller: _.refreshController,
+                  controller: refreshController,
                   onRefresh: _.onRefresh,
                   onLoading: _.onLoading,
-                  child:  Stack(
+                  child: Stack(
                     children: [
                       ClipRRect(
                         child: Image.asset(
@@ -87,7 +92,8 @@ class MainCotizacion extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 30, horizontal: 20),
                         // Center is a layout widget. It takes a single child and positions it
                         // in the middle of the parent.
                         child: ExpandableTheme(
@@ -115,21 +121,24 @@ class ListCotizaciones extends StatelessWidget {
         id: "listadoCotizaciones",
         builder: (_) {
           return SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            children: (_.listadoCotizacionWidget.length!=0)?_.listadoCotizacionWidget:[Center(child:Padding(
-              padding: const EdgeInsets.fromLTRB(0, 200, 0, 0),
+              physics: const BouncingScrollPhysics(),
               child: Column(
-                children:[
-                  Icon(Icons.list,size:80,color:Colors.grey),
-                  Text("No solicitudes de cotización",style:TextStyle(fontSize: 16,color:Colors.grey)),
-                ]
-              ),
-            ))],
-          )
-          );
+                children: (_.listadoCotizacionWidget.length != 0)
+                    ? _.listadoCotizacionWidget
+                    : [
+                        Center(
+                            child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 200, 0, 0),
+                          child: Column(children: [
+                            Icon(Icons.list, size: 80, color: Colors.grey),
+                            Text("No solicitudes de cotización",
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.grey)),
+                          ]),
+                        ))
+                      ],
+              ));
         });
-
   }
 }
 

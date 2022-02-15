@@ -16,10 +16,10 @@ class CotizacionService {
 
   Future<CotizacionResponse> getCotizacion() async {
     try {
-      var formData = FormData.fromMap({"cedula": PreferenceUtils.getString("cedula")});
+      var formData =
+          FormData.fromMap({"cedula": PreferenceUtils.getString("cedula")});
       final response =
           await _client.post('/api/v1/get_quotes/', data: formData);
-      print(response.toString());
       return CotizacionResponse.fromJson(jsonDecode(response.toString()));
     } on DioError catch (ex) {
       // Assuming there will be an errorMessage property in the JSON object
