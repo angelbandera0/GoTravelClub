@@ -407,13 +407,13 @@ class CardCotizacionVuelo extends StatelessWidget {
                                 : Container(),
                             (info.status == "Pendiente" && info.response != "")
                                 ? CustomButton(
-                                    text: "Validar Pagos",
+                                    text: "Aceptar Cotización",
                                     onPress: () {
                                       //_launchURL();
                                       Get.defaultDialog(
                                         title: "Mensage de notificación",
                                         middleText:
-                                            "¿Está de acuerdo con el pago que debe efectuar.?",
+                                            "¿Está de acuerdo con la cotización enviada?",
                                         backgroundColor: Colors.white,
                                         textConfirm: "Confirmar",
                                         textCancel: "Cancelar",

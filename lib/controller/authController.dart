@@ -55,16 +55,23 @@ class AuthController extends GetxController {
           registration_id: PreferenceUtils.getString('token_phone'));
       AuthResponse response = await auth.login(u);
       if (response.status!) {
+        print(response.email);
+        print(response.phone);
+
         sessionController.storageSession(Session(
-          username: username,
-          token: response.token,
-          cedula: response.cedula,
-          first_name: response.first_name,
-          last_name: response.last_name,
-        ));
+            username: username,
+            token: response.token,
+            cedula: response.cedula,
+            first_name: response.first_name,
+            last_name: response.last_name,
+            phone: response.phone,
+            email: response.email));
         print(sessionController.getSession().username);
         print(sessionController.getSession().token);
         print(sessionController.getSession().cedula);
+        print(sessionController.getSession().phone);
+        print(sessionController.getSession().email);
+
         toggleLoading();
         Get.offNamed("/alojamiento");
       } else {

@@ -6,14 +6,13 @@ class AppBarDetalles extends StatelessWidget {
   late MyDrawerController myDrawerController;
   final String routeBack;
 
-  AppBarDetalles({Key? key, required this.routeBack}) : super(key: key){
-    myDrawerController=Get.find<MyDrawerController>();
+  AppBarDetalles({Key? key, required this.routeBack}) : super(key: key) {
+    myDrawerController = Get.find<MyDrawerController>();
   }
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding:
-        const EdgeInsets.only(left: 10.0, right: 10, top: 30),
+        padding: const EdgeInsets.only(left: 10.0, right: 10, top: 30),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -24,7 +23,7 @@ class AppBarDetalles extends StatelessWidget {
                   splashColor: Color(0xff621771),
                   // Splash color
                   onTap: () {
-                    Get.toNamed(routeBack);
+                    Get.offNamed(routeBack);
                   },
                   child: SizedBox(
                       width: 50,

@@ -205,55 +205,79 @@ class CardCotizacion extends StatelessWidget {
                                 // Styling with CSS (not real CSS)
                               ),
                             ),
-                            (info.isPayment!)?Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TitleWithDivider(
-                                    title: "Información del pago",
-                                    fontSize: 14,
-                                    key: key,
-                                    color: Colors.grey,
-                                  ),
-                                  SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            (info.isPayment!)
+                                ? Container(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                        TitleWithDivider(
+                                          title: "Información del pago",
+                                          fontSize: 14,
+                                          key: key,
+                                          color: Colors.grey,
+                                        ),
+                                        SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  Text("Fecha",style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold)),
-                                                  Text("${info.infopayment!.date_payment}")
+                                                  Text("Fecha",
+                                                      style: TextStyle(
+                                                          color: Colors.grey,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  Text(
+                                                      "${info.infopayment!.date_payment}")
                                                 ],
                                               ),
-                                        SizedBox(
-                                          width: 40,
-                                        ),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text("Monto",style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold)),
-                                            Text("${info.infopayment!.amount}")
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          width: 40,
-                                        ),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text("Moneda",style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold)),
-                                            Text("${info.infopayment!.currency_code}")
-                                          ],
-                                        ),
+                                              SizedBox(
+                                                width: 40,
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text("Monto",
+                                                      style: TextStyle(
+                                                          color: Colors.grey,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  Text(
+                                                      "${info.infopayment!.amount}")
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                width: 40,
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text("Moneda",
+                                                      style: TextStyle(
+                                                          color: Colors.grey,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  Text(
+                                                      "${info.infopayment!.currency_code}")
+                                                ],
+                                              ),
                                             ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ):Container(),
-                            SizedBox(height: 10,),
+                                  )
+                                : Container(),
+                            SizedBox(
+                              height: 10,
+                            ),
                             (info.status == "Validado")
                                 ? Container(
                                     width: Get.width,
@@ -298,103 +322,103 @@ class CardCotizacion extends StatelessWidget {
                                     ),
                                   )
                                 : Container(),
-
-                            (info.status == "Pagado" && info.infopayment!.payment_state!="reembolsado")
+                            (info.status == "Pagado" &&
+                                    info.infopayment!.payment_state !=
+                                        "reembolsado")
                                 ? Container(
-                              width: Get.width,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(20)),
-                                  border: Border(
-                                    top: BorderSide(
-                                        color: Color(0xff56E2C6),
-                                        width: 3),
-                                    right: BorderSide(
-                                        color: Color(0xff56E2C6),
-                                        width: 3),
-                                    left: BorderSide(
-                                        color: Color(0xff56E2C6),
-                                        width: 3),
-                                    bottom: BorderSide(
-                                        color: Color(0xff56E2C6),
-                                        width: 3),
-                                  )),
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Icon(
-                                    Icons.info,
-                                    size: 30,
-                                    color: Color(0xff56E2C6),
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    "La cotización está siendo procesada.",
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
+                                    width: Get.width,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20)),
+                                        border: Border(
+                                          top: BorderSide(
+                                              color: Color(0xff56E2C6),
+                                              width: 3),
+                                          right: BorderSide(
+                                              color: Color(0xff56E2C6),
+                                              width: 3),
+                                          left: BorderSide(
+                                              color: Color(0xff56E2C6),
+                                              width: 3),
+                                          bottom: BorderSide(
+                                              color: Color(0xff56E2C6),
+                                              width: 3),
+                                        )),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Icon(
+                                          Icons.info,
+                                          size: 30,
+                                          color: Color(0xff56E2C6),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          "La cotización está siendo procesada.",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
+                                    ),
                                   )
-                                ],
-                              ),
-                            )
                                 : Container(),
-                            (info.status == "Pagado" && info.infopayment!.payment_state=="reembolsado")
+                            (info.status == "Pagado" &&
+                                    info.infopayment!.payment_state ==
+                                        "reembolsado")
                                 ? Container(
-                              width: Get.width,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(20)),
-                                  border: Border(
-                                    top: BorderSide(
-                                        color: Colors.red,
-                                        width: 3),
-                                    right: BorderSide(
-                                        color: Colors.red,
-                                        width: 3),
-                                    left: BorderSide(
-                                        color: Colors.red,
-                                        width: 3),
-                                    bottom: BorderSide(
-                                        color: Colors.red,
-                                        width: 3),
-                                  )),
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Icon(
-                                    Icons.info,
-                                    size: 30,
-                                    color: Colors.red,
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    "Su pago ha sido reembolsado.",
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
+                                    width: Get.width,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20)),
+                                        border: Border(
+                                          top: BorderSide(
+                                              color: Colors.red, width: 3),
+                                          right: BorderSide(
+                                              color: Colors.red, width: 3),
+                                          left: BorderSide(
+                                              color: Colors.red, width: 3),
+                                          bottom: BorderSide(
+                                              color: Colors.red, width: 3),
+                                        )),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Icon(
+                                          Icons.info,
+                                          size: 30,
+                                          color: Colors.red,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          "Su pago ha sido reembolsado.",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
+                                    ),
                                   )
-                                ],
-                              ),
-                            )
                                 : Container(),
                             (info.status == "Pendiente" && info.response != "")
                                 ? CustomButton(
-                                    text: "Validar Pagos",
+                                    text: "Aceptar Cotización",
                                     onPress: () {
                                       //_launchURL();
                                       Get.defaultDialog(
                                         title: "Mensage de notificación",
-                                        middleText: "¿Está de acuerdo con el pago que debe efectuar.?",
+                                        middleText:
+                                            "¿Está de acuerdo con la cotización enviada?",
                                         backgroundColor: Colors.white,
                                         textConfirm: "Confirmar",
                                         textCancel: "Cancelar",
@@ -404,10 +428,11 @@ class CardCotizacion extends StatelessWidget {
                                         onConfirm: () {
                                           _launchURL();
                                           Navigator.pop(context);
-
                                         },
-                                        titleStyle: TextStyle(color: Colors.black54),
-                                        middleTextStyle: TextStyle(color: Colors.black54),
+                                        titleStyle:
+                                            TextStyle(color: Colors.black54),
+                                        middleTextStyle:
+                                            TextStyle(color: Colors.black54),
                                       );
                                     },
                                     color: Color(0xff56E2C6))

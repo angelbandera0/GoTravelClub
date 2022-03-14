@@ -7,19 +7,22 @@ class CustomInputPhone extends StatelessWidget {
   final TextEditingController textEditingController;
   final TextInputType textInputType;
   final Function function;
+  final bool isReadOnly;
 
   const CustomInputPhone(
       {Key? key,
-        required this.icon,
-        required this.placeholder,
-        required this.textEditingController,
-        required this.textInputType,
-        required this.function})
+      required this.icon,
+      required this.placeholder,
+      required this.textEditingController,
+      required this.textInputType,
+      required this.function,
+      this.isReadOnly = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var maskFormatter = new MaskTextInputFormatter(mask: '(+###) ##-###-####', filter: { "#": RegExp(r'[0-9]') });
+    var maskFormatter = new MaskTextInputFormatter(
+        mask: '(+593) ##-###-####', filter: {"#": RegExp(r'[0-9]')});
     return Container(
         padding: EdgeInsets.only(top: 5, left: 5, bottom: 5, right: 20),
         margin: EdgeInsets.only(bottom: 20),
@@ -35,15 +38,18 @@ class CustomInputPhone extends StatelessWidget {
         child: TextField(
           inputFormatters: [maskFormatter],
           autocorrect: false,
-          keyboardType: this.textInputType,onChanged:(value){
-          this.function();
-        } ,
+          readOnly: this.isReadOnly,
+          keyboardType: this.textInputType,
+          onChanged: (value) {
+            this.function();
+          },
           decoration: InputDecoration(
               prefixIcon: Icon(this.icon),
               contentPadding: EdgeInsets.symmetric(vertical: 15),
               focusedBorder: InputBorder.none,
               border: InputBorder.none,
-              hintText: this.placeholder),controller: this.textEditingController,
+              hintText: this.placeholder),
+          controller: this.textEditingController,
         ));
   }
 }

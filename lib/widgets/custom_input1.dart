@@ -6,6 +6,7 @@ class CustomInput1 extends StatelessWidget {
   final TextEditingController textEditingController;
   final TextInputType textInputType;
   final bool isPassword;
+  final bool isReadOnly;
   final Function function;
 
   const CustomInput1(
@@ -15,7 +16,8 @@ class CustomInput1 extends StatelessWidget {
       required this.textEditingController,
       required this.textInputType,
       required this.isPassword,
-      required this.function})
+      required this.function,
+      this.isReadOnly = false})
       : super(key: key);
 
   @override
@@ -34,15 +36,19 @@ class CustomInput1 extends StatelessWidget {
             ]),
         child: TextField(
           autocorrect: false,
-          keyboardType: this.textInputType,obscureText: this.isPassword,onChanged:(value){
+          readOnly: this.isReadOnly,
+          keyboardType: this.textInputType,
+          obscureText: this.isPassword,
+          onChanged: (value) {
             this.function();
-        } ,
+          },
           decoration: InputDecoration(
               prefixIcon: Icon(this.icon),
               contentPadding: EdgeInsets.symmetric(vertical: 15),
               focusedBorder: InputBorder.none,
               border: InputBorder.none,
-              hintText: this.placeholder),controller: this.textEditingController,
+              hintText: this.placeholder),
+          controller: this.textEditingController,
         ));
   }
 }
