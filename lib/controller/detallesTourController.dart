@@ -179,7 +179,7 @@ class DetallesTourController extends GetxController {
   }
 
   bool validarCampos() {
-    if (fullname == "" || fullname == null) {
+    /*if (fullname == "" || fullname == null) {
       _notificacion.notificar(
           body: "El campo del nombre se encuentra vacío.", type: "error");
       return false;
@@ -198,7 +198,7 @@ class DetallesTourController extends GetxController {
       _notificacion.notificar(
           body: "El campo del teléfono se encuentra vacío.", type: "error");
       return false;
-    }
+    }*/
     if (dateBegining == "" || dateEnd == "") {
       _notificacion.notificar(
           body: "Se debe insertar una fecha válida.", type: "error");

@@ -35,6 +35,7 @@ class VueloController extends GetxController {
   late String clase = "Economico";
   late String cantAdultos = "";
   late bool _isLoading = false;
+  late String observaciones = "";
 
   get isLoading => _isLoading;
 
@@ -53,6 +54,8 @@ class VueloController extends GetxController {
   setAeropuertoIda(String s) => aeropuertoIda = s;
 
   setAeropuertoVuelta(String s) => aeropuertoVuelta = s;
+
+  setObservaciones(String s) => observaciones = s;
 
   void cambiarTab(int index) {
     _index = index;
@@ -74,6 +77,8 @@ class VueloController extends GetxController {
     dateEnd = "";
     clase = "Economico";
     cantAdultos = "";
+    observaciones = "";
+
     _clear();
     update(["vuelo"]);
   }
@@ -166,6 +171,7 @@ class VueloController extends GetxController {
     map['date_end'] = (type == "in_out") ? dateEnd : "";
     map['count_adults'] = "${cantAdultos}";
     map['clase'] = clase;
+    map['comments'] = observaciones;
     List<int> list = [];
     _listaControllers.forEach((element) {
       list.add(int.parse(element.text));

@@ -10,11 +10,14 @@ import 'package:gotravelclub/views/vuelo/comun/dropDown.dart';
 import 'package:gotravelclub/views/vuelo/comun/listado_edades_menores.dart';
 import 'package:gotravelclub/widgets/custom_button.dart';
 import 'package:gotravelclub/widgets/custom_input_number.dart';
+import 'package:gotravelclub/widgets/custom_textarea.dart';
 
 class Ida extends StatelessWidget {
   TextEditingController _adultosCtrl = TextEditingController();
   TextEditingController _cantMenoresCtrl = TextEditingController();
-  String _id="ida";
+  TextEditingController _textAreaCtrl = TextEditingController();
+
+  String _id = "ida";
   String _idListMenores = "ListadoEdadesMenoresIda";
   @override
   Widget build(BuildContext context) {
@@ -29,7 +32,11 @@ class Ida extends StatelessWidget {
               //destinos de aeropuertos
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                child: DropDown(id: "idaI", label: "Aeropuerto de Ida", rotation: 1, function: _.setAeropuertoIda),
+                child: DropDown(
+                    id: "idaI",
+                    label: "Aeropuerto de Ida",
+                    rotation: 1,
+                    function: _.setAeropuertoIda),
               ),
               SizedBox(
                 height: 20,
@@ -50,7 +57,6 @@ class Ida extends StatelessWidget {
                       id: "fechaIda",
                     ),
                     //Fecha de Regreso
-
                   ],
                 ),
               ),
@@ -127,23 +133,34 @@ class Ida extends StatelessWidget {
                   ListadoEdadesMenores(id: _idListMenores),
                 ],
               ),
+              TitleWithDivider(title: "Observaciones"),
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 0),
+                  child: CustomTextArea(
+                    textEditingController: _textAreaCtrl,
+                    placeholder: "Ingrese sus aclaraciones",
+                    readOnly: false,
+                    function: () {
+                      _.setObservaciones(_textAreaCtrl.text);
+                    },
+                  )),
               //Clase
               TitleWithDivider(title: "Clase"),
               Padding(
                 padding:
-                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 3),
+                    const EdgeInsets.symmetric(vertical: 10.0, horizontal: 3),
                 child: Material(
                   elevation: 4,
                   child: DropdownSearch<String>(
                     mode: Mode.BOTTOM_SHEET,
                     items: [
-                      "Economico",
+                      "Económico",
                       "Primera Clase",
                       'Premiun',
                       "Bussiness"
                     ],
                     hint: "Selecciona la clase a viajar.",
-                    onChanged: (value){
+                    onChanged: (value) {
                       _.setClase(value!);
                     },
                     dropdownSearchDecoration: InputDecoration(
@@ -156,14 +173,14 @@ class Ida extends StatelessWidget {
                       fillColor: Colors.white,
                       enabledBorder: const OutlineInputBorder(
                         // width: 0.0 produces a thin "hairline" border
-                        borderSide:
-                        const BorderSide(color: Colors.transparent, width: 0.0),
+                        borderSide: const BorderSide(
+                            color: Colors.transparent, width: 0.0),
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                     ),
-                    selectedItem: "Economico",
+                    selectedItem: "Económico",
                   ),
                 ),
               ),

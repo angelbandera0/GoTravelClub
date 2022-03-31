@@ -14,18 +14,17 @@ import 'package:gotravelclub/widgets/custom_button.dart';
 import 'package:gotravelclub/widgets/custom_input.dart';
 import 'package:gotravelclub/widgets/custom_input_age.dart';
 import 'package:gotravelclub/widgets/custom_input_number.dart';
+import 'package:gotravelclub/widgets/custom_textarea.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class IdaYVuelta extends StatelessWidget {
   TextEditingController _cantMenoresCtrl = TextEditingController();
   TextEditingController _adultosCtrl = TextEditingController();
   TextEditingController _airportVueltaCtrl = TextEditingController();
+  TextEditingController _textAreaCtrl = TextEditingController();
+
   String _id = "idavuelta";
   String _idListMenores = "ListadoEdadesMenoresIdaVuelta";
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -36,52 +35,26 @@ class IdaYVuelta extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-
               TitleWithDivider(title: "Información del Vuelo"),
               //destinos de aeropuertos
-              /*Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 3),
-                child: Material(
-                  elevation: 4,
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  child: Container(
-                    width: Get.width * 0.9,
-                    height: Get.height * 0.20,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Colors.white,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SelectAirportIda(id: "airportIdaIV",width: Get.width * 0.26,),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 30),
-                          child: ClipRRect(
-                            child: Image.asset(
-                              "assets/intro/img_avion.png",
-                              alignment: Alignment.topCenter,
-                            ),
-                          ),
-                        ),
-                        SelectAirportVuelta(id: "airportVueltaIV"),
-                      ],
-                    ),
-                  ),
-                ),
-              ),*/
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                child: DropDown(id: "idaIV", label: "Aeropuerto de Ida", rotation: 1, function: _.setAeropuertoIda),
+                child: DropDown(
+                    id: "idaIV",
+                    label: "Aeropuerto de Ida",
+                    rotation: 1,
+                    function: _.setAeropuertoIda),
               ),
               SizedBox(
                 height: 10,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 3.0),
-
-                child: DropDown(id: "idaIV", label: "Aeropuerto de Regreso", rotation: 5.5, function: _.setAeropuertoVuelta),
+                child: DropDown(
+                    id: "idaIV",
+                    label: "Aeropuerto de Regreso",
+                    rotation: 5.5,
+                    function: _.setAeropuertoVuelta),
               ),
               SizedBox(
                 height: 20,
@@ -187,6 +160,17 @@ class IdaYVuelta extends StatelessWidget {
                 ],
               ),
               //Clase
+              TitleWithDivider(title: "Observaciones"),
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 0),
+                  child: CustomTextArea(
+                    textEditingController: _textAreaCtrl,
+                    placeholder: "Ingrese sus aclaraciones",
+                    readOnly: false,
+                    function: () {
+                      _.setObservaciones(_textAreaCtrl.text);
+                    },
+                  )),
               TitleWithDivider(title: "Clase"),
               Padding(
                 padding:
@@ -197,12 +181,12 @@ class IdaYVuelta extends StatelessWidget {
                   child: DropdownSearch<String>(
                     mode: Mode.BOTTOM_SHEET,
                     items: [
-                      "Economico",
+                      "Económico",
                       "Primera Clase",
                       'Premiun',
                       "Bussiness"
                     ],
-                    onChanged: (value){
+                    onChanged: (value) {
                       _.setClase(value!);
                     },
                     dropdownSearchDecoration: InputDecoration(
@@ -215,14 +199,14 @@ class IdaYVuelta extends StatelessWidget {
                       fillColor: Colors.white,
                       enabledBorder: const OutlineInputBorder(
                         // width: 0.0 produces a thin "hairline" border
-                        borderSide:
-                        const BorderSide(color: Colors.transparent, width: 0.0),
+                        borderSide: const BorderSide(
+                            color: Colors.transparent, width: 0.0),
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                     ),
-                    selectedItem: "Economico",
+                    selectedItem: "Económico",
                   ),
                 ),
               ),
@@ -244,6 +228,3 @@ class IdaYVuelta extends StatelessWidget {
         });
   }
 }
-
-
-
