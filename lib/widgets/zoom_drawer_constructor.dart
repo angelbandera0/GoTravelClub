@@ -23,7 +23,7 @@ class ZoomDrawerConstructor extends StatelessWidget {
       angle: 0.0,
       //isRtl: true,
       menuBackgroundColor: Colors.grey,
-      slideWidth: MediaQuery.of(context).size.width * 0.5,
+      slideWidth: MediaQuery.of(context).size.width * 0.72,
     );
   }
 }
