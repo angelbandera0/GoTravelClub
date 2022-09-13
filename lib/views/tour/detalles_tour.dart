@@ -54,6 +54,12 @@ class MainTour extends StatelessWidget {
         id: "detallesTour",
         init: DetallesTourController(),
         builder: (_) {
+          _fullNameCtrl.text = "${_.sc.getSession().first_name} ${_.sc.getSession().last_name}";
+          _emailCtrl.text = "${_.sc.getSession().email}";
+          _phoneCtrl.text = "${_.sc.getSession().phone}";
+          _.fullname=_fullNameCtrl.text;
+          _.email=_emailCtrl.text;
+          _.phone=_phoneCtrl.text;
           return Scaffold(
               body: Stack(
             children: [
@@ -107,9 +113,7 @@ class MainTour extends StatelessWidget {
                           icon: Icons.note,
                           placeholder: "Nombre",
                           isReadOnly: true,
-                          textEditingController: _fullNameCtrl
-                            ..text =
-                                "${_.sc.getSession().first_name} ${_.sc.getSession().last_name}",
+                          textEditingController: _fullNameCtrl,
                           textInputType: TextInputType.text,
                           isPassword: false,
                           function: () {
@@ -123,8 +127,7 @@ class MainTour extends StatelessWidget {
                           icon: Icons.mail,
                           placeholder: "Correo",
                           isReadOnly: true,
-                          textEditingController: _emailCtrl
-                            ..text = "${_.sc.getSession().email}",
+                          textEditingController: _emailCtrl,
                           textInputType: TextInputType.emailAddress,
                           isPassword: false,
                           function: () {
@@ -138,8 +141,7 @@ class MainTour extends StatelessWidget {
                           icon: Icons.phone,
                           placeholder: "Teléfono",
                           isReadOnly: true,
-                          textEditingController: _phoneCtrl
-                            ..text = "${_.sc.getSession().phone}",
+                          textEditingController: _phoneCtrl,
                           textInputType: TextInputType.phone,
                           function: () {
                             _.setPhone(_phoneCtrl.text);
@@ -202,15 +204,24 @@ class MainTour extends StatelessWidget {
                           ],
                         )),
                     Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 5),
+                      child: TitleWithDivider(
+                        title: "Observaciones",
+                        fontSize: 14,
+                      ),
+                    ),
+                    Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         child: CustomTextArea(
                           textEditingController: _textAreaCtrl,
-                          placeholder: "Observaciones",
+                          placeholder: "Escribir aquí",
                           readOnly: false,
                           function: () {
                             _.setObservaciones(_textAreaCtrl.text);
                           },
                         )),
+                    SizedBox(height: 20,),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: CustomButton(

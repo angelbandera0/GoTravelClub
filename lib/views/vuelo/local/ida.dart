@@ -138,12 +138,13 @@ class Ida extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 0),
                   child: CustomTextArea(
                     textEditingController: _textAreaCtrl,
-                    placeholder: "Ingrese sus aclaraciones",
+                    placeholder: "Escribir aquí",
                     readOnly: false,
                     function: () {
                       _.setObservaciones(_textAreaCtrl.text);
                     },
                   )),
+              SizedBox(height: 20,),
               //Clase
               TitleWithDivider(title: "Clase"),
               Padding(

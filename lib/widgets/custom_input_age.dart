@@ -20,7 +20,7 @@ class CustomInputAge extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 20),
         decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(30),
             boxShadow: [
               BoxShadow(
                   color: Colors.black.withOpacity(0.3),

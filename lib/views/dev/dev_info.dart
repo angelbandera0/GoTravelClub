@@ -99,7 +99,7 @@ class MainContact extends StatelessWidget {
                               height: 10,
                             ),
                             Text(
-                              "Angel Ernesto && Nox Solutions",
+                              "Angel Ernesto & Nox Solutions",
                               textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 20),
                             ),

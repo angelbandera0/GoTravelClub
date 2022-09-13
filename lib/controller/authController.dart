@@ -77,10 +77,11 @@ class AuthController extends GetxController {
       } else {
         toggleLoading();
         passCtrl.text = "";
-        _notificacion.notificar(body: response.message!, type: "error");
+        _notificacion.notificar(body: response.message??"", type: "error");
       }
     } catch (error) {
       toggleLoading();
+      print(error);
       passCtrl.text = "";
       _notificacion.notificar(body: "Ha ocurrido un error.", type: "error");
     }
