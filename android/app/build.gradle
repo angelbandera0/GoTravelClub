@@ -72,6 +72,12 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    lintOptions {
+        disable 'InvalidPackage'
+        disable "Instantiatable"
+        checkReleaseBuilds false
+        abortOnError false
+    }
 
 }
 
